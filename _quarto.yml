@@ -1,0 +1,23 @@
+project:
+  type: book
+  output-dir: docs
+
+book:
+  title: "Fundamentos de estadística"
+  author: "Felipe González"
+  chapters:
+    - index.qmd
+    - analisis-datos.qmd
+    - categoricos.qmd
+    - numericos.qmd
+    - inferencia.qmd
+    - pruebas-hipotesis.qmd
+    - remuestreo-bootstrap.qmd
+
+bibliography: referencias.bib
+
+format:
+  html:
+    theme: cerulean
+    lang: es
+

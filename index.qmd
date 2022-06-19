@@ -1,0 +1,11 @@
+## Inferencia y remuestreo {-}
+
+En una buena parte de los problemas de análisis de datos tenemos 
+información incompleta, y quisiéramos tener conclusiones acerca de lo que 
+observaríamos si tuviéramos información completa:
+
+- **No observamos todas las unidades en interés**: Sólo observamos una parte de la población o del sistema de interés. 
+(a veces por costo o tiempo, a veces porque observaciones de interés están en futuro, por ejemplo).
+- **No observamos todas las variables de interés**: Existen variables para las cuales no tenemos información que influyen
+en las observaciones que estamos considerando.
+
