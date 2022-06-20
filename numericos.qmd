@@ -1,4 +1,4 @@
-# Descripción de datos univariados numéricos
+# Datos numéricos
 
 En esta sección mostraremos cómo hacer distintos tipos de resúmenes para
 mediciones numéricas. Igual que en la sección anterior,  consideraremos también el uso de estas
@@ -21,13 +21,12 @@ library(patchwork)
 library(kableExtra)
 # usamos los datos tips del paquete reshape2
 propinas <- read_csv("./datos/propinas.csv")
-# renombramos variables y niveles
 ```
 
 Y vemos una muestra
 
 ```{r}
-sample_n(propinas, 10) 
+slice_sample(propinas, n = 10) 
 ```
 
 
@@ -43,11 +42,14 @@ Supongamos entonces que consideramos simplemente la variable de *cuenta_total*. 
 por **ordenar los datos**, y ver cuáles datos están en los extremos y cuáles están en los lugares centrales:
 
 ```{r}
-propinas <- propinas %>% 
+propinas <- propinas |> 
   mutate(orden_cuenta = rank(cuenta_total, ties.method = "first"), 
          f = (orden_cuenta - 0.5) / n()) 
-cuenta <- propinas %>% select(orden_cuenta, f, cuenta_total) %>% arrange(f)
-bind_rows(head(cuenta), tail(cuenta)) %>% knitr::kable()
+cuenta <- propinas |>  
+  select(orden_cuenta, f, cuenta_total) |>  
+  arrange(f)
+bind_rows(head(cuenta), tail(cuenta)) |>  kable() |> 
+  kable_paper()
 ```
 
 
@@ -78,7 +80,6 @@ aproximadamente una fracción $f$ de los datos está por abajo de $q(f)$.
 - Al cuantil $f=0.5$ le llamamos la mediana.
 - A los cuantiles $f=0.25$ y $f=0.75$ les llamamos cuantiles inferior y superior.
 :::
-
 
 
 **Dispersión y valores centrales**
@@ -201,19 +202,19 @@ Nos interesa entender la variación del precio de las casas.
 source("R/casas_preprocesamiento.R")
 set.seed(21)
 casas_completo <- casas
-casas <- casas_completo %>% sample_frac(0.9)
-casas_holdout <- casas_completo %>% anti_join(casas)
-nombres <- casas %>% group_by(nombre_zona) %>% tally %>% pull(nombre_zona)
+casas <- casas_completo |> sample_frac(0.9)
+casas_holdout <- casas_completo |> anti_join(casas)
+nombres <- casas |> group_by(nombre_zona) |> tally() |> pull(nombre_zona)
 zonas <- nombres[table(casas$nombre_zona) > 30]
-casas <- casas %>% mutate(nombre_zona = fct_reorder(nombre_zona, precio_miles)) %>% 
-  filter(nombre_zona %in% zonas) %>% 
+casas <- casas |> mutate(nombre_zona = fct_reorder(nombre_zona, precio_miles)) |> 
+  filter(nombre_zona %in% zonas) |> 
   mutate(precio_m2 = precio_m2_miles * 1000)
 ```
 
 Calculamos primeros unos cuantiles de los precios de las casas:
 
 ```{r}
-quantile(casas %>% pull(precio_miles)) 
+quantile(casas |> pull(precio_miles)) 
 ```
 
 Una primera comparación que podemos hacer es considerar las distintas zonas de la ciudad.
@@ -232,8 +233,8 @@ En primer lugar, podemos considerar el área de las casas. En lugar
 de graficar el precio, graficamos el precio por metro cuadrado, por ejemplo:
 
 ```{r, echo = FALSE}
-casas <- casas %>% 
-  mutate(nombre_zona = fct_reorder(nombre_zona, precio_m2_miles)) %>% 
+casas <- casas |> 
+  mutate(nombre_zona = fct_reorder(nombre_zona, precio_m2_miles)) |> 
   filter(nombre_zona %in% zonas)
 ```
 
@@ -248,17 +249,17 @@ Cuantificamos la variación que observamos de zona a zona y la variación que ha
 variación que vemos entre las medianas de la zona es:
 
 ```{r}
-casas %>% group_by(nombre_zona) %>% 
-  summarise(mediana_zona = median(precio_m2)) %>% 
-  pull(mediana_zona) %>% quantile %>% round
+casas |> group_by(nombre_zona) |> 
+  summarise(mediana_zona = median(precio_m2)) |> 
+  pull(mediana_zona) |> quantile() |> round()
 ```
 
 Y las variaciones con respecto a las medianas **dentro** de cada zona, agrupadas, se resume como:
 
 ```{r}
-quantile(casas %>% group_by(nombre_zona) %>% 
-  mutate(residual = precio_m2 - median(precio_m2)) %>% 
-  pull(residual)) %>% round
+quantile(casas |> group_by(nombre_zona) |> 
+  mutate(residual = precio_m2 - median(precio_m2)) |> 
+  pull(residual)) |> round()
 ```
 
 Nótese que este último paso tiene sentido pues la variación dentro de las zonas, en términos de precio por metro
@@ -274,7 +275,7 @@ Podemos seguir con otro indicador importante: la calificación de calidad de los
 de las casas. Como primer intento podríamos hacer:
 
 ```{r, echo = FALSE}
-ggplot(casas %>% mutate(ind_calidad = cut(calidad_gral, c(0, 5, 8,10))), aes(y = precio_m2, x = nombre_zona, 
+ggplot(casas |> mutate(ind_calidad = cut(calidad_gral, c(0, 5, 8,10))), aes(y = precio_m2, x = nombre_zona, 
         colour=factor(ind_calidad))) + 
   geom_hline(yintercept = c(1000, 2000), colour = "gray") +
   geom_jitter(width = 0.2, height = 0, alpha = 0.5) +
@@ -302,10 +303,10 @@ Y los deciles de ingreso son
 ```{r}
 enigh <- mutate(enigh, ingreso_mensual_miles = INGTOT / 3000)
 
-enigh %>% 
+enigh |> 
   summarise(
     f = seq(0, 1, 0.1),
-    cuantiles_ingreso =  quantile(ingreso_mensual_miles, probs = seq(0, 1, 0.1))) %>% 
+    cuantiles_ingreso =  quantile(ingreso_mensual_miles, probs = seq(0, 1, 0.1))) |> 
   kable(digits = 2)
 ```
 donde podemos ver cómo cuando nos movemos a deciles más altos, la dispersión aumenta.
@@ -319,7 +320,7 @@ Si filtramos los valores muy grandes, de todas formas encontramos una forma simi
 con una cola larga a la derecha:
 
 ```{r, fig.width = 4, fig.height = 3}
-ggplot(enigh %>% filter(ingreso_mensual_miles < 90), 
+ggplot(enigh |> filter(ingreso_mensual_miles < 90), 
        aes(x = ingreso_mensual_miles)) + geom_histogram()
 ```
 
@@ -328,10 +329,10 @@ de interpretar. Por los valores grandes, la media es considerablemente más alta
 que la mediana:
 
 ```{r}
-enigh %>% 
+enigh |> 
   summarise(
     media = mean(ingreso_mensual_miles),
-    mediana =  quantile(ingreso_mensual_miles, probs = 0.5)) %>% 
+    mediana =  quantile(ingreso_mensual_miles, probs = 0.5)) |> 
   kable(digits = 2)
 ```
 
@@ -339,10 +340,10 @@ Esta es otra razón para incluir información de cuantiles en la etapa descripti
 podríamos resumir:
 
 ```{r}
-enigh %>% 
+enigh |> 
   summarise(
     f = c("min", 0.5, "0.50",  0.95, "max"),
-    cuantiles_ingreso =  quantile(ingreso_mensual_miles, probs = c(0, 0.05, 0.5, 0.95, 1))) %>% 
+    cuantiles_ingreso =  quantile(ingreso_mensual_miles, probs = c(0, 0.05, 0.5, 0.95, 1))) |> 
   kable(digits = 2)
 ```
 
@@ -353,7 +354,8 @@ logaritmo de los ingresos es más fácil de describir y veremos también más f�
 ggplot(enigh, 
        aes(x = ingreso_mensual_miles)) + 
   geom_histogram(binwidth = 0.12) +
-  scale_x_log10(breaks = c(1, 2, 4, 8, 16, 32, 64, 128, 256))
+  scale_x_log10(breaks = c(1, 2, 4, 8, 16, 32, 64, 128, 256)) +
+  xlab("Ingreso mensual (miles)")
 ```
 
 
@@ -415,16 +417,16 @@ ggplot(propinas, aes(x = cuenta_total, y = propina)) +
 Considerando estos grupos de datos, podemos describir de las siguiente forma, por ejemplo:
 
 ```{r}
-propinas %>% 
-   mutate(grupo = cut(cuenta_total,  breaks = c(0, 13, 17, 28, 32))) %>% 
-   filter(grupo %in% c("(13,17]", "(28,32]")) %>% 
-   group_by(grupo) %>% 
+propinas |> 
+   mutate(grupo = cut(cuenta_total,  breaks = c(0, 13, 17, 28, 32))) |> 
+   filter(grupo %in% c("(13,17]", "(28,32]")) |> 
+   group_by(grupo) |> 
    summarise(
       n = n(),
       q10 = quantile(propina, 0.10),
       mediana = quantile(propina, 0.5),
       q90 = quantile(propina, 0.90),
-      rango_cuartiles = quantile(propina, 0.75) - quantile(propina, 0.25)) %>% 
+      rango_cuartiles = quantile(propina, 0.75) - quantile(propina, 0.25)) |> 
    kable(digits = 2)
 ```
 
@@ -457,8 +459,8 @@ ggplot(propinas, aes(x = cuenta_total, y = propina)) +
    geom_ribbon(aes(xmin = 13, xmax = 17), fill = "salmon", alpha = 0.15) +
    geom_ribbon(aes(xmin = 28, xmax = 32), fill = "salmon", alpha = 0.15) +
    geom_point() +
-   geom_smooth(method = "loess", span = 0.5, degree= 0, 
-               method.args = list(family = "symmetric"), se = FALSE) 
+   geom_smooth(method = "loess", span = 0.5, 
+               method.args = list(family = "symmetric", degree = 1), se = FALSE) 
 # symmetric es un método robusto iterativo, que reduce el peso de atípicos
 ```
 
@@ -471,14 +473,14 @@ Podemos ajustar en cada ventana tambien rectas de minimos cuadrados, y obtener
 un suavizador de tipo lineal. En la siguiente gráfica mostramos cómo funciona este
 suavizador para distintos tamaños de ventanas (*span*)
 
-![Suavizador loess](./figuras/loess-spans.gif)
+![Suavizador loess](./imagenes/loess-spans.gif)
 
-```{block2 ,type="comentario"}
+::: callout-tip
 Los **suavizadores loess** tienen como fin mostrar alrededor de qué valor de distribuye
 la respuesta (eje vertical) para distintos valores del factor (eje horizontal). Se escoge
 *span* suficientemente baja de forma que mostremos patrones claros en los datos y casi no
 capturemos variación debida a los tamaños de muestra chicos.
-```
+:::
 
 En la animación anterior, un valor de span de 0.15 funciona aprpiadamente, y uno de 0.05
 es demasiado bajo y uno de 1.0 es demasiado alto. Es importante explorar con el valor
@@ -493,8 +495,9 @@ ggplot(propinas, aes(x = cuenta_total, y = propina)) +
    geom_ribbon(aes(xmin = 13, xmax = 17), fill = "salmon", alpha = 0.15) +
    geom_ribbon(aes(xmin = 28, xmax = 32), fill = "salmon", alpha = 0.15) +
    geom_point() +
-   geom_quantile(method = "rqss", lambda = 15, quantiles = c(0.25, 0.5, 0.75)) +
-   scale_y_continuous(breaks = seq(0, 10, 1))
+   geom_quantile(method = "rqss", lambda = 15, quantiles = c(0.10, 0.5, 0.90)) +
+   scale_y_continuous(breaks = seq(0, 10, 1)) +
+   xlab("Propina (dólares)")
 ```
 
 Finalmente, entendimiento de los datos no permite también hacer gráficas más
@@ -502,35 +505,71 @@ Finalmente, entendimiento de los datos no permite también hacer gráficas más
 la propina sobre la cuenta total:
 
 ```{r}
-propinas <- mutate(propinas, pct_propina = propina / cuenta_total)
+#| message: false
+propinas <- propinas |> mutate(propinas, pct_propina = propina / cuenta_total) 
+propinas_2 <- propinas |> 
+  filter(pct_propina < 0.70)  |> 
+  mutate(grupo = cut(num_personas, c(1, 3, 10), include.lowest = TRUE)) 
+quantile(propinas_2 |> pull(pct_propina)) |> round(2)
 ggplot(propinas, aes(x = cuenta_total, y = pct_propina)) +
    geom_point() +
    scale_y_continuous(breaks = seq(0,1, 0.05)) +
-   geom_quantile(method = "rqss", lambda = 15, quantiles = c(0.25, 0.5, 0.75))
+   geom_quantile(method = "rqss", 
+                 lambda = 20, quantiles = c(0.10, 0.5, 0.90)) 
 ```
 
-Observa que la descripción es más simple que si usamos propina cruda y cuenta
+Observa que la descripción es más simple que si usamos propina cruda y cuenta.
 
 - Para cuentas chicas, el porcentaje de propina puede ser muy alto (aún cuando
 la propina en sí no es tan grande):
 
 ```{r}
-filter(propinas, pct_propina > 0.30) %>% 
-  arrange(desc(pct_propina)) %>% 
+filter(propinas, pct_propina > 0.30) |> 
+  arrange(desc(pct_propina)) |> 
   kable(digits = 2)
 ```
 
 - Para cuentas relativamente chicas (10 dólares, el porcentaje de propina está por
-encima de 15%). Este porcentaje tiende a reducirse a valores 10% y 15% para cuentas más grandes
+encima de 15%). Este porcentaje tiende a reducirse a valores 10% y 15% para cuentas más grandes.
+
 - Existe variación considerable alrededor de estos valores centrales. El rango 
-intercuartiles es aproximadamente de 5 puntos porcentuales.
+entre los deciles extremos es aproximadamente de 5 puntos porcentuales.
 
 O de manera más resumida:
 
 - La mediana de propinas está ligeramente por arriba de 15% para cuantas relativamente
 chicas. Esta mediana baja hasta alrededor de 10%-15% para cuentas más grandes (más de 40 dólares)
-- La mitad de las propinas no varía más de unos 3 puntos porcentuales alrededor de estas
+- La mitad de las propinas no varía más de unos 5 puntos porcentuales alrededor de estas
 medianas.
 - Existen propinas atípicas: algunas muy bajas de 1 dólar, muy por debajo del 15%, 
 y ocasionalmente algunas muy altas en porcentaje. Estas últimas ocurren ocasinalmente
 especialmente en cuentas chicas (por ejemplo, una propina de 1 dólar en una cuenta de 3 dólares).
+
+
+Si dividimos por tamaño de grupo, vemos información adicional:
+la reducción proporcional de propina parece no ocurrir en grupos más grandes
+(más personas en la mesa), donde la mediana de propinas se mantiene en 15%.
+
+```{r}
+#| message: false
+propinas <- propinas |> mutate(propinas, pct_propina = propina / cuenta_total) 
+propinas_2 <- propinas |> 
+  filter(pct_propina < 0.70)  |> 
+  mutate(grupo = cut(num_personas, c(1, 3, 10), include.lowest = TRUE)) 
+quantile(propinas_2 |> pull(pct_propina)) |> round(2)
+ggplot(propinas_2, aes(x = cuenta_total, y = pct_propina)) +
+   geom_point() +
+   scale_y_continuous(breaks = seq(0,1, 0.05)) +
+   geom_quantile(method = "rqss", 
+                 lambda = 30, quantiles = c(0.10, 0.5, 0.90)) +
+  facet_wrap(~ grupo) 
+```
+
+- Es razonable cortar por número de grupo, pues esta variable afecta tanto a la cuenta total (grupos mayores tienden a gastar más) como al porcentaje de propina (grupos mayores tienen que ponerse de acuerdo con la propina, la propina se divide en más personas, pueden tener más problemas con el servicio, etc).
+
+Este es otro ejemplo de una gráfica de este tipo (usando regresión cuantílica):
+
+![Crecimiento de bebés](./imagenes/girls-cdc-growth.png)
+
+
+

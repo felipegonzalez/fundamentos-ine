@@ -124,7 +124,7 @@ div.csl-indent {
 
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script><script src="site_libs/quarto-nav/headroom.min.js"></script><script src="site_libs/clipboard/clipboard.min.js"></script><script src="site_libs/quarto-search/autocomplete.umd.js"></script><script src="site_libs/quarto-search/fuse.min.js"></script><script src="site_libs/quarto-search/quarto-search.js"></script><meta name="quarto:offset" content="./"><link href="/numericos.html" rel="next"><link href="/analisis-datos.html" rel="prev"><script src="site_libs/quarto-html/quarto.js"></script><script src="site_libs/quarto-html/popper.min.js"></script><script src="site_libs/quarto-html/tippy.umd.min.js"></script><script src="site_libs/quarto-html/anchor.min.js"></script><link href="site_libs/quarto-html/tippy.css" rel="stylesheet"><link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><script src="site_libs/bootstrap/bootstrap.min.js"></script><link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet"><link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet"></head>
+<script src="site_libs/quarto-nav/quarto-nav.js"></script><script src="site_libs/quarto-nav/headroom.min.js"></script><script src="site_libs/clipboard/clipboard.min.js"></script><script src="site_libs/quarto-search/autocomplete.umd.js"></script><script src="site_libs/quarto-search/fuse.min.js"></script><script src="site_libs/quarto-search/quarto-search.js"></script><meta name="quarto:offset" content="./"><link href="/analisis-datos.html" rel="next"><link href="/numericos.html" rel="prev"><script src="site_libs/quarto-html/quarto.js"></script><script src="site_libs/quarto-html/popper.min.js"></script><script src="site_libs/quarto-html/tippy.umd.min.js"></script><script src="site_libs/quarto-html/anchor.min.js"></script><link href="site_libs/quarto-html/tippy.css" rel="stylesheet"><link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><script src="site_libs/bootstrap/bootstrap.min.js"></script><link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet"><link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet"></head>
 
 <body class="nav-sidebar floating">
 
@@ -162,7 +162,7 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./analisis-datos.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Análisis exploratorio</span></a>
+  <a href="./numericos.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Datos numéricos</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -172,7 +172,7 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./numericos.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Descripción de datos univariados numéricos</span></a>
+  <a href="./analisis-datos.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Análisis exploratorio</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -252,10 +252,10 @@ div.csl-indent {
 <span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>          <span class="at">precio =</span> <span class="fu">recode</span>(precio, <span class="at">p_upscale =</span> <span class="st">"fino"</span>, <span class="at">p_branded =</span> <span class="st">"de_marca"</span>,</span>
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>                          <span class="at">p_private_label =</span> <span class="st">"marca_propia"</span>, <span class="at">p_variable =</span> <span class="st">"variable"</span>,</span>
 <span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>                          <span class="at">.default =</span> <span class="st">"no_sabe"</span>))</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="fu">sample_n</span>(te_tbl, <span class="dv">10</span>) <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="fu">sample_n</span>(te_tbl, <span class="dv">10</span>) <span class="sc">|&gt;</span> <span class="fu">kable</span>() <span class="sc">|&gt;</span> <span class="fu">kable_paper</span>(<span class="at">full_width =</span> <span class="cn">FALSE</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
-<table>
+<table class=" lightable-paper" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;">
  <thead>
   <tr>
    <th style="text-align:right;"> id </th>
@@ -269,25 +269,25 @@ div.csl-indent {
  </thead>
 <tbody>
   <tr>
-   <td style="text-align:right;"> 193 </td>
-   <td style="text-align:left;"> earl_grey </td>
-   <td style="text-align:left;"> solo </td>
-   <td style="text-align:left;"> con_azúcar </td>
-   <td style="text-align:left;"> bolsa </td>
-   <td style="text-align:left;"> no_sabe </td>
-   <td style="text-align:right;"> 23 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 250 </td>
+   <td style="text-align:right;"> 291 </td>
    <td style="text-align:left;"> earl_grey </td>
    <td style="text-align:left;"> solo </td>
    <td style="text-align:left;"> sin_azúcar </td>
-   <td style="text-align:left;"> bolsa </td>
-   <td style="text-align:left;"> de_marca </td>
-   <td style="text-align:right;"> 31 </td>
+   <td style="text-align:left;"> mixto </td>
+   <td style="text-align:left;"> variable </td>
+   <td style="text-align:right;"> 21 </td>
   </tr>
   <tr>
-   <td style="text-align:right;"> 240 </td>
+   <td style="text-align:right;"> 251 </td>
+   <td style="text-align:left;"> earl_grey </td>
+   <td style="text-align:left;"> solo </td>
+   <td style="text-align:left;"> con_azúcar </td>
+   <td style="text-align:left;"> mixto </td>
+   <td style="text-align:left;"> variable </td>
+   <td style="text-align:right;"> 21 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 9 </td>
    <td style="text-align:left;"> earl_grey </td>
    <td style="text-align:left;"> leche </td>
    <td style="text-align:left;"> sin_azúcar </td>
@@ -296,40 +296,22 @@ div.csl-indent {
    <td style="text-align:right;"> 40 </td>
   </tr>
   <tr>
-   <td style="text-align:right;"> 229 </td>
-   <td style="text-align:left;"> verde </td>
+   <td style="text-align:right;"> 231 </td>
+   <td style="text-align:left;"> negro </td>
    <td style="text-align:left;"> solo </td>
    <td style="text-align:left;"> sin_azúcar </td>
-   <td style="text-align:left;"> suelto </td>
-   <td style="text-align:left;"> fino </td>
-   <td style="text-align:right;"> 25 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 180 </td>
-   <td style="text-align:left;"> verde </td>
-   <td style="text-align:left;"> solo </td>
-   <td style="text-align:left;"> con_azúcar </td>
    <td style="text-align:left;"> mixto </td>
    <td style="text-align:left;"> de_marca </td>
-   <td style="text-align:right;"> 19 </td>
+   <td style="text-align:right;"> 45 </td>
   </tr>
   <tr>
-   <td style="text-align:right;"> 297 </td>
+   <td style="text-align:right;"> 163 </td>
    <td style="text-align:left;"> verde </td>
-   <td style="text-align:left;"> leche </td>
+   <td style="text-align:left;"> solo </td>
    <td style="text-align:left;"> sin_azúcar </td>
    <td style="text-align:left;"> mixto </td>
-   <td style="text-align:left;"> fino </td>
-   <td style="text-align:right;"> 50 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 260 </td>
-   <td style="text-align:left;"> earl_grey </td>
-   <td style="text-align:left;"> solo </td>
-   <td style="text-align:left;"> con_azúcar </td>
-   <td style="text-align:left;"> mixto </td>
-   <td style="text-align:left;"> variable </td>
-   <td style="text-align:right;"> 21 </td>
+   <td style="text-align:left;"> de_marca </td>
+   <td style="text-align:right;"> 60 </td>
   </tr>
   <tr>
    <td style="text-align:right;"> 106 </td>
@@ -341,22 +323,40 @@ div.csl-indent {
    <td style="text-align:right;"> 27 </td>
   </tr>
   <tr>
-   <td style="text-align:right;"> 124 </td>
+   <td style="text-align:right;"> 116 </td>
    <td style="text-align:left;"> earl_grey </td>
+   <td style="text-align:left;"> solo </td>
+   <td style="text-align:left;"> sin_azúcar </td>
+   <td style="text-align:left;"> bolsa </td>
+   <td style="text-align:left;"> no_sabe </td>
+   <td style="text-align:right;"> 21 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 195 </td>
+   <td style="text-align:left;"> verde </td>
+   <td style="text-align:left;"> solo </td>
+   <td style="text-align:left;"> sin_azúcar </td>
+   <td style="text-align:left;"> suelto </td>
+   <td style="text-align:left;"> fino </td>
+   <td style="text-align:right;"> 45 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 257 </td>
+   <td style="text-align:left;"> negro </td>
    <td style="text-align:left;"> solo </td>
    <td style="text-align:left;"> con_azúcar </td>
    <td style="text-align:left;"> bolsa </td>
    <td style="text-align:left;"> de_marca </td>
-   <td style="text-align:right;"> 22 </td>
+   <td style="text-align:right;"> 25 </td>
   </tr>
   <tr>
-   <td style="text-align:right;"> 122 </td>
+   <td style="text-align:right;"> 280 </td>
    <td style="text-align:left;"> earl_grey </td>
-   <td style="text-align:left;"> limón </td>
-   <td style="text-align:left;"> con_azúcar </td>
-   <td style="text-align:left;"> mixto </td>
-   <td style="text-align:left;"> de_marca </td>
-   <td style="text-align:right;"> 23 </td>
+   <td style="text-align:left;"> solo </td>
+   <td style="text-align:left;"> sin_azúcar </td>
+   <td style="text-align:left;"> bolsa </td>
+   <td style="text-align:left;"> variable </td>
+   <td style="text-align:right;"> 21 </td>
   </tr>
 </tbody>
 </table>
@@ -367,10 +367,10 @@ div.csl-indent {
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>tabla_1 <span class="ot">&lt;-</span> te_tbl <span class="sc">|&gt;</span> <span class="fu">count</span>(tipo) <span class="sc">|&gt;</span> </span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">arrange</span>(<span class="fu">desc</span>(n))</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>tabla_1 <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>tabla_1 <span class="sc">|&gt;</span> <span class="fu">kable</span>() <span class="sc">|&gt;</span> <span class="fu">kable_paper</span>(<span class="at">full_width =</span> <span class="cn">FALSE</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
-<table>
+<table class=" lightable-paper" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;">
  <thead>
   <tr>
    <th style="text-align:left;"> tipo </th>
@@ -403,10 +403,10 @@ div.csl-indent {
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>   <span class="fu">select</span>(tipo, n_total, prop) <span class="sc">|&gt;</span> </span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), round, <span class="dv">2</span>)) <span class="sc">|&gt;</span> </span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>   <span class="fu">arrange</span>(<span class="fu">desc</span>(prop))</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>tabla_2 <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>tabla_2 <span class="sc">|&gt;</span> <span class="fu">kable</span>() <span class="sc">|&gt;</span> <span class="fu">kable_paper</span>(<span class="at">full_width =</span> <span class="cn">FALSE</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
-<table>
+<table class=" lightable-paper" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;">
  <thead>
   <tr>
    <th style="text-align:left;"> tipo </th>
@@ -444,10 +444,10 @@ div.csl-indent {
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">mutate</span>(<span class="at">n_total =</span> <span class="fu">sum</span>(n), <span class="at">prop =</span> n <span class="sc">/</span> n_total) <span class="sc">|&gt;</span></span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>   <span class="fu">mutate</span>(<span class="at">prop =</span> <span class="fu">round</span>(prop, <span class="dv">2</span>)) <span class="sc">|&gt;</span> </span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>   <span class="fu">arrange</span>(<span class="fu">desc</span>(prop), <span class="at">.by_group =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>perfiles_col_tbl <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>perfiles_col_tbl <span class="sc">|&gt;</span> <span class="fu">kable</span>() <span class="sc">|&gt;</span> <span class="fu">kable_paper</span>(<span class="at">full_width =</span> <span class="cn">FALSE</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
-<table>
+<table class=" lightable-paper" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;">
  <thead>
   <tr>
    <th style="text-align:left;"> variable </th>
@@ -553,10 +553,11 @@ div.csl-indent {
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">ungroup</span>() <span class="sc">|&gt;</span> </span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">select</span>(<span class="sc">-</span>variable, <span class="sc">-</span>n_total) <span class="sc">|&gt;</span> </span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>   <span class="fu">kable</span>() <span class="sc">|&gt;</span>  </span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">pack_rows</span>(<span class="at">index =</span> <span class="fu">table</span>(perfiles_col_tbl<span class="sc">$</span>variable))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">pack_rows</span>(<span class="at">index =</span> <span class="fu">table</span>(perfiles_col_tbl<span class="sc">$</span>variable)) <span class="sc">|&gt;</span> </span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>   <span class="fu">kable_paper</span>(<span class="at">full_width =</span> <span class="cn">FALSE</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
-<table>
+<table class=" lightable-paper" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;">
  <thead>
   <tr>
    <th style="text-align:left;"> valor </th>
@@ -645,10 +646,11 @@ div.csl-indent {
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>   <span class="fu">group_by</span>(complementos) <span class="sc">|&gt;</span> </span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">select</span>(<span class="sc">-</span>n) <span class="sc">|&gt;</span> </span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>   <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> tipo, <span class="at">values_from =</span> prop, <span class="at">values_fill =</span> <span class="dv">0</span>)</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>perfiles_col_tbl <span class="sc">|&gt;</span>  <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">2</span>, <span class="at">caption =</span> <span class="st">"Perfiles por columna"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>perfiles_col_tbl <span class="sc">|&gt;</span>  <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">2</span>, <span class="at">caption =</span> <span class="st">"Perfiles por columna"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_paper</span>(<span class="at">full_width =</span> <span class="cn">FALSE</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
-<table>
+<table class=" lightable-paper" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;">
 <caption>Perfiles por columna</caption>
  <thead>
   <tr>
@@ -693,14 +695,12 @@ div.csl-indent {
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>comp_tbl <span class="ot">&lt;-</span> te_tbl <span class="sc">|&gt;</span> <span class="fu">count</span>(complementos) <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">total =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n))</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>perfiles_col_tbl <span class="ot">&lt;-</span> <span class="fu">left_join</span>(perfiles_col_tbl, comp_tbl) <span class="sc">|&gt;</span> </span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">arrange</span>(<span class="fu">desc</span>(total)) <span class="sc">|&gt;</span> </span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(<span class="sc">-</span>n)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Joining, by = "complementos"</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>perfiles_col_tbl <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">2</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(<span class="sc">-</span>n)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>perfiles_col_tbl <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">2</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_paper</span>(<span class="at">full_width =</span> <span class="cn">FALSE</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
-<table>
+<table class=" lightable-paper" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;">
  <thead>
   <tr>
    <th style="text-align:left;"> complementos </th>
@@ -746,13 +746,14 @@ div.csl-indent {
 </div>
 <p>En este punto, vemos que hay coincidencias y diferencias entre los grupos de tomadores de té. Podemos expresar esto de manera simple calculando índices contra la columna de total:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>res_tbl <span class="ot">&lt;-</span> perfiles_col_tbl <span class="sc">|&gt;</span> </span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), <span class="sc">~</span> .x <span class="sc">/</span> total)) <span class="sc">|&gt;</span> </span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">select</span>(<span class="sc">-</span>total)</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>res_tbl <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">2</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>res_tbl <span class="ot">&lt;-</span> perfiles_col_tbl <span class="sc">|&gt;</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), <span class="sc">~</span> .x <span class="sc">/</span> total)) <span class="sc">|&gt;</span> </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">select</span>(<span class="sc">-</span>total)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>res_tbl <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">2</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_paper</span>(<span class="at">full_width =</span> <span class="cn">FALSE</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
-<table>
+<table class=" lightable-paper" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;">
  <thead>
   <tr>
    <th style="text-align:left;"> complementos </th>
@@ -793,12 +794,13 @@ div.csl-indent {
 </div>
 <p>Valores por encima de 1 indican columnas por arriba de la población general, y análogamente para valores por debajo de uno. Estas cantidades pueden escribirse en términos porcentuales, o se les puede restar 1 para terminar como una variación porcentual del promedio. A estas cantidades se les llama <strong>residuales crudos</strong>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>res_tbl <span class="ot">&lt;-</span> perfiles_col_tbl <span class="sc">|&gt;</span> </span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric) <span class="sc">&amp;</span> <span class="sc">!</span>total, <span class="sc">~</span> .x <span class="sc">/</span> total <span class="sc">-</span> <span class="dv">1</span>)) </span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>res_tbl <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">2</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>res_tbl <span class="ot">&lt;-</span> perfiles_col_tbl <span class="sc">|&gt;</span> </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric) <span class="sc">&amp;</span> <span class="sc">!</span>total, <span class="sc">~</span> .x <span class="sc">/</span> total <span class="sc">-</span> <span class="dv">1</span>)) </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>res_tbl <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">2</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_paper</span>(<span class="at">full_width =</span> <span class="cn">FALSE</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
-<table>
+<table class=" lightable-paper" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;">
  <thead>
   <tr>
    <th style="text-align:left;"> complementos </th>
@@ -844,51 +846,52 @@ div.csl-indent {
 </div>
 <p>Podemos finalmente marcar la tabla:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>res_tbl <span class="sc">|&gt;</span>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), round, <span class="dv">2</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric) <span class="sc">&amp;</span> <span class="sc">!</span> total, </span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>                 <span class="sc">~</span> <span class="fu">cell_spec</span>(.x, <span class="at">color =</span> <span class="fu">ifelse</span>(.x <span class="sc">&gt;</span> <span class="fl">0.1</span>, <span class="st">"black"</span>, </span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>                                         <span class="fu">ifelse</span>(.x <span class="sc">&lt;</span> <span class="sc">-</span><span class="fl">0.1</span>, <span class="st">"red"</span>, <span class="st">"gray"</span>))))) <span class="sc">|&gt;</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">arrange</span>(<span class="fu">desc</span>(total)) <span class="sc">|&gt;</span> </span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>   <span class="fu">kable</span>(<span class="at">escape =</span> <span class="cn">FALSE</span>) </span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>res_tbl <span class="sc">|&gt;</span>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), round, <span class="dv">2</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric) <span class="sc">&amp;</span> <span class="sc">!</span> total, </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>                 <span class="sc">~</span> <span class="fu">cell_spec</span>(.x, <span class="at">color =</span> <span class="fu">ifelse</span>(.x <span class="sc">&gt;</span> <span class="fl">0.1</span>, <span class="st">"black"</span>, </span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>                                         <span class="fu">ifelse</span>(.x <span class="sc">&lt;</span> <span class="sc">-</span><span class="fl">0.1</span>, <span class="st">"red"</span>, <span class="st">"gray"</span>))))) <span class="sc">|&gt;</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">arrange</span>(<span class="fu">desc</span>(total)) <span class="sc">|&gt;</span> </span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>   <span class="fu">kable</span>(<span class="at">escape =</span> <span class="cn">FALSE</span>, <span class="at">align =</span> <span class="st">"r"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>   <span class="fu">kable_paper</span>(<span class="at">full_width =</span> <span class="cn">FALSE</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
-<table>
+<table class=" lightable-paper" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;">
  <thead>
   <tr>
-   <th style="text-align:left;"> complementos </th>
-   <th style="text-align:left;"> earl_grey </th>
-   <th style="text-align:left;"> negro </th>
-   <th style="text-align:left;"> verde </th>
+   <th style="text-align:right;"> complementos </th>
+   <th style="text-align:right;"> earl_grey </th>
+   <th style="text-align:right;"> negro </th>
+   <th style="text-align:right;"> verde </th>
    <th style="text-align:right;"> total </th>
   </tr>
  </thead>
 <tbody>
   <tr>
-   <td style="text-align:left;"> solo </td>
-   <td style="text-align:left;"> <span style="     color: gray !important;">0.02</span> </td>
-   <td style="text-align:left;"> <span style="     color: red !important;">-0.13</span> </td>
-   <td style="text-align:left;"> <span style="     color: black !important;">0.17</span> </td>
+   <td style="text-align:right;"> solo </td>
+   <td style="text-align:right;"> <span style="     color: gray !important;">0.02</span> </td>
+   <td style="text-align:right;"> <span style="     color: red !important;">-0.13</span> </td>
+   <td style="text-align:right;"> <span style="     color: black !important;">0.17</span> </td>
    <td style="text-align:right;"> 0.65 </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> leche </td>
-   <td style="text-align:left;"> <span style="     color: gray !important;">-0.06</span> </td>
-   <td style="text-align:left;"> <span style="     color: black !important;">0.22</span> </td>
-   <td style="text-align:left;"> <span style="     color: red !important;">-0.13</span> </td>
+   <td style="text-align:right;"> leche </td>
+   <td style="text-align:right;"> <span style="     color: gray !important;">-0.06</span> </td>
+   <td style="text-align:right;"> <span style="     color: black !important;">0.22</span> </td>
+   <td style="text-align:right;"> <span style="     color: red !important;">-0.13</span> </td>
    <td style="text-align:right;"> 0.21 </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> limón </td>
-   <td style="text-align:left;"> <span style="     color: black !important;">0.13</span> </td>
-   <td style="text-align:left;"> <span style="     color: red !important;">-0.14</span> </td>
-   <td style="text-align:left;"> <span style="     color: red !important;">-0.45</span> </td>
+   <td style="text-align:right;"> limón </td>
+   <td style="text-align:right;"> <span style="     color: black !important;">0.13</span> </td>
+   <td style="text-align:right;"> <span style="     color: red !important;">-0.14</span> </td>
+   <td style="text-align:right;"> <span style="     color: red !important;">-0.45</span> </td>
    <td style="text-align:right;"> 0.11 </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> otros </td>
-   <td style="text-align:left;"> <span style="     color: red !important;">-0.48</span> </td>
-   <td style="text-align:left;"> <span style="     color: black !important;">1.7</span> </td>
-   <td style="text-align:left;"> <span style="     color: red !important;">-1</span> </td>
+   <td style="text-align:right;"> otros </td>
+   <td style="text-align:right;"> <span style="     color: red !important;">-0.48</span> </td>
+   <td style="text-align:right;"> <span style="     color: black !important;">1.7</span> </td>
+   <td style="text-align:right;"> <span style="     color: red !important;">-1</span> </td>
    <td style="text-align:right;"> 0.03 </td>
   </tr>
 </tbody>
@@ -902,61 +905,65 @@ div.csl-indent {
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Prefiles
+Perfiles
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>A este tipo de análisis de tablas cruzadas a veces se le llama <strong>análisis de perfiles columna</strong>. Nos permite entender cómo varía la distribución de la variable de los renglones según el grupo indicado por la columna. - Desviaciones grandes en los residuales indican asociaciones fuertes entre la variable de los reglones y de las columnas - Recordemos que este análisis aplica a la muestra de datos que tenemos. Columnas con pocos individuos tienden a mostrar más variación y debemos ser cuidadosos al generalizar.</p>
+<p>A este tipo de análisis de tablas cruzadas a veces se le llama <strong>análisis de perfiles columna</strong>. Nos permite entender cómo varía la distribución de la variable de los renglones según el grupo indicado por la columna.</p>
+<ul>
+<li><p>Desviaciones grandes en los residuales indican asociaciones fuertes entre la variable de los reglones y de las columnas</p></li>
+<li><p>Recordemos que este análisis aplica a la muestra de datos que tenemos. Columnas con pocos individuos tienden a mostrar más variación y debemos ser cuidadosos al generalizar.</p></li>
+</ul>
 </div>
 </div>
 <p>Podemos incluir también totales para ayudarnos a juzgar las variaciones:</p>
 <div class="cell">
 <div class="cell-output-display">
 
-<table>
+<table class=" lightable-paper" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;">
  <thead>
   <tr>
-   <th style="text-align:left;"> complementos </th>
-   <th style="text-align:left;"> earl_grey </th>
-   <th style="text-align:left;"> negro </th>
-   <th style="text-align:left;"> verde </th>
+   <th style="text-align:right;"> complementos </th>
+   <th style="text-align:right;"> earl_grey </th>
+   <th style="text-align:right;"> negro </th>
+   <th style="text-align:right;"> verde </th>
    <th style="text-align:right;"> total </th>
   </tr>
  </thead>
 <tbody>
   <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;"> <span style="     color: black !important;">193</span> </td>
-   <td style="text-align:left;"> <span style="     color: black !important;">74</span> </td>
-   <td style="text-align:left;"> <span style="     color: black !important;">33</span> </td>
+   <td style="text-align:right;">  </td>
+   <td style="text-align:right;"> <span style="     color: black !important;">193</span> </td>
+   <td style="text-align:right;"> <span style="     color: black !important;">74</span> </td>
+   <td style="text-align:right;"> <span style="     color: black !important;">33</span> </td>
    <td style="text-align:right;"> 1.00 </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> solo </td>
-   <td style="text-align:left;"> <span style="     color: gray !important;">0.02</span> </td>
-   <td style="text-align:left;"> <span style="     color: red !important;">-0.13</span> </td>
-   <td style="text-align:left;"> <span style="     color: black !important;">0.17</span> </td>
+   <td style="text-align:right;"> solo </td>
+   <td style="text-align:right;"> <span style="     color: gray !important;">0.02</span> </td>
+   <td style="text-align:right;"> <span style="     color: red !important;">-0.13</span> </td>
+   <td style="text-align:right;"> <span style="     color: black !important;">0.17</span> </td>
    <td style="text-align:right;"> 0.65 </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> leche </td>
-   <td style="text-align:left;"> <span style="     color: gray !important;">-0.06</span> </td>
-   <td style="text-align:left;"> <span style="     color: black !important;">0.22</span> </td>
-   <td style="text-align:left;"> <span style="     color: red !important;">-0.13</span> </td>
+   <td style="text-align:right;"> leche </td>
+   <td style="text-align:right;"> <span style="     color: gray !important;">-0.06</span> </td>
+   <td style="text-align:right;"> <span style="     color: black !important;">0.22</span> </td>
+   <td style="text-align:right;"> <span style="     color: red !important;">-0.13</span> </td>
    <td style="text-align:right;"> 0.21 </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> limón </td>
-   <td style="text-align:left;"> <span style="     color: black !important;">0.13</span> </td>
-   <td style="text-align:left;"> <span style="     color: red !important;">-0.14</span> </td>
-   <td style="text-align:left;"> <span style="     color: red !important;">-0.45</span> </td>
+   <td style="text-align:right;"> limón </td>
+   <td style="text-align:right;"> <span style="     color: black !important;">0.13</span> </td>
+   <td style="text-align:right;"> <span style="     color: red !important;">-0.14</span> </td>
+   <td style="text-align:right;"> <span style="     color: red !important;">-0.45</span> </td>
    <td style="text-align:right;"> 0.11 </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> otros </td>
-   <td style="text-align:left;"> <span style="     color: red !important;">-0.48</span> </td>
-   <td style="text-align:left;"> <span style="     color: black !important;">1.7</span> </td>
-   <td style="text-align:left;"> <span style="     color: red !important;">-1</span> </td>
+   <td style="text-align:right;"> otros </td>
+   <td style="text-align:right;"> <span style="     color: red !important;">-0.48</span> </td>
+   <td style="text-align:right;"> <span style="     color: black !important;">1.7</span> </td>
+   <td style="text-align:right;"> <span style="     color: red !important;">-1</span> </td>
    <td style="text-align:right;"> 0.03 </td>
   </tr>
 </tbody>
@@ -989,9 +996,9 @@ Prefiles
 <section id="ejemplo-tés-y-complementos" class="level2" data-number="2.5">
 <h2 data-number="2.5" class="anchored" data-anchor-id="ejemplo-tés-y-complementos"><span class="header-section-number">2.5</span> Ejemplo: tés y complementos</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ca)</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>corr_te <span class="ot">&lt;-</span> <span class="fu">ca</span>(<span class="fu">table</span>(te_tbl<span class="sc">$</span>complementos, te_tbl<span class="sc">$</span>tipo))</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(corr_te, <span class="at">map =</span> <span class="st">"rowgreen"</span>, <span class="at">arrows =</span> <span class="fu">c</span>(<span class="cn">FALSE</span>, <span class="cn">TRUE</span>))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ca)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>corr_te <span class="ot">&lt;-</span> <span class="fu">ca</span>(<span class="fu">table</span>(te_tbl<span class="sc">$</span>complementos, te_tbl<span class="sc">$</span>tipo))</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(corr_te, <span class="at">map =</span> <span class="st">"rowgreen"</span>, <span class="at">arrows =</span> <span class="fu">c</span>(<span class="cn">FALSE</span>, <span class="cn">TRUE</span>))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="categoricos_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -1008,9 +1015,9 @@ Tip
 </div>
 <div class="callout-body-container callout-body">
 <ul>
-<li>El <strong>análisis de correspondencias</strong> es un tema relativamente avanzado de estadística multivariada, y su definición precisa requiere de matemáticas más avanzadas (por ejemplo la descomposición en valores singulares).</li>
-<li>Cualquier hallazgo obtenido en este tipo de análisis debe ser verificado en las tablas correspondientes de perfiles</li>
-<li>Hay distintos tipos de gráficas (<em>biplots</em>) asociadas al análisis de correspondencias, que privilegian representar mejor a distintos tipos de características de los datos</li>
+<li><p>El <strong>análisis de correspondencias</strong> es un tema relativamente avanzado de estadística multivariada, y su definición precisa requiere de matemáticas más avanzadas (por ejemplo la descomposición en valores singulares).</p></li>
+<li><p>Cualquier hallazgo obtenido en este tipo de análisis debe ser verificado en las tablas correspondientes de perfiles</p></li>
+<li><p>Hay distintos tipos de gráficas (<em>biplots</em>) asociadas al análisis de correspondencias, que privilegian representar mejor a distintos tipos de características de los datos</p></li>
 </ul>
 </div>
 </div>
@@ -1019,9 +1026,9 @@ Tip
 <h2 data-number="2.6" class="anchored" data-anchor-id="ejemplo-robo-en-tiendas"><span class="header-section-number">2.6</span> Ejemplo: robo en tiendas</h2>
 <p>Consideramos los siguientes datos de robos en tiendas en Holanda por personas de distintas edades y genéros (<span class="citation" data-cites="izenman">Izenman (<a href="#ref-izenman" role="doc-biblioref">2009</a>)</span>). En este caso, las variables ya están cruzadas:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>hurto_tbl <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"./datos/hurto.csv"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">mutate</span>(<span class="at">grupo =</span> <span class="fu">ifelse</span>(grupo <span class="sc">==</span> <span class="st">"-12 h"</span>, <span class="st">"01-12 h"</span>, grupo),</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">grupo =</span> <span class="fu">ifelse</span>(grupo <span class="sc">==</span> <span class="st">"-12 m"</span>, <span class="st">"01-12 m"</span>, grupo))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>hurto_tbl <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"./datos/hurto.csv"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">mutate</span>(<span class="at">grupo =</span> <span class="fu">ifelse</span>(grupo <span class="sc">==</span> <span class="st">"-12 h"</span>, <span class="st">"01-12 h"</span>, grupo),</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">grupo =</span> <span class="fu">ifelse</span>(grupo <span class="sc">==</span> <span class="st">"-12 m"</span>, <span class="st">"01-12 m"</span>, grupo))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 18 Columns: 14
 ── Column specification ────────────────────────────────────────────────────────
@@ -1032,10 +1039,11 @@ dbl (13): ropa, accesorios, tabaco, escritura, libros, discos, bienes, dulce...
 ℹ Use `spec()` to retrieve the full column specification for this data.
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>hurto_tbl <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>hurto_tbl <span class="sc">|&gt;</span> <span class="fu">kable</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">kable_paper</span>(<span class="at">full_width =</span> <span class="cn">FALSE</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
-<table>
+<table class=" lightable-paper" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;">
  <thead>
   <tr>
    <th style="text-align:left;"> grupo </th>
@@ -1350,16 +1358,17 @@ dbl (13): ropa, accesorios, tabaco, escritura, libros, discos, bienes, dulce...
 </div>
 <p>Esta tabla es más grande y difícil de entender tal cual está. Comenzamos por examinar las marginales:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>hurto_tbl <span class="sc">|&gt;</span> </span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">pivot_longer</span>(<span class="at">cols =</span> ropa<span class="sc">:</span>otros, <span class="at">names_to =</span> <span class="st">"producto"</span>, <span class="at">values_to =</span> <span class="st">"n"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">group_by</span>(producto) <span class="sc">|&gt;</span> </span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>   <span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">sum</span>(n)) <span class="sc">|&gt;</span> </span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">mutate</span>(<span class="at">prop =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n)) <span class="sc">|&gt;</span> </span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>   <span class="fu">arrange</span>(<span class="fu">desc</span>(prop)) <span class="sc">|&gt;</span> </span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>   <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">2</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>hurto_tbl <span class="sc">|&gt;</span> </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">pivot_longer</span>(<span class="at">cols =</span> ropa<span class="sc">:</span>otros, <span class="at">names_to =</span> <span class="st">"producto"</span>, <span class="at">values_to =</span> <span class="st">"n"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">group_by</span>(producto) <span class="sc">|&gt;</span> </span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>   <span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">sum</span>(n)) <span class="sc">|&gt;</span> </span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">mutate</span>(<span class="at">prop =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n)) <span class="sc">|&gt;</span> </span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>   <span class="fu">arrange</span>(<span class="fu">desc</span>(prop)) <span class="sc">|&gt;</span> </span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>   <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">2</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>   <span class="fu">kable_paper</span>(<span class="at">full_width =</span> <span class="cn">FALSE</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
-<table>
+<table class=" lightable-paper" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;">
  <thead>
   <tr>
    <th style="text-align:left;"> producto </th>
@@ -1439,16 +1448,17 @@ dbl (13): ropa, accesorios, tabaco, escritura, libros, discos, bienes, dulce...
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>grupos_tbl <span class="ot">&lt;-</span> hurto_tbl <span class="sc">|&gt;</span> </span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">pivot_longer</span>(<span class="at">cols =</span> ropa<span class="sc">:</span>otros, <span class="at">names_to =</span> <span class="st">"producto"</span>, <span class="at">values_to =</span> <span class="st">"n"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">group_by</span>(grupo) <span class="sc">|&gt;</span> </span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>   <span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">sum</span>(n)) <span class="sc">|&gt;</span> </span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">mutate</span>(<span class="at">prop =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n)) <span class="sc">|&gt;</span> </span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>   <span class="fu">arrange</span>(<span class="fu">desc</span>(prop))</span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>grupos_tbl <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">2</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>grupos_tbl <span class="ot">&lt;-</span> hurto_tbl <span class="sc">|&gt;</span> </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">pivot_longer</span>(<span class="at">cols =</span> ropa<span class="sc">:</span>otros, <span class="at">names_to =</span> <span class="st">"producto"</span>, <span class="at">values_to =</span> <span class="st">"n"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">group_by</span>(grupo) <span class="sc">|&gt;</span> </span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>   <span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">sum</span>(n)) <span class="sc">|&gt;</span> </span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">mutate</span>(<span class="at">prop =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n)) <span class="sc">|&gt;</span> </span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>   <span class="fu">arrange</span>(<span class="fu">desc</span>(prop))</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>grupos_tbl <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">2</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>   <span class="fu">kable_paper</span>(<span class="at">full_width =</span> <span class="cn">FALSE</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
-<table>
+<table class=" lightable-paper" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;">
  <thead>
   <tr>
    <th style="text-align:left;"> grupo </th>
@@ -1554,11 +1564,11 @@ dbl (13): ropa, accesorios, tabaco, escritura, libros, discos, bienes, dulce...
 </div>
 <p>Intentamos análisis de correspondencias para comparar los perfiles columna:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>hurto_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(hurto_tbl)</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(hurto_df) <span class="ot">&lt;-</span> hurto_tbl<span class="sc">$</span>grupo</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>hurto_df<span class="sc">$</span>grupo <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>corr_hurto <span class="ot">&lt;-</span> <span class="fu">ca</span>(hurto_df)</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>grafica_datos <span class="ot">&lt;-</span> <span class="fu">plot</span>(corr_hurto, <span class="at">map =</span> <span class="st">"rowgreen"</span>, <span class="at">arrows =</span> <span class="fu">c</span>(<span class="cn">FALSE</span>, <span class="cn">TRUE</span>))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>hurto_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(hurto_tbl)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(hurto_df) <span class="ot">&lt;-</span> hurto_tbl<span class="sc">$</span>grupo</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>hurto_df<span class="sc">$</span>grupo <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>corr_hurto <span class="ot">&lt;-</span> <span class="fu">ca</span>(hurto_df)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>grafica_datos <span class="ot">&lt;-</span> <span class="fu">plot</span>(corr_hurto, <span class="at">map =</span> <span class="st">"rowgreen"</span>, <span class="at">arrows =</span> <span class="fu">c</span>(<span class="cn">FALSE</span>, <span class="cn">TRUE</span>))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="categoricos_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="768"></p>
 </div>
@@ -1568,19 +1578,20 @@ dbl (13): ropa, accesorios, tabaco, escritura, libros, discos, bienes, dulce...
 </ul>
 <p>Como se aprecia, en la siguiente tabla, es difícil entender los patrones generales en los datos. Quitamos algunas columnas para imprimir más fácilmente</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>perfiles_hurto_tbl <span class="ot">&lt;-</span> hurto_tbl <span class="sc">|&gt;</span> </span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">pivot_longer</span>(<span class="at">cols =</span> ropa<span class="sc">:</span>otros, <span class="at">names_to =</span> <span class="st">"producto"</span>, <span class="at">values_to =</span> <span class="st">"n"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">group_by</span>(producto) <span class="sc">|&gt;</span> </span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>   <span class="fu">mutate</span>(<span class="at">prop =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n)) <span class="sc">|&gt;</span> </span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">select</span>(<span class="sc">-</span>n) <span class="sc">|&gt;</span> </span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>   <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> producto, <span class="at">values_from =</span> prop) </span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>perfiles_hurto_tbl <span class="sc">|&gt;</span> </span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>   <span class="fu">select</span>(<span class="sc">-</span>bienes, <span class="sc">-</span>discos, <span class="sc">-</span>perfumes) <span class="sc">|&gt;</span> </span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>   <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">2</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>   <span class="fu">kable_styling</span>(<span class="at">font_size =</span> <span class="dv">10</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>perfiles_hurto_tbl <span class="ot">&lt;-</span> hurto_tbl <span class="sc">|&gt;</span> </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">pivot_longer</span>(<span class="at">cols =</span> ropa<span class="sc">:</span>otros, <span class="at">names_to =</span> <span class="st">"producto"</span>, <span class="at">values_to =</span> <span class="st">"n"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">group_by</span>(producto) <span class="sc">|&gt;</span> </span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>   <span class="fu">mutate</span>(<span class="at">prop =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n)) <span class="sc">|&gt;</span> </span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">select</span>(<span class="sc">-</span>n) <span class="sc">|&gt;</span> </span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>   <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> producto, <span class="at">values_from =</span> prop) </span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>perfiles_hurto_tbl <span class="sc">|&gt;</span> </span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>   <span class="fu">select</span>(<span class="sc">-</span>bienes, <span class="sc">-</span>discos, <span class="sc">-</span>perfumes) <span class="sc">|&gt;</span> </span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>   <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">2</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>   <span class="fu">kable_styling</span>(<span class="at">font_size =</span> <span class="dv">12</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>   <span class="fu">kable_paper</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
-<table class="table" style="font-size: 10px; margin-left: auto; margin-right: auto;">
+<table class="table lightable-paper" style="font-size: 12px; margin-left: auto; margin-right: auto; font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;">
  <thead>
   <tr>
    <th style="text-align:left;"> grupo </th>
@@ -1837,24 +1848,25 @@ dbl (13): ropa, accesorios, tabaco, escritura, libros, discos, bienes, dulce...
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>res_hurto_tbl <span class="ot">&lt;-</span> <span class="fu">left_join</span>(perfiles_hurto_tbl, grupos_tbl <span class="sc">|&gt;</span> <span class="fu">rename</span>(<span class="at">total =</span> prop)) <span class="sc">|&gt;</span> </span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="sc">-</span>n) <span class="sc">|&gt;</span> </span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="sc">-</span>bienes, <span class="sc">-</span>discos, <span class="sc">-</span>perfumes) <span class="sc">|&gt;</span> </span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric) <span class="sc">&amp;</span> <span class="sc">!</span>total, <span class="sc">~</span> .x <span class="sc">/</span> total <span class="sc">-</span> <span class="dv">1</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), round, <span class="dv">2</span>)) </span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>res_hurto_tbl <span class="ot">&lt;-</span> <span class="fu">left_join</span>(perfiles_hurto_tbl, grupos_tbl <span class="sc">|&gt;</span> <span class="fu">rename</span>(<span class="at">total =</span> prop)) <span class="sc">|&gt;</span> </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="sc">-</span>n) <span class="sc">|&gt;</span> </span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="sc">-</span>bienes, <span class="sc">-</span>discos, <span class="sc">-</span>perfumes) <span class="sc">|&gt;</span> </span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric) <span class="sc">&amp;</span> <span class="sc">!</span>total, <span class="sc">~</span> .x <span class="sc">/</span> total <span class="sc">-</span> <span class="dv">1</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), round, <span class="dv">2</span>)) </span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Joining, by = "grupo"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>res_hurto_tbl <span class="sc">|&gt;</span> </span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric) <span class="sc">&amp;</span> <span class="sc">!</span> total, </span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>                 <span class="sc">~</span> <span class="fu">cell_spec</span>(.x, <span class="at">color =</span> <span class="fu">ifelse</span>(.x <span class="sc">&gt;</span> <span class="fl">0.2</span>, <span class="st">"black"</span>, </span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>                                         <span class="fu">ifelse</span>(.x <span class="sc">&lt;</span> <span class="sc">-</span><span class="fl">0.2</span>, <span class="st">"red"</span>, <span class="st">"gray"</span>))))) <span class="sc">|&gt;</span></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="sc">-</span>total) <span class="sc">|&gt;</span> </span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">kable</span>(<span class="at">escape =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">kable_styling</span>(<span class="at">font_size =</span> <span class="dv">10</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>res_hurto_tbl <span class="sc">|&gt;</span> </span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric) <span class="sc">&amp;</span> <span class="sc">!</span> total, </span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>                 <span class="sc">~</span> <span class="fu">cell_spec</span>(.x, <span class="at">color =</span> <span class="fu">ifelse</span>(.x <span class="sc">&gt;</span> <span class="fl">0.2</span>, <span class="st">"black"</span>, </span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>                                         <span class="fu">ifelse</span>(.x <span class="sc">&lt;</span> <span class="sc">-</span><span class="fl">0.2</span>, <span class="st">"red"</span>, <span class="st">"gray"</span>))))) <span class="sc">|&gt;</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="sc">-</span>total) <span class="sc">|&gt;</span> </span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">kable</span>(<span class="at">escape =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">kable_styling</span>(<span class="at">font_size =</span> <span class="dv">12</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">kable_paper</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
-<table class="table" style="font-size: 10px; margin-left: auto; margin-right: auto;">
+<table class="table lightable-paper" style="font-size: 12px; margin-left: auto; margin-right: auto; font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;">
  <thead>
   <tr>
    <th style="text-align:left;"> grupo </th>
@@ -2115,17 +2127,18 @@ dbl (13): ropa, accesorios, tabaco, escritura, libros, discos, bienes, dulce...
 </ul>
 <p>Nota adicionalmente que el ordenamiento de las categorías en la primera dimensión del mapa de correspondencias ayuda a interpretar:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>res_hurto_tbl <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="st">"grupo"</span>, <span class="st">"escritura"</span>, <span class="st">"juguetes"</span>, <span class="st">"dulces"</span>, <span class="st">"joyería"</span>,</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>                         <span class="st">"herramientas"</span>, <span class="st">"otros"</span>, <span class="st">"libros"</span>, <span class="st">"tabaco"</span>, <span class="st">"accesorios"</span>, </span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>                         <span class="st">"ropa"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), </span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>                 <span class="sc">~</span> <span class="fu">cell_spec</span>(.x, <span class="at">color =</span> <span class="fu">ifelse</span>(.x <span class="sc">&gt;</span> <span class="fl">0.2</span>, <span class="st">"black"</span>, </span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>                                         <span class="fu">ifelse</span>(.x <span class="sc">&lt;</span> <span class="sc">-</span><span class="fl">0.2</span>, <span class="st">"red"</span>, <span class="st">"gray"</span>))))) <span class="sc">|&gt;</span></span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">kable</span>(<span class="at">escape =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">kable_styling</span>(<span class="at">font_size =</span> <span class="dv">10</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>res_hurto_tbl <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="st">"grupo"</span>, <span class="st">"escritura"</span>, <span class="st">"juguetes"</span>, <span class="st">"dulces"</span>, <span class="st">"joyería"</span>,</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>                         <span class="st">"herramientas"</span>, <span class="st">"otros"</span>, <span class="st">"libros"</span>, <span class="st">"tabaco"</span>, <span class="st">"accesorios"</span>, </span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>                         <span class="st">"ropa"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), </span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>                 <span class="sc">~</span> <span class="fu">cell_spec</span>(.x, <span class="at">color =</span> <span class="fu">ifelse</span>(.x <span class="sc">&gt;</span> <span class="fl">0.2</span>, <span class="st">"black"</span>, </span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>                                         <span class="fu">ifelse</span>(.x <span class="sc">&lt;</span> <span class="sc">-</span><span class="fl">0.2</span>, <span class="st">"red"</span>, <span class="st">"gray"</span>))))) <span class="sc">|&gt;</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">kable</span>(<span class="at">escape =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">kable_styling</span>(<span class="at">font_size =</span> <span class="dv">12</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">kable_paper</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
-<table class="table" style="font-size: 10px; margin-left: auto; margin-right: auto;">
+<table class="table lightable-paper" style="font-size: 12px; margin-left: auto; margin-right: auto; font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;">
  <thead>
   <tr>
    <th style="text-align:left;"> grupo </th>
@@ -2385,7 +2398,7 @@ dbl (13): ropa, accesorios, tabaco, escritura, libros, discos, bienes, dulce...
 <h4 class="unnumbered anchored" data-anchor-id="otras-dimensiones">Otras dimensiones</h4>
 <p>En el caso anterior, la calidad de la representación es cercana al 80%. Existen algunas desviaciones que la posiblemente la gŕafica no explica del todo, y algunas proyecciones son aproximadas. Podemos ver cómo se ven otras dimensiones de este análisis para entender desviaciones adicionales:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(corr_hurto, <span class="at">dim =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>), <span class="at">map =</span> <span class="st">"rowgreen"</span>, <span class="at">arrows =</span> <span class="fu">c</span>(<span class="cn">FALSE</span>, <span class="cn">TRUE</span>))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(corr_hurto, <span class="at">dim =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>), <span class="at">map =</span> <span class="st">"rowgreen"</span>, <span class="at">arrows =</span> <span class="fu">c</span>(<span class="cn">FALSE</span>, <span class="cn">TRUE</span>))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="categoricos_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -2485,13 +2498,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./analisis-datos.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Análisis exploratorio</span></span>
+      <a href="./numericos.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Datos numéricos</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./numericos.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Descripción de datos univariados numéricos</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./analisis-datos.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Análisis exploratorio</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

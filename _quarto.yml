@@ -7,9 +7,9 @@ book:
   author: "Felipe González"
   chapters:
     - index.qmd
-    - analisis-datos.qmd
-    - categoricos.qmd
     - numericos.qmd
+    - categoricos.qmd
+    - analisis-datos.qmd
     - inferencia.qmd
     - pruebas-hipotesis.qmd
     - remuestreo-bootstrap.qmd
