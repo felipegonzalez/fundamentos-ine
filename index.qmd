@@ -1,4 +1,4 @@
-## Inferencia y remuestreo {-}
+## Introducción {-}
 
 En este curso repasaremos:
 

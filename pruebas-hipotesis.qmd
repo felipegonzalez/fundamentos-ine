@@ -34,8 +34,6 @@ O también:
 ¿Esas fluctuaciones son consistentes con la operación usual del sistema? ¿Existe
 evidencia para pensar que algo en el sistema cambió?
 
-Otro ejemplo es:
-
 
 
 ## Comparación con poblaciones de referencia {-}
@@ -167,32 +165,36 @@ manera que antes.**
 
 
 ::: callout-tip
+# Pruebas de hipótesis
 
 1. Llamamos *hipótesis nula* a la hipótesis de que los nuevos datos son producidos bajo
 las mismas condiciones que los datos de control o de referencia.
 
-3. **Si no escogemos la gráfica de los nuevos datos, nuestra conclusión es que la prueba no aporta evidencia
-en contra de la hipótesis nula.** 
+2. Si no escogemos la gráfica de los nuevos datos, nuestra conclusión es que la prueba no aporta evidencia
+en contra de la hipótesis nula.
 
-4. **Si escogemos la gráfica correcta, nuestra conclusión es que la prueba aporta evidencia
-en contra de la hipótesis nula.** A veces decimos que "rechazamos la hipótesis nula".
+3. Si escogemos la gráfica correcta, nuestra conclusión es que la prueba aporta evidencia
+en contra de la hipótesis nula.
 
 ¿Qué tan fuerte es la evidencia, en caso de que descubrimos los datos no nulos? 
 
-5. Cuando el número de paneles es más grande y detectamos los datos, la evidencia es más alta en contra de la nula. 
+4. Cuando el número de paneles es más grande y detectamos los datos, la evidencia es más alta en contra de la nula. 
 Decimos que el *nivel de significancia de la prueba* es la probabilidad de seleccionar a los
-datos correctos cuando la hipótesis nula es cierta (el sistema no ha cambiado). 
+datos correctos cuando la hipótesis nula es cierta (el sistema no ha 
+cambiado). 
+:::
+
 En el caso de 20 paneles, la significancia es de 1/20 = 0.05. Cuando detectamos los datos nuevos,
 niveles de significancia más bajos implican más evidencia en contra de la nula.
 
-5. Si acertamos, y la diferencia es más notoria y fue muy fácil detectar la gráfica diferente (pues
+Adicionalmente, si acertamos, y la diferencia es más notoria y fue muy fácil detectar la gráfica diferente (pues
 sus diferencias son más extremas),
-esto también sugiere más evidencia en contra de la hipótesis nula.
+esto también sugiere más evidencia en contra de la hipótesis nula (esto tiene
+qué ver con el valor p que veremos más adelante.)
 
-6. Finalmente, esta prueba rara vez (o nunca) **nos da seguridad completa acerca de ninguna conclusión**, aún cuando
+Esta prueba rara vez (o nunca) **nos da seguridad completa acerca de ninguna conclusión**, aún cuando
 hiciéramos muchos páneles.
 
-:::
 
 ## Cuantificando la distribución de referencia
 
@@ -218,7 +220,9 @@ referencia_tbl |> head()
 ```{r}
 ggplot(referencia_tbl, aes(x = est_prueba)) + 
   geom_histogram() +
-  geom_vline(xintercept = sd_simple(observados$obs), colour = "red")
+  geom_vline(xintercept = sd_simple(observados$obs), colour = "red") +
+  annotate("text", x = 2.5, y = 30, 
+     label = "diferencia observada", colour = "red", angle = 90)
 ```
 
 Y confirmamos que en efecto el valor observado (línea roja) es uno
@@ -291,7 +295,7 @@ calc_permutacion(res_obs, T)
 Y ahora podemos repetir un número grande de veces:
 
 ```{r}
-referencia_tbl <- map_df(1:1000, function(rep){
+referencia_tbl <- map_df(1:2000, function(rep){
   calc_permutacion(res_obs, T) |> mutate(rep = rep)
 })
 referencia_tbl |> head() |> kable() |> 
@@ -304,7 +308,9 @@ Y hacemos lo mismo que hicimos en el ejemplo anterior:
 ggplot(referencia_tbl, aes(x = diferencia)) +
   geom_histogram() + 
   geom_vline(data = dif_obs, aes(xintercept = diferencia),
-             colour = "red")
+             colour = "red") +
+    annotate("text", x = 1, y = 30, 
+     label = "diferencia observada", colour = "red", angle = 90)
 ```
 
 En este caso, vemos que nuestra observación es consistente como proveniente de la distribución de referencia (construida con permutaciones). 
