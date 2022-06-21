@@ -157,7 +157,7 @@ div.csl-indent {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link">Inferencia y remuestreo</a>
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Introducción</a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -264,7 +264,6 @@ div.csl-indent {
 <li>Un sistema tiene cierto comportamiento “usual” para el cual tenemos datos históricos. El sistema presenta fluctuaciones en el tiempo.</li>
 <li>Observamos la última salida de nuestro sistema. Naturalmente, tiene fluctuaciones. ¿Esas fluctuaciones son consistentes con la operación usual del sistema? ¿Existe evidencia para pensar que algo en el sistema cambió?</li>
 </ul>
-<p>Otro ejemplo es:</p>
 <section id="comparación-con-poblaciones-de-referencia" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="comparación-con-poblaciones-de-referencia">Comparación con poblaciones de referencia</h2>
 <p>En las prueba de hipótesis, tratamos de construir distribuciones de referencia para comparar resultados que obtengamos con un “estándar” de variación, y juzgar si nuestros resultados son consistentes con la referencia o no (1).</p>
@@ -315,23 +314,24 @@ div.csl-indent {
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Tip
+Pruebas de hipótesis
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <ol type="1">
 <li><p>Llamamos <em>hipótesis nula</em> a la hipótesis de que los nuevos datos son producidos bajo las mismas condiciones que los datos de control o de referencia.</p></li>
-<li><p><strong>Si no escogemos la gráfica de los nuevos datos, nuestra conclusión es que la prueba no aporta evidencia en contra de la hipótesis nula.</strong></p></li>
-<li><p><strong>Si escogemos la gráfica correcta, nuestra conclusión es que la prueba aporta evidencia en contra de la hipótesis nula.</strong> A veces decimos que “rechazamos la hipótesis nula”.</p></li>
+<li><p>Si no escogemos la gráfica de los nuevos datos, nuestra conclusión es que la prueba no aporta evidencia en contra de la hipótesis nula.</p></li>
+<li><p>Si escogemos la gráfica correcta, nuestra conclusión es que la prueba aporta evidencia en contra de la hipótesis nula.</p></li>
 </ol>
 <p>¿Qué tan fuerte es la evidencia, en caso de que descubrimos los datos no nulos?</p>
-<ol start="5" type="1">
-<li><p>Cuando el número de paneles es más grande y detectamos los datos, la evidencia es más alta en contra de la nula. Decimos que el <em>nivel de significancia de la prueba</em> es la probabilidad de seleccionar a los datos correctos cuando la hipótesis nula es cierta (el sistema no ha cambiado). En el caso de 20 paneles, la significancia es de 1/20 = 0.05. Cuando detectamos los datos nuevos, niveles de significancia más bajos implican más evidencia en contra de la nula.</p></li>
-<li><p>Si acertamos, y la diferencia es más notoria y fue muy fácil detectar la gráfica diferente (pues sus diferencias son más extremas), esto también sugiere más evidencia en contra de la hipótesis nula.</p></li>
-<li><p>Finalmente, esta prueba rara vez (o nunca) <strong>nos da seguridad completa acerca de ninguna conclusión</strong>, aún cuando hiciéramos muchos páneles.</p></li>
+<ol start="4" type="1">
+<li>Cuando el número de paneles es más grande y detectamos los datos, la evidencia es más alta en contra de la nula. Decimos que el <em>nivel de significancia de la prueba</em> es la probabilidad de seleccionar a los datos correctos cuando la hipótesis nula es cierta (el sistema no ha cambiado).</li>
 </ol>
 </div>
 </div>
+<p>En el caso de 20 paneles, la significancia es de 1/20 = 0.05. Cuando detectamos los datos nuevos, niveles de significancia más bajos implican más evidencia en contra de la nula.</p>
+<p>Adicionalmente, si acertamos, y la diferencia es más notoria y fue muy fácil detectar la gráfica diferente (pues sus diferencias son más extremas), esto también sugiere más evidencia en contra de la hipótesis nula (esto tiene qué ver con el valor p que veremos más adelante.)</p>
+<p>Esta prueba rara vez (o nunca) <strong>nos da seguridad completa acerca de ninguna conclusión</strong>, aún cuando hiciéramos muchos páneles.</p>
 </section>
 </section>
 <section id="cuantificando-la-distribución-de-referencia" class="level2" data-number="5.1">
@@ -363,7 +363,9 @@ Tip
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(referencia_tbl, <span class="fu">aes</span>(<span class="at">x =</span> est_prueba)) <span class="sc">+</span> </span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>() <span class="sc">+</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">sd_simple</span>(observados<span class="sc">$</span>obs), <span class="at">colour =</span> <span class="st">"red"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">sd_simple</span>(observados<span class="sc">$</span>obs), <span class="at">colour =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fl">2.5</span>, <span class="at">y =</span> <span class="dv">30</span>, </span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">label =</span> <span class="st">"diferencia observada"</span>, <span class="at">colour =</span> <span class="st">"red"</span>, <span class="at">angle =</span> <span class="dv">90</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 </div>
@@ -503,7 +505,7 @@ Tip
 </div>
 <p>Y ahora podemos repetir un número grande de veces:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>referencia_tbl <span class="ot">&lt;-</span> <span class="fu">map_df</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>, <span class="cf">function</span>(rep){</span>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>referencia_tbl <span class="ot">&lt;-</span> <span class="fu">map_df</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2000</span>, <span class="cf">function</span>(rep){</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">calc_permutacion</span>(res_obs, T) <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">rep =</span> rep)</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>})</span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>referencia_tbl <span class="sc">|&gt;</span> <span class="fu">head</span>() <span class="sc">|&gt;</span> <span class="fu">kable</span>() <span class="sc">|&gt;</span> </span>
@@ -566,7 +568,9 @@ Tip
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(referencia_tbl, <span class="fu">aes</span>(<span class="at">x =</span> diferencia)) <span class="sc">+</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>() <span class="sc">+</span> </span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">data =</span> dif_obs, <span class="fu">aes</span>(<span class="at">xintercept =</span> diferencia),</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">colour =</span> <span class="st">"red"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">colour =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="dv">1</span>, <span class="at">y =</span> <span class="dv">30</span>, </span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">label =</span> <span class="st">"diferencia observada"</span>, <span class="at">colour =</span> <span class="st">"red"</span>, <span class="at">angle =</span> <span class="dv">90</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 </div>
@@ -585,7 +589,7 @@ Tip
 <pre><code># A tibble: 1 × 1
   valor_p
     &lt;dbl&gt;
-1    0.31</code></pre>
+1    0.33</code></pre>
 </div>
 </div>
 <p>Bajo el supuesto de equivalencia de tratamientos, la probabilidad de observar un resultado mejor del que observamos es más de 1/3.</p>

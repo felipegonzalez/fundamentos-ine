@@ -4,7 +4,7 @@ project:
 
 book:
   title: "Fundamentos de estadística"
-  author: "Felipe González"
+  author: "Felipe González y Teresa Ortiz"
   chapters:
     - index.qmd
     - numericos.qmd

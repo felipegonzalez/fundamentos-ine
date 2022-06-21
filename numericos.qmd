@@ -307,7 +307,8 @@ enigh |>
   summarise(
     f = seq(0, 1, 0.1),
     cuantiles_ingreso =  quantile(ingreso_mensual_miles, probs = seq(0, 1, 0.1))) |> 
-  kable(digits = 2)
+  kable(digits = 2) |> 
+  kable_paper(full_width = FALSE)
 ```
 donde podemos ver cómo cuando nos movemos a deciles más altos, la dispersión aumenta.
 Existen algunos valores muy grandes. Un histograma no funciona muy bien con estos datos.
@@ -344,7 +345,8 @@ enigh |>
   summarise(
     f = c("min", 0.5, "0.50",  0.95, "max"),
     cuantiles_ingreso =  quantile(ingreso_mensual_miles, probs = c(0, 0.05, 0.5, 0.95, 1))) |> 
-  kable(digits = 2)
+  kable(digits = 2)  |> 
+  kable_paper(full_width = FALSE)
 ```
 
 Para obtener una gŕafica más informativa,  podemos utilizar una escala logarítmica. El 
@@ -427,7 +429,8 @@ propinas |>
       mediana = quantile(propina, 0.5),
       q90 = quantile(propina, 0.90),
       rango_cuartiles = quantile(propina, 0.75) - quantile(propina, 0.25)) |> 
-   kable(digits = 2)
+   kable(digits = 2)  |> 
+  kable_paper(full_width = FALSE)
 ```
 
 Conde confirmamos que el nivel general de propinas es más alto alrededor de cuentas
@@ -526,7 +529,8 @@ la propina en sí no es tan grande):
 ```{r}
 filter(propinas, pct_propina > 0.30) |> 
   arrange(desc(pct_propina)) |> 
-  kable(digits = 2)
+  kable(digits = 2)  |> 
+  kable_paper(full_width = FALSE)
 ```
 
 - Para cuentas relativamente chicas (10 dólares, el porcentaje de propina está por
