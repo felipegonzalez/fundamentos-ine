@@ -186,8 +186,8 @@ Sin embargo,
 para el trabajo de modelado, por ejemplo, tienen ventajas claras (cuando se
 cumplen supuestos). Por lo tanto **regresaremos a estas medidas** una vez
 que estudiemos modelos de probabilidad básicos.
-- Muchas veces, ya sea por tradición, porque así se ha hecho el análisis
-antes, conviene usar estas medidas conocidas. 
+- Muchas veces, ya sea por tradición, o por razones específicas, conviene usar estas medidas conocidas (o alguna variación). Por ejemplo cuando estamos estimando
+cantidades como totales, por ejemplo.
 
 
 ## Comparando grupos con variables numéricas

@@ -47,7 +47,7 @@ pob_2 <- tibble(id = 1:15,
 pob_2 |> gt()
 ```
 
-Nuestra pregunta en este caso es del tipo: ¿ayuda la aspirina a reducir el dolor de cabeza en esta población? ¿qué tanto ayudaa? Igualmente, tenemos información incompleta, en el sentido de que
+Nuestra pregunta en este caso es del tipo: ¿ayuda la aspirina a reducir el dolor de cabeza en esta población? ¿qué tanto ayuda? Igualmente, tenemos información incompleta, en el sentido de que
 sólo observamos un resultado potencial de cada persona, dependiendo
 de si tomó aspirina o no. Si supiéramos los dos resultados potenciales de cada persona
 entonces podríamos contestar la pregunta sin dificultad.
@@ -58,7 +58,13 @@ entonces podríamos contestar la pregunta sin dificultad.
 
 Casi por regla general, el hecho de que tengamos datos incompletos
 implica que una respuesta apropiada a la pregunta incorporará cierto
-grado de incertidumbre, y por lo tanto conviene utilizar modelos de probabilidad 
+grado de incertidumbre, y por lo tanto conviene utilizar **modelos de probabilidad** 
 para describir esa incertidumbre.
 
+En algunos casos, sin embargo, si controlamos algunas partes del 
+**proceso generador de datos**, entonces es posible simplificar mucho el 
+análisis, incluso al punto de que los modelos tienen menos relevancia.
 :::
+
+
+

@@ -248,16 +248,16 @@ div.csl-indent {
 <pre><code># A tibble: 10 × 6
    cuenta_total propina fumador dia   momento num_personas
           &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;          &lt;dbl&gt;
- 1         35.3    5    No      Dom   Cena               4
- 2         20.1    3.15 No      Sab   Cena               3
- 3         32.7    5    Si      Jue   Comida             2
- 4         11.4    2    No      Jue   Comida             2
- 5         15.1    3    No      Sab   Cena               2
- 6         40.6    3    Si      Dom   Cena               2
- 7         12.7    2.5  No      Dom   Cena               2
- 8         15.5    3    Si      Sab   Cena               2
- 9         20.9    3.5  Si      Dom   Cena               3
-10         17.5    3    Si      Dom   Cena               2</code></pre>
+ 1         11.0    1.98 Si      Sab   Cena               2
+ 2         24.7    5.85 No      Jue   Comida             2
+ 3         15.0    2.09 Si      Sab   Cena               2
+ 4         11.7    2.31 No      Jue   Comida             2
+ 5         12.5    2.5  No      Dom   Cena               2
+ 6         17.3    2.71 No      Jue   Comida             2
+ 7         23.2    6.5  Si      Dom   Cena               4
+ 8         20.9    3.5  Si      Dom   Cena               3
+ 9         15.1    3    No      Sab   Cena               2
+10         26.9    3.12 No      Dom   Cena               4</code></pre>
 </div>
 </div>
 <p>Aquí la unidad de observación es una cuenta particular. Tenemos tres mediciones numéricas de cada cuenta: cúanto fue la cuenta total, la propina, y el número de personas asociadas a la cuenta. Los datos están separados según se fumó o no en la mesa, y temporalmente en dos partes: el día (Jueves, Viernes, Sábado o Domingo), cada uno separado por Cena y Comida.</p>
@@ -444,7 +444,7 @@ Cuantiles de datos numéricos
 <p>Sin embargo,</p>
 <ul>
 <li>La media y desviación estándar son computacionalmente convenientes, y para el trabajo de modelado, por ejemplo, tienen ventajas claras (cuando se cumplen supuestos). Por lo tanto <strong>regresaremos a estas medidas</strong> una vez que estudiemos modelos de probabilidad básicos.</li>
-<li>Muchas veces, ya sea por tradición, porque así se ha hecho el análisis antes, conviene usar estas medidas conocidas.</li>
+<li>Muchas veces, ya sea por tradición, o por razones específicas, conviene usar estas medidas conocidas (o alguna variación). Por ejemplo cuando estamos estimando cantidades como totales, por ejemplo.</li>
 </ul>
 </section>
 <section id="comparando-grupos-con-variables-numéricas" class="level2" data-number="1.3">

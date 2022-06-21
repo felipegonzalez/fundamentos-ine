@@ -6,11 +6,10 @@ library(tidyverse)
 library(lubridate)
 library(ggthemes)
 library(nullabor)
+library(kableExtra)
 ggplot2::theme_set(ggplot2::theme_light())
 source("R/funciones_auxiliares_notas.R")
 ```
-
-
 
 
 Las primeras técnicas que veremos intentan contestar la siguiente pregunta: 
@@ -23,11 +22,21 @@ patrón notable y no sólo debido a fluctuaciones en los datos particulares que 
 
 Por ejemplo:
 
-- Un sistema tiene cierto comportamiento "usual" para el cual tenemos datos históricos. 
-El sistema presenta fluctuaciones en el tiempo.
+- Parte de una población recibe un tratamiento para, y otra parte no.
+- Personas distintas reaccionan de manera distinta, por lo tanto observamos fluctuaciones en las respuestas.
+- ¿Las fluctuaciones que observamos en los tratados son consistentes con
+que el tratamiento les ayuda en algo?
+
+O también:
+
+- Un sistema tiene cierto comportamiento "usual" para el cual tenemos datos históricos.  El sistema presenta fluctuaciones en el tiempo.
 - Observamos la última salida de nuestro sistema. Naturalmente, tiene fluctuaciones. 
 ¿Esas fluctuaciones son consistentes con la operación usual del sistema? ¿Existe
 evidencia para pensar que algo en el sistema cambió?
+
+Otro ejemplo es:
+
+
 
 ## Comparación con poblaciones de referencia {-}
 
@@ -74,17 +83,26 @@ historicos <- simular_serie(2000)
 
 
 ```{r, echo = FALSE}
-muestrear_ventanas <- function(control, obs, n_ventana = 20, long = 20){
+muestrear_ventanas <- function(control, obs = NULL, n_ventana = 20, long = 20){
     n_control <- nrow(control)
-    inicios <- sample(1:(nrow(control) - long), n_ventana - 1)
+    num_muestrear <- n_ventana - 1
+    if(is.null(obs)){
+      num_muestrear <- n_ventana
+    }
+    inicios <- sample(1:(nrow(control) - long), num_muestrear)
     control_lista <- map(inicios, function(i){
         muestra <- filter(control, t %in% seq(i, i + long - 1, 1)) 
         muestra
     })
-    dat_lista <- append(control_lista, list(obs))
+    if(is.null(obs)){
+       dat_lista <- control_lista    
+    } else {
+       dat_lista <- append(control_lista, list(obs))
+    }
     orden <- sample(1:n_ventana, n_ventana)
     datos_lineup <- tibble(rep = orden, datos = dat_lista) |> 
-        unnest(cols = c(datos)) |> group_by(rep) |> mutate(t_0 = t - min(t)) |> ungroup()  
+        unnest(cols = c(datos)) |> group_by(rep) |> 
+        mutate(t_0 = t - min(t)) |> ungroup()  
     list(lineup = datos_lineup,
         pos = last(orden))
 }
@@ -98,7 +116,7 @@ ggplot(ventanas_tbl$lineup, aes(x = t_0, y = obs, colour = factor(rep==ventanas_
 
 ¿Vemos algo diferente en los datos nuevos (el panel de color diferente)? 
 
-Indpendientemente de la respuesta, vemos que hacer **este análisis de manera tan simple no es siempre útil**: 
+Indendientemente de la respuesta, vemos que hacer **este análisis de manera tan simple no es siempre útil**: 
 seguramente podemos encontrar maneras en que la nueva muestra (4) es diferente
 a muestras históricas. Por ejemplo, ninguna de muestras tiene un "forma de montaña" tan clara. 
 
@@ -114,7 +132,7 @@ Esta se llama una **prueba de lineup**, o una *prueba de ronda de sospechosos* (
 En la siguiente gráfica, en uno de los páneles
 están los datos recientemente observados.  ¿Hay algo en los datos que distinga al patrón nuevo?
 
-```{r}
+```{r, echo = FALSE}
 # nuevos datos
 obs <- simular_serie(500, x_inicial = last(obs$obs))
 # muestrear datos históricos
@@ -134,9 +152,10 @@ Ahora observamos al sistema en otro momento y repetimos la comparación. En el s
 ```{r, message=FALSE, echo = FALSE}
 set.seed(912)
 obs_dif <- simular_serie(500, lambda = 3, ac = 0.3, x_inicial = last(historicos$obs))
-prueba_tbl <- muestrear_ventanas(historicos, obs_dif[10:29, ], n_ventana = 20)
+observados <- obs_dif[10:29, ]
+prueba_tbl <- muestrear_ventanas(historicos, observados, n_ventana = 20)
 ggplot(prueba_tbl$lineup, aes(x = t_0, y = obs)) + geom_line() + 
-   facet_wrap(~rep, nrow = 4) + scale_y_log10()
+  facet_wrap(~rep, nrow = 4) + scale_y_log10()
 ```
 
 Aunque es imposible estar seguros de que ha ocurrido un cambio, la diferencia de una de las
@@ -147,7 +166,7 @@ fluctuaciones en un proceso que sigue comportándose normalente es 0.05 - relati
 manera que antes.**
 
 
-**Observaciones y terminología**:
+::: callout-tip
 
 1. Llamamos *hipótesis nula* a la hipótesis de que los nuevos datos son producidos bajo
 las mismas condiciones que los datos de control o de referencia.
@@ -156,7 +175,7 @@ las mismas condiciones que los datos de control o de referencia.
 en contra de la hipótesis nula.** 
 
 4. **Si escogemos la gráfica correcta, nuestra conclusión es que la prueba aporta evidencia
-en contra de la hipótesis nula.**
+en contra de la hipótesis nula.** A veces decimos que "rechazamos la hipótesis nula".
 
 ¿Qué tan fuerte es la evidencia, en caso de que descubrimos los datos no nulos? 
 
@@ -173,9 +192,139 @@ esto también sugiere más evidencia en contra de la hipótesis nula.
 6. Finalmente, esta prueba rara vez (o nunca) **nos da seguridad completa acerca de ninguna conclusión**, aún cuando
 hiciéramos muchos páneles.
 
+:::
+
+## Cuantificando la distribución de referencia
+
+En el ejemplo anterior estamos intentando dectectar cualquier desviación
+del comportamiento normal del sistema de una manera rigurosa. Podemos
+hacerlo más cuantitativo creando estadísticas resumen de las series. Por
+ejemplo, podríamos utilizar la variabilidad que tienen las series alrededor
+de su nivel general.
+
+```{r}
+sd_simple <- function(x){
+  mod <- HoltWinters(x, beta=FALSE, gamma=FALSE)
+  suavizamiento <- fitted(mod)[,1] |> as.numeric()
+  sd(x[-1] - suavizamiento)
+}
+referencia_tbl <- muestrear_ventanas(historicos, n_ventana = 1000) |> 
+  pluck("lineup") |> 
+  group_by(rep) |> 
+  summarise(est_prueba = sd_simple(obs))
+referencia_tbl |> head()
+```
+
+```{r}
+ggplot(referencia_tbl, aes(x = est_prueba)) + 
+  geom_histogram() +
+  geom_vline(xintercept = sd_simple(observados$obs), colour = "red")
+```
+
+Y confirmamos que en efecto el valor observado (línea roja) es uno
+muy extremo, y poco consistente con el comportamiento usual del sistema.
+
+## Aleatorización y permutaciones
+
+Muchas veces no tenemos datos históricos relevantes para construir una
+referencia (una distribución bajo la hipótesis nula) 
+que nos permita evaluar si los nuevos datos muestran comportamiento no usual.
+
+Sin embargo, si controlamos el proceso generador de datos introduciendo
+**aleatorización**, es posible construir una distribución de referencia con los datos observados.
+
+(@box78) Supongamos que jardinero amateur quiere decidir qué fertilizante usar: el usual $A$ o uno
+nuevo $B$. El resultado que le interesa es el rendimiento de cada planta (cuantos kilos
+de jitomates produjo cada planta). El jardinero tiene 11 plantas, que estan en una línea. Quiere decidir si debería cambiar al nuevo fertilizante $B$ o
+quedarse con el anterior.
+
+El jardinero intuye que quizá no es buena idea poner en las primeras 5 plantas $A$ y luego en las últimas 6 $B$. La razón es que posiciones a lo largo de su hilera pueden recibir cantidades distintas de sol, de humedad, de nutrientes,e tc. 
+
+Decide entonces distribuir al azar los tratamientos (5 de tipo A y 5 de tipo B). Obtiene los siguientes
+resultados:
+
+```{r}
+res_obs <- tibble(planta = 1:11,
+       T = c("a", "a", "b", "b", "a", "b", "b", "b", "a", "a", "b"),
+       y = c(29.9, 11.4, 26.6, 23.7, 25.3, 28.5, 14.2, 17.9, 16.5, 21.1, 24.3) / 2)
+res_obs |> arrange(T) |> kable() |> kable_paper()
+```
+
+Como resumen, puede utilizar la diferencia de medias entre los dos tratamientos:
+
+```{r}
+dif_obs <- res_obs |> group_by(T) |> 
+  summarise(media = mean(y)) |> 
+  pivot_wider(names_from = T, values_from = media) |> 
+  mutate(diferencia = round(b - a, 3))
+dif_obs
+```
+
+Y vemos que $B$ tuvo mejores resultados con esta estadística de prueba. 
+Sin embargo, este 
+experimento tiene varias fuentes de variación, y  *no tenemos una distribución de referencia para comparar* que nos diga cuánta variación esperamos en este tipo de experimentos. 
+
+La idea original de Fisher fue la siguiente: 
+
+- Nuestra hipótesis nula es que los tratamientos a y b son iguales (es decir, si en los casos donde usamos b hubiéramos usado a hubiéramos obtenido los mismos resultados, y viceversa).
+- Esto implica que las etiquetas a y b no tienen significado, podríamos permutarlas y hubiéramos obtenido los mismos resultados.
+- Podemos ver entonces cuánta variación existe en la diferencia de promedios bajo el supuesto de la hipótesis nula, y el hecho de que distribuimos al azar el tratamiento: esto podemos hacerlo permutando las etiquetas del tratamiento en la tabla que obtuvimos y calculando los promedios correspondientes.
+
+```{r}
+calc_permutacion <- function(datos_tbl, tratamiento){
+  # permutar
+  datos_perm_tbl <- datos_tbl |> 
+    mutate({{ tratamiento }} := sample({{ tratamiento }}))
+  # calcular estadística
+  datos_perm_tbl |> group_by({{ tratamiento }}) |> 
+    summarise(media = mean(y)) |> 
+    pivot_wider(names_from = {{ tratamiento }}, values_from = media) |> 
+    mutate(diferencia = round(b - a, 3))
+}
+```
+
+Por ejemplo:
+
+```{r}
+calc_permutacion(res_obs, T)
+```
+Y ahora podemos repetir un número grande de veces:
+
+```{r}
+referencia_tbl <- map_df(1:1000, function(rep){
+  calc_permutacion(res_obs, T) |> mutate(rep = rep)
+})
+referencia_tbl |> head() |> kable() |> 
+  kable_paper(full_width = FALSE)
+```
+
+Y hacemos lo mismo que hicimos en el ejemplo anterior:
+
+```{r}
+ggplot(referencia_tbl, aes(x = diferencia)) +
+  geom_histogram() + 
+  geom_vline(data = dif_obs, aes(xintercept = diferencia),
+             colour = "red")
+```
+
+En este caso, vemos que nuestra observación es consistente como proveniente de la distribución de referencia (construida con permutaciones). 
+
+**La diferencia que observamos** es consistente con la variabilidad en
+nuestra estadística de prueba bajo distintas aleatorizaciones si los tratamientos a y b son equivalentes. Nuestra conclusión es que no tenemos
+evidencia para preferir b sobre a.
+
+```{r}
+diferencia_obs <- dif_obs$diferencia
+referencia_tbl |> 
+  mutate(mejor_que_observado = diferencia > diferencia_obs) |> 
+  summarise(valor_p = mean(mejor_que_observado))
+```
+Bajo el supuesto de equivalencia de tratamientos, la probabilidad de 
+observar un resultado mejor del que observamos es más de 1/3.
+
 ## Comparando distribuciones {-}
 
-Ahora intentamos un ejemplo más típico.
+Ahora intentamos un ejemplo más típico.  
 
 Supongamos tenemos *muestras* para tres grupos  a, b y c, que quiere decir
 que dentro de cada grupo, el proceso e selección de los elementos se hace

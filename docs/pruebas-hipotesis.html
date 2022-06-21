@@ -203,6 +203,8 @@ div.csl-indent {
   <ul class="collapse">
   <li><a href="#ejemplo" id="toc-ejemplo" class="nav-link" data-scroll-target="#ejemplo">Ejemplo</a></li>
   </ul></li>
+  <li><a href="#cuantificando-la-distribución-de-referencia" id="toc-cuantificando-la-distribución-de-referencia" class="nav-link" data-scroll-target="#cuantificando-la-distribución-de-referencia"> <span class="header-section-number">5.1</span> Cuantificando la distribución de referencia</a></li>
+  <li><a href="#aleatorización-y-permutaciones" id="toc-aleatorización-y-permutaciones" class="nav-link" data-scroll-target="#aleatorización-y-permutaciones"> <span class="header-section-number">5.2</span> Aleatorización y permutaciones</a></li>
   <li><a href="#comparando-distribuciones" id="toc-comparando-distribuciones" class="nav-link" data-scroll-target="#comparando-distribuciones">Comparando distribuciones</a></li>
   <li><a href="#permutaciones-y-el-lineup" id="toc-permutaciones-y-el-lineup" class="nav-link" data-scroll-target="#permutaciones-y-el-lineup">Permutaciones y el lineup</a></li>
   <li><a href="#comparaciones-con-lineup-2" id="toc-comparaciones-con-lineup-2" class="nav-link" data-scroll-target="#comparaciones-con-lineup-2">Comparaciones con lineup 2</a></li>
@@ -253,12 +255,19 @@ div.csl-indent {
 </ul>
 <p>Por ejemplo:</p>
 <ul>
+<li>Parte de una población recibe un tratamiento para, y otra parte no.</li>
+<li>Personas distintas reaccionan de manera distinta, por lo tanto observamos fluctuaciones en las respuestas.</li>
+<li>¿Las fluctuaciones que observamos en los tratados son consistentes con que el tratamiento les ayuda en algo?</li>
+</ul>
+<p>O también:</p>
+<ul>
 <li>Un sistema tiene cierto comportamiento “usual” para el cual tenemos datos históricos. El sistema presenta fluctuaciones en el tiempo.</li>
 <li>Observamos la última salida de nuestro sistema. Naturalmente, tiene fluctuaciones. ¿Esas fluctuaciones son consistentes con la operación usual del sistema? ¿Existe evidencia para pensar que algo en el sistema cambió?</li>
 </ul>
+<p>Otro ejemplo es:</p>
 <section id="comparación-con-poblaciones-de-referencia" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="comparación-con-poblaciones-de-referencia">Comparación con poblaciones de referencia</h2>
-<p>En las prueba de hipótesis, tratamos de construir distribuciones de referencia para comparar resultados que obtengamos con un “estándar” de variación, y juzgar si nuestros resultados son consistentes con la referencia o no (<span class="citation" data-cites="box78">Box et&nbsp;al. (<a href="#ref-box78" role="doc-biblioref">1978</a>)</span>).</p>
+<p>En las prueba de hipótesis, tratamos de construir distribuciones de referencia para comparar resultados que obtengamos con un “estándar” de variación, y juzgar si nuestros resultados son consistentes con la referencia o no (1).</p>
 <p>En algunos casos, ese estándar de variación puede construirse con datos históricos.</p>
 <section id="ejemplo" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="ejemplo">Ejemplo</h3>
@@ -280,7 +289,7 @@ div.csl-indent {
 </div>
 </div>
 <p>¿Vemos algo diferente en los datos nuevos (el panel de color diferente)?</p>
-<p>Indpendientemente de la respuesta, vemos que hacer <strong>este análisis de manera tan simple no es siempre útil</strong>: seguramente podemos encontrar maneras en que la nueva muestra (4) es diferente a muestras históricas. Por ejemplo, ninguna de muestras tiene un “forma de montaña” tan clara.</p>
+<p>Indendientemente de la respuesta, vemos que hacer <strong>este análisis de manera tan simple no es siempre útil</strong>: seguramente podemos encontrar maneras en que la nueva muestra (4) es diferente a muestras históricas. Por ejemplo, ninguna de muestras tiene un “forma de montaña” tan clara.</p>
 <p>Nos preguntamos si no estamos <strong>sobreinterpretando</strong> variaciones que son parte normal del proceso.</p>
 <p>Podemos hacer un mejor análisis si extraemos varias muestras del comportamiento usual del sistema, graficamos junto a la nueva muestra, y <strong>revolvemos</strong> las gráficas para que no sepamos cuál es cuál. Entonces la pregunta es:</p>
 <ul>
@@ -288,13 +297,6 @@ div.csl-indent {
 </ul>
 <p>Esta se llama una <strong>prueba de lineup</strong>, o una <em>prueba de ronda de sospechosos</em> (<span class="citation" data-cites="lineup">Hadley Wickham et&nbsp;al. (<a href="#ref-lineup" role="doc-biblioref">2010</a>)</span>). En la siguiente gráfica, en uno de los páneles están los datos recientemente observados. ¿Hay algo en los datos que distinga al patrón nuevo?</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># nuevos datos</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>obs <span class="ot">&lt;-</span> <span class="fu">simular_serie</span>(<span class="dv">500</span>, <span class="at">x_inicial =</span> <span class="fu">last</span>(obs<span class="sc">$</span>obs))</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># muestrear datos históricos</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>prueba_tbl <span class="ot">&lt;-</span> <span class="fu">muestrear_ventanas</span>(historicos, obs[<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>, ], <span class="at">n_ventana =</span> <span class="dv">20</span>)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># gráfica de pequeños múltiplos</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(prueba_tbl<span class="sc">$</span>lineup, <span class="fu">aes</span>(<span class="at">x =</span> t_0, <span class="at">y =</span> obs)) <span class="sc">+</span> <span class="fu">geom_line</span>() <span class="sc">+</span> </span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>     <span class="fu">facet_wrap</span>(<span class="sc">~</span>rep, <span class="at">nrow =</span> <span class="dv">4</span>) <span class="sc">+</span> <span class="fu">scale_y_log10</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="pruebas-hipotesis_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -307,11 +309,20 @@ div.csl-indent {
 </div>
 </div>
 <p>Aunque es imposible estar seguros de que ha ocurrido un cambio, la diferencia de una de las series es muy considerable. Si identificamos los datos correctos, la probabilidad de que hayamos señalado la nueva serie “sobreinterpretando” fluctuaciones en un proceso que sigue comportándose normalente es 0.05 - relativamente baja. <strong>Detectar los datos diferentes es evidencia en contra de que el sistema sigue funcionando de la misma manera que antes.</strong></p>
-<p><strong>Observaciones y terminología</strong>:</p>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <ol type="1">
 <li><p>Llamamos <em>hipótesis nula</em> a la hipótesis de que los nuevos datos son producidos bajo las mismas condiciones que los datos de control o de referencia.</p></li>
 <li><p><strong>Si no escogemos la gráfica de los nuevos datos, nuestra conclusión es que la prueba no aporta evidencia en contra de la hipótesis nula.</strong></p></li>
-<li><p><strong>Si escogemos la gráfica correcta, nuestra conclusión es que la prueba aporta evidencia en contra de la hipótesis nula.</strong></p></li>
+<li><p><strong>Si escogemos la gráfica correcta, nuestra conclusión es que la prueba aporta evidencia en contra de la hipótesis nula.</strong> A veces decimos que “rechazamos la hipótesis nula”.</p></li>
 </ol>
 <p>¿Qué tan fuerte es la evidencia, en caso de que descubrimos los datos no nulos?</p>
 <ol start="5" type="1">
@@ -319,7 +330,265 @@ div.csl-indent {
 <li><p>Si acertamos, y la diferencia es más notoria y fue muy fácil detectar la gráfica diferente (pues sus diferencias son más extremas), esto también sugiere más evidencia en contra de la hipótesis nula.</p></li>
 <li><p>Finalmente, esta prueba rara vez (o nunca) <strong>nos da seguridad completa acerca de ninguna conclusión</strong>, aún cuando hiciéramos muchos páneles.</p></li>
 </ol>
+</div>
+</div>
 </section>
+</section>
+<section id="cuantificando-la-distribución-de-referencia" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="cuantificando-la-distribución-de-referencia"><span class="header-section-number">5.1</span> Cuantificando la distribución de referencia</h2>
+<p>En el ejemplo anterior estamos intentando dectectar cualquier desviación del comportamiento normal del sistema de una manera rigurosa. Podemos hacerlo más cuantitativo creando estadísticas resumen de las series. Por ejemplo, podríamos utilizar la variabilidad que tienen las series alrededor de su nivel general.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>sd_simple <span class="ot">&lt;-</span> <span class="cf">function</span>(x){</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  mod <span class="ot">&lt;-</span> <span class="fu">HoltWinters</span>(x, <span class="at">beta=</span><span class="cn">FALSE</span>, <span class="at">gamma=</span><span class="cn">FALSE</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  suavizamiento <span class="ot">&lt;-</span> <span class="fu">fitted</span>(mod)[,<span class="dv">1</span>] <span class="sc">|&gt;</span> <span class="fu">as.numeric</span>()</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sd</span>(x[<span class="sc">-</span><span class="dv">1</span>] <span class="sc">-</span> suavizamiento)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>referencia_tbl <span class="ot">&lt;-</span> <span class="fu">muestrear_ventanas</span>(historicos, <span class="at">n_ventana =</span> <span class="dv">1000</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pluck</span>(<span class="st">"lineup"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(rep) <span class="sc">|&gt;</span> </span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">est_prueba =</span> <span class="fu">sd_simple</span>(obs))</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>referencia_tbl <span class="sc">|&gt;</span> <span class="fu">head</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 2
+    rep est_prueba
+  &lt;int&gt;      &lt;dbl&gt;
+1     1      0.803
+2     2      1.95 
+3     3      1.10 
+4     4      1.19 
+5     5      0.791
+6     6      2.42 </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(referencia_tbl, <span class="fu">aes</span>(<span class="at">x =</span> est_prueba)) <span class="sc">+</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>() <span class="sc">+</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">sd_simple</span>(observados<span class="sc">$</span>obs), <span class="at">colour =</span> <span class="st">"red"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="pruebas-hipotesis_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Y confirmamos que en efecto el valor observado (línea roja) es uno muy extremo, y poco consistente con el comportamiento usual del sistema.</p>
+</section>
+<section id="aleatorización-y-permutaciones" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="aleatorización-y-permutaciones"><span class="header-section-number">5.2</span> Aleatorización y permutaciones</h2>
+<p>Muchas veces no tenemos datos históricos relevantes para construir una referencia (una distribución bajo la hipótesis nula) que nos permita evaluar si los nuevos datos muestran comportamiento no usual.</p>
+<p>Sin embargo, si controlamos el proceso generador de datos introduciendo <strong>aleatorización</strong>, es posible construir una distribución de referencia con los datos observados.</p>
+<ol class="example" type="1">
+<li>Supongamos que jardinero amateur quiere decidir qué fertilizante usar: el usual <span class="math inline">\(A\)</span> o uno nuevo <span class="math inline">\(B\)</span>. El resultado que le interesa es el rendimiento de cada planta (cuantos kilos de jitomates produjo cada planta). El jardinero tiene 11 plantas, que estan en una línea. Quiere decidir si debería cambiar al nuevo fertilizante <span class="math inline">\(B\)</span> o quedarse con el anterior.</li>
+</ol>
+<p>El jardinero intuye que quizá no es buena idea poner en las primeras 5 plantas <span class="math inline">\(A\)</span> y luego en las últimas 6 <span class="math inline">\(B\)</span>. La razón es que posiciones a lo largo de su hilera pueden recibir cantidades distintas de sol, de humedad, de nutrientes,e tc.</p>
+<p>Decide entonces distribuir al azar los tratamientos (5 de tipo A y 5 de tipo B). Obtiene los siguientes resultados:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>res_obs <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">planta =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">11</span>,</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">T =</span> <span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"b"</span>, <span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"b"</span>, <span class="st">"b"</span>, <span class="st">"a"</span>, <span class="st">"a"</span>, <span class="st">"b"</span>),</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="fu">c</span>(<span class="fl">29.9</span>, <span class="fl">11.4</span>, <span class="fl">26.6</span>, <span class="fl">23.7</span>, <span class="fl">25.3</span>, <span class="fl">28.5</span>, <span class="fl">14.2</span>, <span class="fl">17.9</span>, <span class="fl">16.5</span>, <span class="fl">21.1</span>, <span class="fl">24.3</span>) <span class="sc">/</span> <span class="dv">2</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>res_obs <span class="sc">|&gt;</span> <span class="fu">arrange</span>(T) <span class="sc">|&gt;</span> <span class="fu">kable</span>() <span class="sc">|&gt;</span> <span class="fu">kable_paper</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<table class=" lightable-paper" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:right;"> planta </th>
+   <th style="text-align:left;"> T </th>
+   <th style="text-align:right;"> y </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:left;"> a </td>
+   <td style="text-align:right;"> 14.95 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:left;"> a </td>
+   <td style="text-align:right;"> 5.70 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 5 </td>
+   <td style="text-align:left;"> a </td>
+   <td style="text-align:right;"> 12.65 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 9 </td>
+   <td style="text-align:left;"> a </td>
+   <td style="text-align:right;"> 8.25 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 10 </td>
+   <td style="text-align:left;"> a </td>
+   <td style="text-align:right;"> 10.55 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:left;"> b </td>
+   <td style="text-align:right;"> 13.30 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 4 </td>
+   <td style="text-align:left;"> b </td>
+   <td style="text-align:right;"> 11.85 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 6 </td>
+   <td style="text-align:left;"> b </td>
+   <td style="text-align:right;"> 14.25 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 7 </td>
+   <td style="text-align:left;"> b </td>
+   <td style="text-align:right;"> 7.10 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 8 </td>
+   <td style="text-align:left;"> b </td>
+   <td style="text-align:right;"> 8.95 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 11 </td>
+   <td style="text-align:left;"> b </td>
+   <td style="text-align:right;"> 12.15 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<p>Como resumen, puede utilizar la diferencia de medias entre los dos tratamientos:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>dif_obs <span class="ot">&lt;-</span> res_obs <span class="sc">|&gt;</span> <span class="fu">group_by</span>(T) <span class="sc">|&gt;</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">media =</span> <span class="fu">mean</span>(y)) <span class="sc">|&gt;</span> </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> T, <span class="at">values_from =</span> media) <span class="sc">|&gt;</span> </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">diferencia =</span> <span class="fu">round</span>(b <span class="sc">-</span> a, <span class="dv">3</span>))</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>dif_obs</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+      a     b diferencia
+  &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
+1  10.4  11.3      0.847</code></pre>
+</div>
+</div>
+<p>Y vemos que <span class="math inline">\(B\)</span> tuvo mejores resultados con esta estadística de prueba. Sin embargo, este experimento tiene varias fuentes de variación, y <em>no tenemos una distribución de referencia para comparar</em> que nos diga cuánta variación esperamos en este tipo de experimentos.</p>
+<p>La idea original de Fisher fue la siguiente:</p>
+<ul>
+<li>Nuestra hipótesis nula es que los tratamientos a y b son iguales (es decir, si en los casos donde usamos b hubiéramos usado a hubiéramos obtenido los mismos resultados, y viceversa).</li>
+<li>Esto implica que las etiquetas a y b no tienen significado, podríamos permutarlas y hubiéramos obtenido los mismos resultados.</li>
+<li>Podemos ver entonces cuánta variación existe en la diferencia de promedios bajo el supuesto de la hipótesis nula, y el hecho de que distribuimos al azar el tratamiento: esto podemos hacerlo permutando las etiquetas del tratamiento en la tabla que obtuvimos y calculando los promedios correspondientes.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>calc_permutacion <span class="ot">&lt;-</span> <span class="cf">function</span>(datos_tbl, tratamiento){</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># permutar</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  datos_perm_tbl <span class="ot">&lt;-</span> datos_tbl <span class="sc">|&gt;</span> </span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>({{ tratamiento }} <span class="sc">:</span><span class="er">=</span> <span class="fu">sample</span>({{ tratamiento }}))</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># calcular estadística</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  datos_perm_tbl <span class="sc">|&gt;</span> <span class="fu">group_by</span>({{ tratamiento }}) <span class="sc">|&gt;</span> </span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">media =</span> <span class="fu">mean</span>(y)) <span class="sc">|&gt;</span> </span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> {{ tratamiento }}, <span class="at">values_from =</span> media) <span class="sc">|&gt;</span> </span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">diferencia =</span> <span class="fu">round</span>(b <span class="sc">-</span> a, <span class="dv">3</span>))</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Por ejemplo:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">calc_permutacion</span>(res_obs, T)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+      a     b diferencia
+  &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
+1  10.4  11.3      0.975</code></pre>
+</div>
+</div>
+<p>Y ahora podemos repetir un número grande de veces:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>referencia_tbl <span class="ot">&lt;-</span> <span class="fu">map_df</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>, <span class="cf">function</span>(rep){</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">calc_permutacion</span>(res_obs, T) <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">rep =</span> rep)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>referencia_tbl <span class="sc">|&gt;</span> <span class="fu">head</span>() <span class="sc">|&gt;</span> <span class="fu">kable</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_paper</span>(<span class="at">full_width =</span> <span class="cn">FALSE</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<table class=" lightable-paper" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:right;"> a </th>
+   <th style="text-align:right;"> b </th>
+   <th style="text-align:right;"> diferencia </th>
+   <th style="text-align:right;"> rep </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:right;"> 12.07 </td>
+   <td style="text-align:right;"> 9.891667 </td>
+   <td style="text-align:right;"> -2.178 </td>
+   <td style="text-align:right;"> 1 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 11.89 </td>
+   <td style="text-align:right;"> 10.041667 </td>
+   <td style="text-align:right;"> -1.848 </td>
+   <td style="text-align:right;"> 2 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 10.19 </td>
+   <td style="text-align:right;"> 11.458333 </td>
+   <td style="text-align:right;"> 1.268 </td>
+   <td style="text-align:right;"> 3 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 11.01 </td>
+   <td style="text-align:right;"> 10.775000 </td>
+   <td style="text-align:right;"> -0.235 </td>
+   <td style="text-align:right;"> 4 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 9.71 </td>
+   <td style="text-align:right;"> 11.858333 </td>
+   <td style="text-align:right;"> 2.148 </td>
+   <td style="text-align:right;"> 5 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 9.86 </td>
+   <td style="text-align:right;"> 11.733333 </td>
+   <td style="text-align:right;"> 1.873 </td>
+   <td style="text-align:right;"> 6 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<p>Y hacemos lo mismo que hicimos en el ejemplo anterior:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(referencia_tbl, <span class="fu">aes</span>(<span class="at">x =</span> diferencia)) <span class="sc">+</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>() <span class="sc">+</span> </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">data =</span> dif_obs, <span class="fu">aes</span>(<span class="at">xintercept =</span> diferencia),</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">colour =</span> <span class="st">"red"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="pruebas-hipotesis_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>En este caso, vemos que nuestra observación es consistente como proveniente de la distribución de referencia (construida con permutaciones).</p>
+<p><strong>La diferencia que observamos</strong> es consistente con la variabilidad en nuestra estadística de prueba bajo distintas aleatorizaciones si los tratamientos a y b son equivalentes. Nuestra conclusión es que no tenemos evidencia para preferir b sobre a.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>diferencia_obs <span class="ot">&lt;-</span> dif_obs<span class="sc">$</span>diferencia</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>referencia_tbl <span class="sc">|&gt;</span> </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">mejor_que_observado =</span> diferencia <span class="sc">&gt;</span> diferencia_obs) <span class="sc">|&gt;</span> </span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">valor_p =</span> <span class="fu">mean</span>(mejor_que_observado))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 1
+  valor_p
+    &lt;dbl&gt;
+1    0.31</code></pre>
+</div>
+</div>
+<p>Bajo el supuesto de equivalencia de tratamientos, la probabilidad de observar un resultado mejor del que observamos es más de 1/3.</p>
 </section>
 <section id="comparando-distribuciones" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="comparando-distribuciones">Comparando distribuciones</h2>
@@ -328,7 +597,7 @@ div.csl-indent {
 <p>Queremos comparar las distribuciones de los datos obtenidos para cada grupo. Quizá la pregunta detrás de esta comparación es: el grupo de clientes b recibió una promoción especial. ¿Están gastando más? La medición que comparamos es el gasto de los clientes.</p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="pruebas-hipotesis_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="480"></p>
+<p><img src="pruebas-hipotesis_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="480"></p>
 </div>
 </div>
 <p>En la muestra observamos diferencias entre los grupos. Pero notamos adicionalmente que hay mucha variación dentro de cada grupo. <strong>Nos podríamos preguntar entonces si las diferencias que observamos se deben variación muestral, por ejemplo.</strong></p>
@@ -341,7 +610,7 @@ div.csl-indent {
 </section>
 <section id="permutaciones-y-el-lineup" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="permutaciones-y-el-lineup">Permutaciones y el lineup</h2>
-<p>Para abordar este problema podemos pensar en usar permutaciones de los grupos de la siguiente forma (<span class="citation" data-cites="box78">Box et&nbsp;al. (<a href="#ref-box78" role="doc-biblioref">1978</a>)</span>, <span class="citation" data-cites="timboot14">Hesterberg (<a href="#ref-timboot14" role="doc-biblioref">2015</a>)</span>):</p>
+<p>Para abordar este problema podemos pensar en usar permutaciones de los grupos de la siguiente forma (1, <span class="citation" data-cites="timboot14">Hesterberg (<a href="#ref-timboot14" role="doc-biblioref">2015</a>)</span>):</p>
 <ul>
 <li>Si los grupos producen datos bajo procesos idénticos, entonces los grupos a, b, c solo son etiquetas que no contienen información.</li>
 <li>Podríamos <strong>permutar al azar</strong> las etiquetas y observar nuevamente la gráfica de caja y brazos por grupos.</li>
@@ -352,21 +621,21 @@ div.csl-indent {
 <p>Vamos a intentar esto, por ejemplo usando una gráfica de cuantiles simplificada. Hacemos un <em>lineup</em>, o una <em>rueda de sospechosos</em> (usamos el paquete <span class="citation" data-cites="nullabor">H. Wickham, Chowdhury, y Cook (<a href="#ref-nullabor" role="doc-biblioref">2012</a>)</span>, ver <span class="citation" data-cites="lineup">Hadley Wickham et&nbsp;al. (<a href="#ref-lineup" role="doc-biblioref">2010</a>)</span>), donde 19 de los acusados <strong>son generados mediante permutaciones al azar</strong> de la variable del grupo, y el culpable (los verdaderos datos) están en una posición escogida al azar. ¿Podemos identificar los datos verdaderos? Para evitar sesgarnos, también ocultamos la etiqueta verdadera</p>
 <p>Usamos una gráfica que muestra los cuantes 0.10, 0.50, 0.90:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">88</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>reps <span class="ot">&lt;-</span> <span class="fu">lineup</span>(<span class="fu">null_permute</span>(<span class="st">"grupo"</span>), muestra_tab, <span class="at">n =</span> <span class="dv">20</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">88</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>reps <span class="ot">&lt;-</span> <span class="fu">lineup</span>(<span class="fu">null_permute</span>(<span class="st">"grupo"</span>), muestra_tab, <span class="at">n =</span> <span class="dv">20</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>decrypt("pPrt Zh4h Bk VyJB4Byk ub")</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>reps_mezcla <span class="ot">&lt;-</span> reps <span class="sc">|&gt;</span>  <span class="fu">mutate</span>(<span class="at">grupo_1 =</span> <span class="fu">factor</span>(digest<span class="sc">::</span><span class="fu">digest2int</span>(grupo) <span class="sc">%%</span> <span class="dv">177</span>))</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">grafica_cuantiles</span>(reps_mezcla, grupo_1, x) <span class="sc">+</span> </span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span>.sample, <span class="at">ncol =</span> <span class="dv">5</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"x"</span>) <span class="sc">+</span> </span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">caption =</span> <span class="st">"Mediana y percentiles 10% y 90%"</span>)<span class="sc">+</span> <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">colour =</span> grupo_1))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>reps_mezcla <span class="ot">&lt;-</span> reps <span class="sc">|&gt;</span>  <span class="fu">mutate</span>(<span class="at">grupo_1 =</span> <span class="fu">factor</span>(digest<span class="sc">::</span><span class="fu">digest2int</span>(grupo) <span class="sc">%%</span> <span class="dv">177</span>))</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">grafica_cuantiles</span>(reps_mezcla, grupo_1, x) <span class="sc">+</span> </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span>.sample, <span class="at">ncol =</span> <span class="dv">5</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"x"</span>) <span class="sc">+</span> </span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">caption =</span> <span class="st">"Mediana y percentiles 10% y 90%"</span>)<span class="sc">+</span> <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">colour =</span> grupo_1))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>`summarise()` has grouped output by 'grupo_1'. You can override using the
 `.groups` argument.</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="pruebas-hipotesis_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+<p><img src="pruebas-hipotesis_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Y la pregunta que hacemos es <strong>podemos distinguir nuestra muestra entre todas las replicaciones producidas con permutaciones</strong>?</p>
@@ -382,25 +651,25 @@ div.csl-indent {
 <p>Repitimos el ejemplo para otra muestra (en este ejemplo el proceso generador de datos es diferente para el grupo b):</p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="pruebas-hipotesis_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="480"></p>
+<p><img src="pruebas-hipotesis_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="480"></p>
 </div>
 </div>
 <p>Hacemos primero la prueba del <em>lineup</em>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">121</span>)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>reps <span class="ot">&lt;-</span> <span class="fu">lineup</span>(<span class="fu">null_permute</span>(<span class="st">"grupo"</span>), muestra_tab, <span class="at">n =</span> <span class="dv">20</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">121</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>reps <span class="ot">&lt;-</span> <span class="fu">lineup</span>(<span class="fu">null_permute</span>(<span class="st">"grupo"</span>), muestra_tab, <span class="at">n =</span> <span class="dv">20</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>decrypt("pPrt Zh4h Bk VyJB4Byk uG")</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grafica_cuantiles</span>(reps <span class="sc">|&gt;</span>  <span class="fu">mutate</span>(<span class="at">grupo_escondido =</span> <span class="fu">factor</span>(digest<span class="sc">::</span><span class="fu">digest2int</span>(grupo) <span class="sc">%%</span> <span class="dv">177</span>)), </span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>                             grupo_escondido, x) <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>.sample) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"x"</span>) <span class="sc">+</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_flip</span>() <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">colour =</span> grupo_escondido))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grafica_cuantiles</span>(reps <span class="sc">|&gt;</span>  <span class="fu">mutate</span>(<span class="at">grupo_escondido =</span> <span class="fu">factor</span>(digest<span class="sc">::</span><span class="fu">digest2int</span>(grupo) <span class="sc">%%</span> <span class="dv">177</span>)), </span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>                             grupo_escondido, x) <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>.sample) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"x"</span>) <span class="sc">+</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_flip</span>() <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">colour =</span> grupo_escondido))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>`summarise()` has grouped output by 'grupo_escondido'. You can override using
 the `.groups` argument.</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="pruebas-hipotesis_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+<p><img src="pruebas-hipotesis_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Podemos distinguir más o menos claramente que está localizada en valores más altos y tiene mayor dispersión. En este caso, como en general podemos identificar los datos, obtenemos evidencia en contra de que los tres grupos tienen distribuciones iguales.</p>
@@ -416,11 +685,11 @@ the `.groups` argument.</code></pre>
 
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>te_azucar <span class="ot">&lt;-</span> tea <span class="sc">|&gt;</span> <span class="fu">select</span>(how, sugar) <span class="sc">|&gt;</span> </span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">how =</span> <span class="fu">ifelse</span>(how <span class="sc">==</span> <span class="st">"tea bag"</span>, <span class="st">"bolsa_exclusivo"</span>, <span class="st">"suelto o bolsa"</span>))</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>te_azucar <span class="sc">|&gt;</span> <span class="fu">group_by</span>(how, sugar) <span class="sc">|&gt;</span> <span class="fu">tally</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">spread</span>(how, n) <span class="sc">|&gt;</span> </span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">formatear_tabla</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>te_azucar <span class="ot">&lt;-</span> tea <span class="sc">|&gt;</span> <span class="fu">select</span>(how, sugar) <span class="sc">|&gt;</span> </span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">how =</span> <span class="fu">ifelse</span>(how <span class="sc">==</span> <span class="st">"tea bag"</span>, <span class="st">"bolsa_exclusivo"</span>, <span class="st">"suelto o bolsa"</span>))</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>te_azucar <span class="sc">|&gt;</span> <span class="fu">group_by</span>(how, sugar) <span class="sc">|&gt;</span> <span class="fu">tally</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">spread</span>(how, n) <span class="sc">|&gt;</span> </span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">formatear_tabla</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
 <table class="table table-striped table-hover table-condensed table-responsive" style="font-size: 15px; width: auto !important; margin-left: auto; margin-right: auto;">
@@ -487,71 +756,71 @@ the `.groups` argument.</code></pre>
 <li>Y la pregunta clave es: ¿el valor de la estadística en nuestra muestra es <em>extrema</em> en comparación a la distribución de referencia?</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ESta función calcula la diferencia entre grupos de interés</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>calc_diferencia <span class="ot">&lt;-</span> <span class="cf">function</span>(datos){</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  datos <span class="sc">|&gt;</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">usa_azucar =</span> <span class="fu">as.numeric</span>(sugar <span class="sc">==</span> <span class="st">"sugar"</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(how) <span class="sc">|&gt;</span> </span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">prop_azucar =</span> <span class="fu">mean</span>(usa_azucar)) <span class="sc">|&gt;</span> </span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">spread</span>(how, prop_azucar) <span class="sc">|&gt;</span> </span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">diferencia_prop =</span> bolsa_exclusivo <span class="sc">-</span> <span class="st">`</span><span class="at">suelto o bolsa</span><span class="st">`</span>) <span class="sc">|&gt;</span> <span class="fu">pull</span>(diferencia_prop)</span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="co"># esta función hace permutaciones y calcula la diferencia para cada una</span></span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>permutaciones_est <span class="ot">&lt;-</span> <span class="cf">function</span>(datos, variable, calc_diferencia, <span class="at">n =</span> <span class="dv">1000</span>){</span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># calcular estadística para cada grupo</span></span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>  permutar <span class="ot">&lt;-</span> <span class="cf">function</span>(variable){</span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sample</span>(variable, <span class="fu">length</span>(variable))</span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>  tbl_perms <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">.sample =</span> <span class="fu">seq</span>(<span class="dv">1</span>, n<span class="dv">-1</span>, <span class="dv">1</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">diferencia =</span> <span class="fu">map_dbl</span>(.sample, </span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>              <span class="sc">~</span> datos <span class="sc">|&gt;</span> <span class="fu">mutate</span>({{variable}}<span class="sc">:</span><span class="er">=</span> <span class="fu">permutar</span>({{variable}})) <span class="sc">|&gt;</span> <span class="fu">calc_diferencia</span>()))</span>
-<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>(tbl_perms, <span class="fu">tibble</span>(<span class="at">.sample =</span> n, <span class="at">diferencia =</span> <span class="fu">calc_diferencia</span>(datos)))</span>
-<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ESta función calcula la diferencia entre grupos de interés</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>calc_diferencia <span class="ot">&lt;-</span> <span class="cf">function</span>(datos){</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  datos <span class="sc">|&gt;</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">usa_azucar =</span> <span class="fu">as.numeric</span>(sugar <span class="sc">==</span> <span class="st">"sugar"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(how) <span class="sc">|&gt;</span> </span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">prop_azucar =</span> <span class="fu">mean</span>(usa_azucar)) <span class="sc">|&gt;</span> </span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">spread</span>(how, prop_azucar) <span class="sc">|&gt;</span> </span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">diferencia_prop =</span> bolsa_exclusivo <span class="sc">-</span> <span class="st">`</span><span class="at">suelto o bolsa</span><span class="st">`</span>) <span class="sc">|&gt;</span> <span class="fu">pull</span>(diferencia_prop)</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="co"># esta función hace permutaciones y calcula la diferencia para cada una</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>permutaciones_est <span class="ot">&lt;-</span> <span class="cf">function</span>(datos, variable, calc_diferencia, <span class="at">n =</span> <span class="dv">1000</span>){</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># calcular estadística para cada grupo</span></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>  permutar <span class="ot">&lt;-</span> <span class="cf">function</span>(variable){</span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sample</span>(variable, <span class="fu">length</span>(variable))</span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>  tbl_perms <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">.sample =</span> <span class="fu">seq</span>(<span class="dv">1</span>, n<span class="dv">-1</span>, <span class="dv">1</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">diferencia =</span> <span class="fu">map_dbl</span>(.sample, </span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>              <span class="sc">~</span> datos <span class="sc">|&gt;</span> <span class="fu">mutate</span>({{variable}}<span class="sc">:</span><span class="er">=</span> <span class="fu">permutar</span>({{variable}})) <span class="sc">|&gt;</span> <span class="fu">calc_diferencia</span>()))</span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>(tbl_perms, <span class="fu">tibble</span>(<span class="at">.sample =</span> n, <span class="at">diferencia =</span> <span class="fu">calc_diferencia</span>(datos)))</span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>La diferencia observada es:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>dif_obs <span class="ot">&lt;-</span> <span class="fu">calc_diferencia</span>(te_azucar)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>dif_obs <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">3</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>dif_obs <span class="ot">&lt;-</span> <span class="fu">calc_diferencia</span>(te_azucar)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>dif_obs <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">3</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.093</code></pre>
 </div>
 </div>
 <p>Ahora construimos nuestra distribución nula o de referencia:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>valores_ref <span class="ot">&lt;-</span> <span class="fu">permutaciones_est</span>(te_azucar, how, calc_diferencia, <span class="at">n =</span> <span class="dv">10000</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>valores_ref <span class="ot">&lt;-</span> <span class="fu">permutaciones_est</span>(te_azucar, how, calc_diferencia, <span class="at">n =</span> <span class="dv">10000</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Y graficamos nuestros resultados (con un histograma y una gráfica de cuantiles, por ejemplo). la estadística evaluada un cada una de nuestras muestras permutadas:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>g_1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(valores_ref, <span class="fu">aes</span>(<span class="at">sample =</span> diferencia)) <span class="sc">+</span> <span class="fu">geom_qq</span>(<span class="at">distribution =</span> stats<span class="sc">::</span>qunif)  <span class="sc">+</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">xlab</span>(<span class="st">"f"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"diferencia"</span>) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">"Distribución nula o de referencia"</span>)</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>g_2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(valores_ref, <span class="fu">aes</span>(<span class="at">x =</span> diferencia)) <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fl">0.04</span>) <span class="sc">+</span> </span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_flip</span>() <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">""</span>) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">" "</span>)</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(g_1, g_2, <span class="at">ncol =</span> <span class="dv">2</span>) </span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>g_1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(valores_ref, <span class="fu">aes</span>(<span class="at">sample =</span> diferencia)) <span class="sc">+</span> <span class="fu">geom_qq</span>(<span class="at">distribution =</span> stats<span class="sc">::</span>qunif)  <span class="sc">+</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">xlab</span>(<span class="st">"f"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"diferencia"</span>) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">"Distribución nula o de referencia"</span>)</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>g_2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(valores_ref, <span class="fu">aes</span>(<span class="at">x =</span> diferencia)) <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fl">0.04</span>) <span class="sc">+</span> </span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_flip</span>() <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">""</span>) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">" "</span>)</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(g_1, g_2, <span class="at">ncol =</span> <span class="dv">2</span>) </span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="pruebas-hipotesis_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="576"></p>
+<p><img src="pruebas-hipotesis_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid" width="576"></p>
 </div>
 </div>
 <p>Este es el rango de fluctuación usual para nuestra estadística *bajo la hipótesis de que los dos grupos de tomadores de té consumen té a la misma tasa.</p>
 <p>El valor que obtuvimos en nuestros datos es 0.0927602, que no es un valor extremo en la distribución de referencia que vimos arriba: esta muestra no aporta mucha evidencia en contra de que los grupos tienen distribuciones similares.</p>
 <p>Podemos graficar otra vez marcando el valor de referencia:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Función de distribución acumulada (inverso de función de cuantiles)</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>dist_perm <span class="ot">&lt;-</span> <span class="fu">ecdf</span>(valores_ref<span class="sc">$</span>diferencia)</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculamos el percentil del valor observado</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>percentil_obs <span class="ot">&lt;-</span> <span class="fu">dist_perm</span>(dif_obs)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Función de distribución acumulada (inverso de función de cuantiles)</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>dist_perm <span class="ot">&lt;-</span> <span class="fu">ecdf</span>(valores_ref<span class="sc">$</span>diferencia)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculamos el percentil del valor observado</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>percentil_obs <span class="ot">&lt;-</span> <span class="fu">dist_perm</span>(dif_obs)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>g_1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(valores_ref, <span class="fu">aes</span>(<span class="at">sample =</span> diferencia)) <span class="sc">+</span> <span class="fu">geom_qq</span>(<span class="at">distribution =</span> stats<span class="sc">::</span>qunif)  <span class="sc">+</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">xlab</span>(<span class="st">"f"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"diferencia"</span>) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">"Distribución nula o de referencia"</span>) <span class="sc">+</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> dif_obs, <span class="at">colour =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fl">0.3</span>, <span class="at">y =</span> dif_obs <span class="sc">-</span> <span class="fl">0.05</span>, <span class="at">label =</span> <span class="st">"diferencia observada"</span>, <span class="at">colour =</span> <span class="st">"red"</span>)</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>g_2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(valores_ref, <span class="fu">aes</span>(<span class="at">x =</span> diferencia)) <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fl">0.04</span>) <span class="sc">+</span> </span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_flip</span>() <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">""</span>) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">" "</span>) <span class="sc">+</span></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> dif_obs, <span class="at">colour =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> dif_obs, <span class="at">y =</span> <span class="dv">2000</span>, <span class="at">label =</span> percentil_obs,<span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.2</span>, <span class="at">colour =</span> <span class="st">"red"</span>)</span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(g_1, g_2, <span class="at">ncol =</span> <span class="dv">2</span>) </span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>g_1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(valores_ref, <span class="fu">aes</span>(<span class="at">sample =</span> diferencia)) <span class="sc">+</span> <span class="fu">geom_qq</span>(<span class="at">distribution =</span> stats<span class="sc">::</span>qunif)  <span class="sc">+</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">xlab</span>(<span class="st">"f"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"diferencia"</span>) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">"Distribución nula o de referencia"</span>) <span class="sc">+</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> dif_obs, <span class="at">colour =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fl">0.3</span>, <span class="at">y =</span> dif_obs <span class="sc">-</span> <span class="fl">0.05</span>, <span class="at">label =</span> <span class="st">"diferencia observada"</span>, <span class="at">colour =</span> <span class="st">"red"</span>)</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>g_2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(valores_ref, <span class="fu">aes</span>(<span class="at">x =</span> diferencia)) <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fl">0.04</span>) <span class="sc">+</span> </span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_flip</span>() <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">""</span>) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">" "</span>) <span class="sc">+</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> dif_obs, <span class="at">colour =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> dif_obs, <span class="at">y =</span> <span class="dv">2000</span>, <span class="at">label =</span> percentil_obs,<span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.2</span>, <span class="at">colour =</span> <span class="st">"red"</span>)</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(g_1, g_2, <span class="at">ncol =</span> <span class="dv">2</span>) </span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="pruebas-hipotesis_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="576"></p>
+<p><img src="pruebas-hipotesis_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid" width="576"></p>
 </div>
 </div>
 <p>Y vemos que es un valor algo (pero no muy) extremo en la distribución de referencia que vimos arriba: esta muestra no aporta una gran cantidad de evidencia en contra de que los grupos tienen distribuciones similares, que en este caso significa que los dos grupos usan azúcar a tasas similares.</p>
@@ -563,7 +832,7 @@ the `.groups` argument.</code></pre>
 </ul>
 <p>Considerando en este caso interpretamos <em>extrema</em> como que cae lejos de donde a mayoría de la distribución se concentra, podemos calcular el valor p como sigue. A partir de el valor observado, consideramos cuál dato es menor: la probabilidad bajo lo hipótesis nula de observar una diferencia mayor de a que observamos, o la probabilidad de observar una diferencia menor a la que observamos. Tomamos el mínimo y multiplicamos por dos (<span class="citation" data-cites="timboot14">Hesterberg (<a href="#ref-timboot14" role="doc-biblioref">2015</a>)</span>):</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="sc">*</span> <span class="fu">min</span>(<span class="fu">dist_perm</span>(dif_obs), (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">dist_perm</span>(dif_obs)))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="sc">*</span> <span class="fu">min</span>(<span class="fu">dist_perm</span>(dif_obs), (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">dist_perm</span>(dif_obs)))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.1026</code></pre>
 </div>
@@ -604,11 +873,11 @@ the `.groups` argument.</code></pre>
 <p>::: :::</p>
 <p>Y en porcentajes tenemos que:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>prop_azucar <span class="ot">&lt;-</span> te_azucar <span class="sc">|&gt;</span> <span class="fu">group_by</span>(Tea, sugar) <span class="sc">|&gt;</span> <span class="fu">tally</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Tea) <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">prop =</span> <span class="dv">100</span> <span class="sc">*</span> n <span class="sc">/</span> <span class="fu">sum</span>(n), <span class="at">n =</span> <span class="fu">sum</span>(n)) <span class="sc">|&gt;</span> </span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(sugar <span class="sc">==</span> <span class="st">"sugar"</span>) <span class="sc">|&gt;</span> <span class="fu">select</span>(Tea, <span class="at">prop_azucar =</span> prop, n) <span class="sc">|&gt;</span> </span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="st">'% usa azúcar'</span> <span class="ot">=</span> <span class="fu">round</span>(prop_azucar)) <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="sc">-</span>prop_azucar)</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>prop_azucar <span class="sc">|&gt;</span> <span class="fu">formatear_tabla</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>prop_azucar <span class="ot">&lt;-</span> te_azucar <span class="sc">|&gt;</span> <span class="fu">group_by</span>(Tea, sugar) <span class="sc">|&gt;</span> <span class="fu">tally</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Tea) <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">prop =</span> <span class="dv">100</span> <span class="sc">*</span> n <span class="sc">/</span> <span class="fu">sum</span>(n), <span class="at">n =</span> <span class="fu">sum</span>(n)) <span class="sc">|&gt;</span> </span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(sugar <span class="sc">==</span> <span class="st">"sugar"</span>) <span class="sc">|&gt;</span> <span class="fu">select</span>(Tea, <span class="at">prop_azucar =</span> prop, n) <span class="sc">|&gt;</span> </span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="st">'% usa azúcar'</span> <span class="ot">=</span> <span class="fu">round</span>(prop_azucar)) <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="sc">-</span>prop_azucar)</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>prop_azucar <span class="sc">|&gt;</span> <span class="fu">formatear_tabla</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
 <table class="table table-striped table-hover table-condensed table-responsive" style="font-size: 15px; width: auto !important; margin-left: auto; margin-right: auto;">
@@ -638,14 +907,14 @@ the `.groups` argument.</code></pre>
 <p>Pero distintas muestras podrían haber dado distintos resultados. Nos preguntamos que tan fuerte es la evidencia en contra de que en realidad los dos grupos de personas usan azúcar en proporciones similares, y la diferencia que vemos se puede atribuir a variación muestral.</p>
 <p>Escribimos la función que calcula diferencias para cada muestra:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>calc_diferencia_2 <span class="ot">&lt;-</span> <span class="cf">function</span>(datos){</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  datos <span class="sc">|&gt;</span></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">usa_azucar =</span> <span class="fu">as.numeric</span>(sugar <span class="sc">==</span> <span class="st">"sugar"</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(Tea) <span class="sc">|&gt;</span> </span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">prop_azucar =</span> <span class="fu">mean</span>(usa_azucar)) <span class="sc">|&gt;</span> </span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">spread</span>(Tea, prop_azucar) <span class="sc">|&gt;</span> </span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">diferencia_prop =</span> <span class="st">`</span><span class="at">Earl Grey</span><span class="st">`</span> <span class="sc">-</span> black) <span class="sc">|&gt;</span> <span class="fu">pull</span>(diferencia_prop)</span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>calc_diferencia_2 <span class="ot">&lt;-</span> <span class="cf">function</span>(datos){</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  datos <span class="sc">|&gt;</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">usa_azucar =</span> <span class="fu">as.numeric</span>(sugar <span class="sc">==</span> <span class="st">"sugar"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(Tea) <span class="sc">|&gt;</span> </span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">prop_azucar =</span> <span class="fu">mean</span>(usa_azucar)) <span class="sc">|&gt;</span> </span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">spread</span>(Tea, prop_azucar) <span class="sc">|&gt;</span> </span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">diferencia_prop =</span> <span class="st">`</span><span class="at">Earl Grey</span><span class="st">`</span> <span class="sc">-</span> black) <span class="sc">|&gt;</span> <span class="fu">pull</span>(diferencia_prop)</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>La diferencia observada es:</p>
 <div class="cell">
@@ -655,8 +924,8 @@ the `.groups` argument.</code></pre>
 </div>
 <p>Ahora construimos nuestra distribución nula o de referencia:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2</span>)</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>valores_ref <span class="ot">&lt;-</span> <span class="fu">permutaciones_est</span>(te_azucar, Tea, calc_diferencia_2, <span class="at">n =</span> <span class="dv">10000</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2</span>)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>valores_ref <span class="ot">&lt;-</span> <span class="fu">permutaciones_est</span>(te_azucar, Tea, calc_diferencia_2, <span class="at">n =</span> <span class="dv">10000</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Y podemos graficar la distribución de referencia otra vez marcando el valor observado</p>
 <div class="cell">
@@ -664,7 +933,7 @@ the `.groups` argument.</code></pre>
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="pruebas-hipotesis_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid" width="576"></p>
+<p><img src="pruebas-hipotesis_files/figure-html/unnamed-chunk-36-1.png" class="img-fluid" width="576"></p>
 </div>
 </div>
 <p>En este caso, la evidencia es muy fuerte en contra de la hipótesis nula, pues el resultado que obtuvimos es muy extremo en relación a la distribución de referencia. El valor p es cercano a 0.</p>
@@ -688,7 +957,7 @@ cols(
 <pre><code>decrypt("pPrt Zh4h Bk VyJB4Byk uu")</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="pruebas-hipotesis_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid" width="768"></p>
+<p><img src="pruebas-hipotesis_files/figure-html/unnamed-chunk-37-1.png" class="img-fluid" width="768"></p>
 </div>
 </div>
 <p><strong>Ejercicio</strong>: ¿Podemos identificar los datos? En general, muy frecuentemente las personas identifican los datos correctamente, lo que muestra evidencia considerable de que la instrucción verbal altera los tiempos de respuesta de los partipantes, y en este caso ayuda a reducir el tiempo de fusión de los estereogramas.</p>
@@ -698,36 +967,36 @@ cols(
 <p>Podemos usar las pruebas de permutaciones para distintos de tipos de estadísticas: medianas, medias, comparar dispersión usando rangos intercuartiles o varianzas, etc.</p>
 <p>Regresamos a los tiempos de fusión. Podemos hacer una prueba de permutaciones para la diferencia de las medias o medianas, por ejemplo. En este ejemplo usaremos una medida de centralidad un poco diferente, como ilustración: el promedio de los cuartiles superior e inferior de las dos distribuciones. Usaremos el cociente de estas dos cantidades para medir su diferencia</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>stat_fusion <span class="ot">&lt;-</span> <span class="cf">function</span>(x){</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>    (<span class="fu">quantile</span>(x, <span class="fl">0.75</span>) <span class="sc">+</span> <span class="fu">quantile</span>(x, <span class="fl">0.25</span>))<span class="sc">/</span><span class="dv">2</span></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>calc_fusion <span class="ot">&lt;-</span> <span class="cf">function</span>(stat_fusion){</span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  fun <span class="ot">&lt;-</span> <span class="cf">function</span>(datos){</span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    datos <span class="sc">|&gt;</span> </span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">group_by</span>(nv.vv) <span class="sc">|&gt;</span> </span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">summarise</span>(<span class="at">est =</span> <span class="fu">stat_fusion</span>(time)) <span class="sc">|&gt;</span> </span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">spread</span>(nv.vv, est) <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">dif =</span> VV <span class="sc">/</span> NV ) <span class="sc">|&gt;</span> <span class="fu">pull</span>(dif)</span>
-<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>  fun</span>
-<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>stat_fusion <span class="ot">&lt;-</span> <span class="cf">function</span>(x){</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>    (<span class="fu">quantile</span>(x, <span class="fl">0.75</span>) <span class="sc">+</span> <span class="fu">quantile</span>(x, <span class="fl">0.25</span>))<span class="sc">/</span><span class="dv">2</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>calc_fusion <span class="ot">&lt;-</span> <span class="cf">function</span>(stat_fusion){</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>  fun <span class="ot">&lt;-</span> <span class="cf">function</span>(datos){</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>    datos <span class="sc">|&gt;</span> </span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">group_by</span>(nv.vv) <span class="sc">|&gt;</span> </span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">summarise</span>(<span class="at">est =</span> <span class="fu">stat_fusion</span>(time)) <span class="sc">|&gt;</span> </span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">spread</span>(nv.vv, est) <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">dif =</span> VV <span class="sc">/</span> NV ) <span class="sc">|&gt;</span> <span class="fu">pull</span>(dif)</span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>  fun</span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>calc_cociente <span class="ot">&lt;-</span> <span class="fu">calc_fusion</span>(stat_fusion)</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>dif_obs <span class="ot">&lt;-</span> <span class="fu">calc_cociente</span>(fusion)</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="co"># permutar</span></span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>valores_ref <span class="ot">&lt;-</span> <span class="fu">permutaciones_est</span>(fusion, nv.vv, calc_cociente, <span class="at">n =</span> <span class="dv">10000</span>)</span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>dist_perm_nv <span class="ot">&lt;-</span> <span class="fu">ecdf</span>(valores_ref<span class="sc">$</span>diferencia) </span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>cuantil_obs <span class="ot">&lt;-</span> <span class="fu">dist_perm_nv</span>(dif_obs)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>calc_cociente <span class="ot">&lt;-</span> <span class="fu">calc_fusion</span>(stat_fusion)</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>dif_obs <span class="ot">&lt;-</span> <span class="fu">calc_cociente</span>(fusion)</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="co"># permutar</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>valores_ref <span class="ot">&lt;-</span> <span class="fu">permutaciones_est</span>(fusion, nv.vv, calc_cociente, <span class="at">n =</span> <span class="dv">10000</span>)</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>dist_perm_nv <span class="ot">&lt;-</span> <span class="fu">ecdf</span>(valores_ref<span class="sc">$</span>diferencia) </span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>cuantil_obs <span class="ot">&lt;-</span> <span class="fu">dist_perm_nv</span>(dif_obs)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="pruebas-hipotesis_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid" width="576"></p>
+<p><img src="pruebas-hipotesis_files/figure-html/unnamed-chunk-40-1.png" class="img-fluid" width="576"></p>
 </div>
 </div>
 <p>Y el valor p de dos colas es</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>dist_perm_nv <span class="ot">&lt;-</span> <span class="fu">ecdf</span>(valores_ref<span class="sc">$</span>diferencia)</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="sc">*</span> <span class="fu">min</span>(<span class="fu">dist_perm_nv</span>(dif_obs), <span class="dv">1</span><span class="sc">-</span> <span class="fu">dist_perm_nv</span>(dif_obs))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>dist_perm_nv <span class="ot">&lt;-</span> <span class="fu">ecdf</span>(valores_ref<span class="sc">$</span>diferencia)</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="sc">*</span> <span class="fu">min</span>(<span class="fu">dist_perm_nv</span>(dif_obs), <span class="dv">1</span><span class="sc">-</span> <span class="fu">dist_perm_nv</span>(dif_obs))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.0354</code></pre>
 </div>
@@ -761,31 +1030,31 @@ cols(
 <p>Para probar qué tan bien funciona este método, podemos hacer una prueba de permutación, aplicamos LDA y observamos los resultados.</p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="pruebas-hipotesis_files/figure-html/unnamed-chunk-33-1.png" class="img-fluid" width="672"></p>
+<p><img src="pruebas-hipotesis_files/figure-html/unnamed-chunk-42-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Y vemos que incluso permutando los grupos, es generalmente posible separarlos en grupos bien definidos: la búsqueda es suficientemente agresiva para encontrar combinaciones lineales que los separan. Que no podamos distinguir los datos verdaderos de las replicaciones nulas indica que este método difícilmente puede servir para separar los grupos claramente.</p>
 <p>Otro enfoque sería separar los datos en una muestra de entrenamiento y una de prueba (que discutiremos en la última sesión). Aplicamos el procedimiento a la muestra de entrenamiento y luego vemos qué pasa con los datos de prueba:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">8</span>)</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>wasps_1 <span class="ot">&lt;-</span> wasps <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">u =</span> <span class="fu">runif</span>(<span class="fu">nrow</span>(wasps), <span class="dv">0</span>, <span class="dv">1</span>))</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>wasps_entrena <span class="ot">&lt;-</span> wasps_1 <span class="sc">|&gt;</span> <span class="fu">filter</span>(u <span class="sc">&lt;=</span> <span class="fl">0.8</span>)</span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>wasps_prueba <span class="ot">&lt;-</span> wasps_1 <span class="sc">|&gt;</span> <span class="fu">filter</span>(u <span class="sc">&gt;</span> <span class="fl">0.8</span>)                            </span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>                            </span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>wasp.lda <span class="ot">&lt;-</span> MASS<span class="sc">::</span><span class="fu">lda</span>(Group <span class="sc">~</span> ., <span class="at">data=</span>wasps_entrena[,<span class="sc">-</span><span class="dv">1</span>])</span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>wasp_ld_entrena <span class="ot">&lt;-</span> <span class="fu">predict</span>(wasp.lda,  <span class="at">dimen=</span><span class="dv">2</span>)<span class="sc">$</span>x <span class="sc">|&gt;</span> </span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as_tibble</span>(<span class="at">.name_repair =</span> <span class="st">"universal"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>     <span class="fu">mutate</span>(<span class="at">tipo =</span> <span class="st">"entrenamiento"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">grupo =</span> wasps_entrena<span class="sc">$</span>Group)</span>
-<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>wasp_ld_prueba <span class="ot">&lt;-</span> <span class="fu">predict</span>(wasp.lda, <span class="at">newdata =</span> wasps_prueba, <span class="at">dimen=</span><span class="dv">2</span>)<span class="sc">$</span>x  <span class="sc">|&gt;</span> </span>
-<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as_tibble</span>(<span class="at">.name_repair =</span> <span class="st">"universal"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">tipo =</span> <span class="st">"prueba"</span>)<span class="sc">|&gt;</span> </span>
-<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">grupo =</span> wasps_prueba<span class="sc">$</span>Group)</span>
-<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>wasp_lda <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(wasp_ld_entrena, wasp_ld_prueba)</span>
-<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(wasp_lda, <span class="fu">aes</span>(<span class="at">x =</span> LD1, <span class="at">y =</span> LD2, <span class="at">colour =</span> grupo)) <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span>tipo) <span class="sc">+</span> <span class="fu">scale_color_colorblind</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">8</span>)</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>wasps_1 <span class="ot">&lt;-</span> wasps <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">u =</span> <span class="fu">runif</span>(<span class="fu">nrow</span>(wasps), <span class="dv">0</span>, <span class="dv">1</span>))</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>wasps_entrena <span class="ot">&lt;-</span> wasps_1 <span class="sc">|&gt;</span> <span class="fu">filter</span>(u <span class="sc">&lt;=</span> <span class="fl">0.8</span>)</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>wasps_prueba <span class="ot">&lt;-</span> wasps_1 <span class="sc">|&gt;</span> <span class="fu">filter</span>(u <span class="sc">&gt;</span> <span class="fl">0.8</span>)                            </span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>                            </span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>wasp.lda <span class="ot">&lt;-</span> MASS<span class="sc">::</span><span class="fu">lda</span>(Group <span class="sc">~</span> ., <span class="at">data=</span>wasps_entrena[,<span class="sc">-</span><span class="dv">1</span>])</span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>wasp_ld_entrena <span class="ot">&lt;-</span> <span class="fu">predict</span>(wasp.lda,  <span class="at">dimen=</span><span class="dv">2</span>)<span class="sc">$</span>x <span class="sc">|&gt;</span> </span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as_tibble</span>(<span class="at">.name_repair =</span> <span class="st">"universal"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>     <span class="fu">mutate</span>(<span class="at">tipo =</span> <span class="st">"entrenamiento"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">grupo =</span> wasps_entrena<span class="sc">$</span>Group)</span>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>wasp_ld_prueba <span class="ot">&lt;-</span> <span class="fu">predict</span>(wasp.lda, <span class="at">newdata =</span> wasps_prueba, <span class="at">dimen=</span><span class="dv">2</span>)<span class="sc">$</span>x  <span class="sc">|&gt;</span> </span>
+<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as_tibble</span>(<span class="at">.name_repair =</span> <span class="st">"universal"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">tipo =</span> <span class="st">"prueba"</span>)<span class="sc">|&gt;</span> </span>
+<span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">grupo =</span> wasps_prueba<span class="sc">$</span>Group)</span>
+<span id="cb45-15"><a href="#cb45-15" aria-hidden="true" tabindex="-1"></a>wasp_lda <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(wasp_ld_entrena, wasp_ld_prueba)</span>
+<span id="cb45-16"><a href="#cb45-16" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(wasp_lda, <span class="fu">aes</span>(<span class="at">x =</span> LD1, <span class="at">y =</span> LD2, <span class="at">colour =</span> grupo)) <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb45-17"><a href="#cb45-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span>tipo) <span class="sc">+</span> <span class="fu">scale_color_colorblind</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="pruebas-hipotesis_files/figure-html/unnamed-chunk-34-1.png" class="img-fluid" width="672"></p>
+<p><img src="pruebas-hipotesis_files/figure-html/unnamed-chunk-43-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Aunque esta separación de datos es menos efectiva en este ejemplo por la muestra chica, podemos ver que la separación lograda en los datos de entrenamiento probablemente se debe a variación muestral.</p>
@@ -828,52 +1097,52 @@ cols(
 <h2 class="unnumbered anchored" data-anchor-id="ejemplo-decisiones-de-análisis-y-valores-p">Ejemplo: decisiones de análisis y valores p</h2>
 <p>En el ejemplo de datos de fusión, decidimos probar, por ejemplo, el promedio de los cuartiles inferior y superior, lo cual no es una decisión típica pero usamos como ilustración. Ahora intentamos usar distintas mediciones de la diferencia entre los grupos, usando distintas medidas resumen y transformaciones (por ejemplo, con o sin logaritmo). Aquí hay unas 12 combinaciones distintas para hacer el análisis (multiplicadas por criterios de “aceptación de datos en la muestra”, que simulamos tomando una submuestra al azar):</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>calc_fusion <span class="ot">&lt;-</span> <span class="cf">function</span>(stat_fusion, trans, comparacion){</span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  fun <span class="ot">&lt;-</span> <span class="cf">function</span>(datos){</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    datos <span class="sc">|&gt;</span> </span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">group_by</span>(nv.vv) <span class="sc">|&gt;</span> </span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">summarise</span>(<span class="at">est =</span> <span class="fu">stat_fusion</span>({{ trans }}(time))) <span class="sc">|&gt;</span> </span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">spread</span>(nv.vv, est) <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">dif =</span> {{ comparacion }}) <span class="sc">|&gt;</span> <span class="fu">pull</span>(dif)</span>
-<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>  fun</span>
-<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>valor_p <span class="ot">&lt;-</span> <span class="cf">function</span>(datos, variable, calc_diferencia, <span class="at">n =</span> <span class="dv">1000</span>){</span>
-<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># calcular estadística para cada grupo</span></span>
-<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>  permutar <span class="ot">&lt;-</span> <span class="cf">function</span>(variable){</span>
-<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sample</span>(variable, <span class="fu">length</span>(variable))</span>
-<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>  tbl_perms <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">.sample =</span> <span class="fu">seq</span>(<span class="dv">1</span>, n<span class="dv">-1</span>, <span class="dv">1</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">diferencia =</span> <span class="fu">map_dbl</span>(.sample, </span>
-<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a>              <span class="sc">~</span> datos <span class="sc">|&gt;</span> <span class="fu">mutate</span>({{variable}} <span class="sc">:</span><span class="er">=</span> <span class="fu">permutar</span>({{variable}})) <span class="sc">|&gt;</span> <span class="fu">calc_diferencia</span>()))</span>
-<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a>  perms <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(tbl_perms, <span class="fu">tibble</span>(<span class="at">.sample =</span> n, <span class="at">diferencia =</span> <span class="fu">calc_diferencia</span>(datos)))</span>
-<span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a>  perms_ecdf <span class="ot">&lt;-</span> <span class="fu">ecdf</span>(perms<span class="sc">$</span>diferencia)</span>
-<span id="cb32-20"><a href="#cb32-20" aria-hidden="true" tabindex="-1"></a>  dif <span class="ot">&lt;-</span> <span class="fu">calc_diferencia</span>(datos)</span>
-<span id="cb32-21"><a href="#cb32-21" aria-hidden="true" tabindex="-1"></a>  <span class="dv">2</span> <span class="sc">*</span> <span class="fu">min</span>(<span class="fu">perms_ecdf</span>(dif), <span class="dv">1</span><span class="sc">-</span> <span class="fu">perms_ecdf</span>(dif))</span>
-<span id="cb32-22"><a href="#cb32-22" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>calc_fusion <span class="ot">&lt;-</span> <span class="cf">function</span>(stat_fusion, trans, comparacion){</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  fun <span class="ot">&lt;-</span> <span class="cf">function</span>(datos){</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>    datos <span class="sc">|&gt;</span> </span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">group_by</span>(nv.vv) <span class="sc">|&gt;</span> </span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">summarise</span>(<span class="at">est =</span> <span class="fu">stat_fusion</span>({{ trans }}(time))) <span class="sc">|&gt;</span> </span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">spread</span>(nv.vv, est) <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">dif =</span> {{ comparacion }}) <span class="sc">|&gt;</span> <span class="fu">pull</span>(dif)</span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>  fun</span>
+<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a>valor_p <span class="ot">&lt;-</span> <span class="cf">function</span>(datos, variable, calc_diferencia, <span class="at">n =</span> <span class="dv">1000</span>){</span>
+<span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># calcular estadística para cada grupo</span></span>
+<span id="cb46-12"><a href="#cb46-12" aria-hidden="true" tabindex="-1"></a>  permutar <span class="ot">&lt;-</span> <span class="cf">function</span>(variable){</span>
+<span id="cb46-13"><a href="#cb46-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sample</span>(variable, <span class="fu">length</span>(variable))</span>
+<span id="cb46-14"><a href="#cb46-14" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb46-15"><a href="#cb46-15" aria-hidden="true" tabindex="-1"></a>  tbl_perms <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">.sample =</span> <span class="fu">seq</span>(<span class="dv">1</span>, n<span class="dv">-1</span>, <span class="dv">1</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb46-16"><a href="#cb46-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">diferencia =</span> <span class="fu">map_dbl</span>(.sample, </span>
+<span id="cb46-17"><a href="#cb46-17" aria-hidden="true" tabindex="-1"></a>              <span class="sc">~</span> datos <span class="sc">|&gt;</span> <span class="fu">mutate</span>({{variable}} <span class="sc">:</span><span class="er">=</span> <span class="fu">permutar</span>({{variable}})) <span class="sc">|&gt;</span> <span class="fu">calc_diferencia</span>()))</span>
+<span id="cb46-18"><a href="#cb46-18" aria-hidden="true" tabindex="-1"></a>  perms <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(tbl_perms, <span class="fu">tibble</span>(<span class="at">.sample =</span> n, <span class="at">diferencia =</span> <span class="fu">calc_diferencia</span>(datos)))</span>
+<span id="cb46-19"><a href="#cb46-19" aria-hidden="true" tabindex="-1"></a>  perms_ecdf <span class="ot">&lt;-</span> <span class="fu">ecdf</span>(perms<span class="sc">$</span>diferencia)</span>
+<span id="cb46-20"><a href="#cb46-20" aria-hidden="true" tabindex="-1"></a>  dif <span class="ot">&lt;-</span> <span class="fu">calc_diferencia</span>(datos)</span>
+<span id="cb46-21"><a href="#cb46-21" aria-hidden="true" tabindex="-1"></a>  <span class="dv">2</span> <span class="sc">*</span> <span class="fu">min</span>(<span class="fu">perms_ecdf</span>(dif), <span class="dv">1</span><span class="sc">-</span> <span class="fu">perms_ecdf</span>(dif))</span>
+<span id="cb46-22"><a href="#cb46-22" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">7272</span>)</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>media_cuartiles <span class="ot">&lt;-</span> <span class="cf">function</span>(x){</span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    (<span class="fu">quantile</span>(x, <span class="fl">0.75</span>) <span class="sc">+</span> <span class="fu">quantile</span>(x, <span class="fl">0.25</span>))<span class="sc">/</span><span class="dv">2</span></span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="co"># nota: usar n=10000 o más, esto solo es para demostración:</span></span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>calc_dif <span class="ot">&lt;-</span> <span class="fu">calc_fusion</span>(mean, identity, VV <span class="sc">-</span> NV)</span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a><span class="fu">valor_p</span>(fusion <span class="sc">|&gt;</span> <span class="fu">sample_frac</span>(<span class="fl">0.95</span>), nv.vv, calc_dif, <span class="at">n =</span> <span class="dv">1000</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">7272</span>)</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>media_cuartiles <span class="ot">&lt;-</span> <span class="cf">function</span>(x){</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>    (<span class="fu">quantile</span>(x, <span class="fl">0.75</span>) <span class="sc">+</span> <span class="fu">quantile</span>(x, <span class="fl">0.25</span>))<span class="sc">/</span><span class="dv">2</span></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a><span class="co"># nota: usar n=10000 o más, esto solo es para demostración:</span></span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>calc_dif <span class="ot">&lt;-</span> <span class="fu">calc_fusion</span>(mean, identity, VV <span class="sc">-</span> NV)</span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a><span class="fu">valor_p</span>(fusion <span class="sc">|&gt;</span> <span class="fu">sample_frac</span>(<span class="fl">0.95</span>), nv.vv, calc_dif, <span class="at">n =</span> <span class="dv">1000</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.072</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>calc_dif <span class="ot">&lt;-</span> <span class="fu">calc_fusion</span>(mean, log, VV <span class="sc">-</span> NV)</span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">valor_p</span>(fusion <span class="sc">|&gt;</span> <span class="fu">sample_frac</span>(<span class="fl">0.95</span>), nv.vv, calc_dif, <span class="at">n =</span> <span class="dv">1000</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>calc_dif <span class="ot">&lt;-</span> <span class="fu">calc_fusion</span>(mean, log, VV <span class="sc">-</span> NV)</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="fu">valor_p</span>(fusion <span class="sc">|&gt;</span> <span class="fu">sample_frac</span>(<span class="fl">0.95</span>), nv.vv, calc_dif, <span class="at">n =</span> <span class="dv">1000</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.024</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>calc_dif <span class="ot">&lt;-</span> <span class="fu">calc_fusion</span>(median, identity, VV <span class="sc">/</span> NV)</span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">valor_p</span>(fusion <span class="sc">|&gt;</span> <span class="fu">sample_frac</span>(<span class="fl">0.95</span>), nv.vv, calc_dif, <span class="at">n =</span> <span class="dv">1000</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>calc_dif <span class="ot">&lt;-</span> <span class="fu">calc_fusion</span>(median, identity, VV <span class="sc">/</span> NV)</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="fu">valor_p</span>(fusion <span class="sc">|&gt;</span> <span class="fu">sample_frac</span>(<span class="fl">0.95</span>), nv.vv, calc_dif, <span class="at">n =</span> <span class="dv">1000</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.016</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>calc_dif <span class="ot">&lt;-</span> <span class="fu">calc_fusion</span>(media_cuartiles, identity, VV <span class="sc">/</span> NV)</span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">valor_p</span>(fusion <span class="sc">|&gt;</span> <span class="fu">sample_frac</span>(<span class="fl">0.95</span>), nv.vv, calc_dif, <span class="at">n =</span> <span class="dv">1000</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>calc_dif <span class="ot">&lt;-</span> <span class="fu">calc_fusion</span>(media_cuartiles, identity, VV <span class="sc">/</span> NV)</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="fu">valor_p</span>(fusion <span class="sc">|&gt;</span> <span class="fu">sample_frac</span>(<span class="fl">0.95</span>), nv.vv, calc_dif, <span class="at">n =</span> <span class="dv">1000</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.026</code></pre>
 </div>
@@ -888,9 +1157,6 @@ cols(
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
-<div id="ref-box78" class="csl-entry" role="doc-biblioentry">
-Box, George EP, William H Hunter, Stuart Hunter, et&nbsp;al. 1978. <em>Statistics for experimenters</em>. Vol. 664. John Wiley; sons New York.
-</div>
 <div id="ref-cookwasps" class="csl-entry" role="doc-biblioentry">
 Chowdhury, Niladri Roy, Dianne Cook, Heike Hofmann, Mahbubul Majumder, Eun-Kyung Lee, y Amy L Toth. 2015. <span>«Using visual statistical inference to better understand random class separations in high dimension, low sample size data»</span>. <em>Computational Statistics</em> 30 (2): 293-316.
 </div>

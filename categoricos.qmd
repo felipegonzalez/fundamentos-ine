@@ -12,7 +12,9 @@ library(lubridate)
 library(kableExtra)
 ```
 
-```{r, message=FALSE}
+```{r}
+#| message: false
+#| echo: false
 # cargamos y traducimos los datos
 te_tbl <- read_csv("./datos/tea.csv") |> 
    mutate(id = row_number()) |> 
@@ -77,7 +79,8 @@ perfiles_col_tbl |>
 
 ## Comparando grupos con variables categóricas
 
-Este análisis generalmente es más interesante cuando comparamos grupos. Supongamos que nos interesa ver si existe una relación entre usar el tipo de té que toman estas personas y el uso de complementos como leche o limón. Podríamos entonces dividir los datos según el uso de azúcar y repetir para cada grupo las tablas mostradas arriba:
+Este análisis generalmente es más interesante cuando comparamos grupos. Supongamos que nos interesa ver si existe una relación entre usar el tipo de té que toman estas personas y el uso de complementos como leche o limón. Naturalmente, 
+escogeríamos dividir por tipo de té, y ver qué complementos se usan con cada uno:
 
 ```{r}
 perfiles_col_tbl <- te_tbl |> count(complementos, tipo) |> 
@@ -90,7 +93,7 @@ perfiles_col_tbl |>  kable(digits = 2, caption = "Perfiles por columna") |>
   kable_paper(full_width = FALSE)
 ```
 
-Comparando los **perfiles de las columnas** observamos variaciones interesantes: por ejemplo, los tomadores de Earl Grey tienden a usar más limón como complemento que otros grupos. Son resúmenes univariados que ahora comparamos a lo largo de grupos. Podemos hacer las comparaciones más simples si hacemos todas contra una columna **marginal** del uso general en la muestra de los distintos complementos\_
+Comparando los **perfiles de las columnas** observamos variaciones interesantes: por ejemplo, los tomadores de Earl Grey tienden a usar más limón como complemento que otros grupos. Son resúmenes univariados que ahora comparamos a lo largo de grupos. Podemos hacer las comparaciones más simples si hacemos todas contra una columna **marginal** del uso general en la muestra de los distintos complementos
 
 ```{r}
 #| message: false
@@ -102,7 +105,8 @@ perfiles_col_tbl |> kable(digits = 2) |>
   kable_paper(full_width = FALSE)
 ```
 
-En este punto, vemos que hay coincidencias y diferencias entre los grupos de tomadores de té. Podemos expresar esto de manera simple calculando índices contra la columna de total:
+Si el tipo de té no influyera en los complementos, verías porcentajes muy
+similares en cada columna, pero vemos que hay coincidencias y diferencias entre los grupos de tomadores de té. Podemos expresar esto de manera simple calculando índices contra la columna de total:
 
 ```{r}
 res_tbl <- perfiles_col_tbl |> 
