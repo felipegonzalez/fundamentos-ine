@@ -489,6 +489,8 @@ En la animación anterior, un valor de span de 0.15 funciona aprpiadamente, y un
 es demasiado bajo y uno de 1.0 es demasiado alto. Es importante explorar con el valor
 de span pues depende de cuántos datos tenemos y cómo es su dispersión.
 
+## Regresión cuantílica
+
 Podemos también mostrar estimaciones de medianas y cuantiles de la siguiente 
 forma (nota: es necesario escoger *lambda* con cuidado, cuanto más alto
 sea *lambda* más suave es la curva obtenida):
