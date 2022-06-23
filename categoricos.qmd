@@ -183,7 +183,7 @@ Podemos utilizar **análisis de correspondencias**. A grandes rasgos (ver [@izen
 
 -   Cada categoría de las columnas está representada por una flecha que sale del origen de nuestra gráfica
 -   Cada categoría de los renglones está representada por un punto en nuestra gráfica
--   Si proyectamos los puntos (renglones) sobre las direcciones de las columnas, entonces el tamaño de la proyección es lo más cercano posible a el residual correspondiente de las tablas del análisis mostrado arriba.
+-   Si proyectamos los puntos (renglones) sobre las direcciones de las columnas, entonces el tamaño de la proyección es lo más cercano posible (en dos dimensiones) al residual correspondiente de las tablas del análisis mostrado arriba.
 
 Para construir esta gráfica, entonces, existe un proceso de optimización que busca representar lo más fielmente los residuales del análisis mostrado arriba en dos dimensiones, y de esta forma buscamos recuperar una buena parte de la información de los residuales de una manera más compacta.
 
