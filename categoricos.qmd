@@ -174,7 +174,6 @@ Los residuales son entonces $$r_{i,j} = \frac{\frac{n_{i,j}}{n_{+,j}}} { \frac{n
 
 -   Discute qué sentido tiene comparar $p_{i,j}$ contra $r_ic_j$. ¿Qué interpretación tiene esta última cantidad?
 
-En algunos casos se utilizan *residuales estandarizados* para hacer el análisis, que están dados por $$ \frac{p_{i,j} - r_ic_j}{\sqrt{r_ic_j}}$$ Veremos más adelante cuál es la razón de esto: tiene que ver con **inferencia** y variabilidad muestral de perfiles y residuales, aunque el análisis básico que presentamos arriba generalmente es suficiente para extraer de manera clara patrones importantes en los datos.
 
 ## Visualización de tablas cruzadas
 
@@ -193,7 +192,7 @@ Para construir esta gráfica, entonces, existe un proceso de optimización que b
 ```{r, fig.width =7, fig.height=6}
 library(ca)
 corr_te <- ca(table(te_tbl$complementos, te_tbl$tipo))
-plot(corr_te, map = "rowgreen", arrows = c(FALSE, TRUE))
+plot(corr_te, map = "rowprincipal", arrows = c(FALSE, TRUE))
 ```
 
 La contribución de cada dimensión a la aproximación se indica en los ejes. Como vemos en la gráfica, y la suma de las contribuciones nos da la calidad de la representación, que en este caso es perfecta.
@@ -217,7 +216,9 @@ Consideramos los siguientes datos de robos en tiendas en Holanda por personas de
 ```{r}
 hurto_tbl <- read_csv("./datos/hurto.csv") |> 
    mutate(grupo = ifelse(grupo == "-12 h", "01-12 h", grupo),
-          grupo = ifelse(grupo == "-12 m", "01-12 m", grupo))
+          grupo = ifelse(grupo == "-12 m", "01-12 m", grupo)) |> 
+   pivot_longer(ropa:otros, names_to = "departamento", values_to = "n") |> 
+   pivot_wider(names_from = grupo, values_from = n)
 hurto_tbl |> kable() |> 
    kable_paper(full_width = FALSE)
 ```
@@ -225,19 +226,20 @@ hurto_tbl |> kable() |>
 Esta tabla es más grande y difícil de entender tal cual está. Comenzamos por examinar las marginales:
 
 ```{r}
-hurto_tbl |> 
-   pivot_longer(cols = ropa:otros, names_to = "producto", values_to = "n") |> 
-   group_by(producto) |> 
+departamentos_tbl <- hurto_tbl |> 
+   pivot_longer(cols = -departamento, names_to = "grupo", values_to = "n") |> 
+   group_by(departamento) |> 
    summarise(n = sum(n)) |> 
    mutate(prop = n / sum(n)) |> 
-   arrange(desc(prop)) |> 
+   arrange(desc(prop))
+departamentos_tbl |> 
    kable(digits = 2) |> 
    kable_paper(full_width = FALSE)
 ```
 
 ```{r}
 grupos_tbl <- hurto_tbl |> 
-   pivot_longer(cols = ropa:otros, names_to = "producto", values_to = "n") |> 
+   pivot_longer(cols = -departamento, names_to = "grupo", values_to = "n") |> 
    group_by(grupo) |> 
    summarise(n = sum(n)) |> 
    mutate(prop = n / sum(n)) |> 
@@ -248,36 +250,35 @@ grupos_tbl |> kable(digits = 2) |>
 
 Intentamos análisis de correspondencias para comparar los perfiles columna:
 
-```{r, fig.width=8, fig.height=8}
+```{r, fig.width=6, fig.height=6}
 hurto_df <- as.data.frame(hurto_tbl)
-rownames(hurto_df) <- hurto_tbl$grupo
-hurto_df$grupo <- NULL
+rownames(hurto_df) <- hurto_tbl$departamento
+hurto_df$departamento <- NULL
 corr_hurto <- ca(hurto_df)
-grafica_datos <- plot(corr_hurto, map = "rowgreen", arrows = c(FALSE, TRUE))
+grafica_datos <- plot(corr_hurto, map = "rowprincipal", arrows = c(FALSE, TRUE))
 ```
 
 -   Según esta gráfica, ¿qué categorias de productos están sobrerrepresentadas en cada grupo de edad? ¿Cómo tendrían que verse el análisis de perfiles columna?
 
-Como se aprecia, en la siguiente tabla, es difícil entender los patrones generales en los datos. Quitamos algunas columnas para imprimir más fácilmente
+Como se aprecia, en la siguiente tabla, es difícil entender los patrones generales en los datos:
 
 ```{r}
 perfiles_hurto_tbl <- hurto_tbl |> 
-   pivot_longer(cols = ropa:otros, names_to = "producto", values_to = "n") |> 
+   pivot_longer(cols = -departamento, names_to = "producto", values_to = "n") |> 
    group_by(producto) |> 
    mutate(prop = n / sum(n)) |> 
    select(-n) |> 
    pivot_wider(names_from = producto, values_from = prop) 
 perfiles_hurto_tbl |> 
-   select(-bienes, -discos, -perfumes) |> 
    kable(digits = 2) |> 
    kable_styling(font_size = 12) |> 
    kable_paper()
 ```
 
 ```{r}
-res_hurto_tbl <- left_join(perfiles_hurto_tbl, grupos_tbl |> rename(total = prop)) |> 
+res_hurto_tbl <- left_join(perfiles_hurto_tbl, departamentos_tbl |> rename(total = prop)) |> 
     select(-n) |> 
-    select(-bienes, -discos, -perfumes) |> 
+    #select(-bienes, -discos, -perfumes) |> 
     mutate(across(where(is.numeric) & !total, ~ .x / total - 1)) |> 
     mutate(across(where(is.numeric), round, 2)) 
 res_hurto_tbl |> 
@@ -292,12 +293,13 @@ res_hurto_tbl |>
 
 -   Compara tus conclusiones del mapa de correspondencias con esta información de los residuales
 
-Nota adicionalmente que el ordenamiento de las categorías en la primera dimensión del mapa de correspondencias ayuda a interpretar:
+Nota adicionalmente que el ordenamiento de las categorías en la primera dimensión del mapa de correspondencias ayuda a interpretar.
 
 ```{r}
-res_hurto_tbl |> select("grupo", "escritura", "juguetes", "dulces", "joyería",
-                         "herramientas", "otros", "libros", "tabaco", "accesorios", 
-                         "ropa") |> 
+dim_1 <- grafica_datos$cols[,1]
+columnas <- names(dim_1)
+columnas_ord <- columnas[order(dim_1)]
+res_hurto_tbl |> select(departamento, all_of(columnas_ord)) |> 
     mutate(across(where(is.numeric), 
                  ~ cell_spec(.x, color = ifelse(.x > 0.2, "black", 
                                          ifelse(.x < -0.2, "red", "gray"))))) |>
@@ -311,5 +313,5 @@ res_hurto_tbl |> select("grupo", "escritura", "juguetes", "dulces", "joyería",
 En el caso anterior, la calidad de la representación es cercana al 80%. Existen algunas desviaciones que la posiblemente la gŕafica no explica del todo, y algunas proyecciones son aproximadas. Podemos ver cómo se ven otras dimensiones de este análisis para entender desviaciones adicionales:
 
 ```{r}
-plot(corr_hurto, dim = c(1, 3), map = "rowgreen", arrows = c(FALSE, TRUE))
+plot(corr_hurto, dim = c(1, 3), map = "rowprincipal", arrows = c(FALSE, TRUE))
 ```
