@@ -7,7 +7,7 @@ library(lubridate)
 library(ggthemes)
 library(nullabor)
 library(kableExtra)
-ggplot2::theme_set(ggplot2::theme_light())
+ggplot2::theme_set(ggplot2::theme_minimal())
 source("R/funciones_auxiliares_notas.R")
 ```
 
@@ -76,7 +76,7 @@ simular_serie <- function(n = 1000, lambda = 1, ac = 0.7, x_inicial = 1){
 ```{r}
 # usamos datos simulados para este ejemplo
 set.seed(8812)
-historicos <- simular_serie(2000)
+historicos <- simular_serie(5000)
 ```
 
 
@@ -178,19 +178,18 @@ en contra de la hipótesis nula.
 
 ¿Qué tan fuerte es la evidencia, en caso de que descubrimos los datos no nulos? 
 
-4. Cuando el número de paneles es más grande y detectamos los datos, la evidencia es más alta en contra de la nula. 
+- Cuando el número de paneles es más grande y detectamos los datos, la evidencia es más alta en contra de la nula. 
 Decimos que el *nivel de significancia de la prueba* es la probabilidad de seleccionar a los
 datos correctos cuando la hipótesis nula es cierta (el sistema no ha 
 cambiado). 
+
+- Adicionalmente, si acertamos, y la diferencia es más notoria y fue muy fácil detectar la gráfica diferente (pues
+sus diferencias son más extremas),
+esto también sugiere más evidencia en contra de la hipótesis nula (*valor p*).
 :::
 
 En el caso de 20 paneles, la significancia es de 1/20 = 0.05. Cuando detectamos los datos nuevos,
-niveles de significancia más bajos implican más evidencia en contra de la nula.
-
-Adicionalmente, si acertamos, y la diferencia es más notoria y fue muy fácil detectar la gráfica diferente (pues
-sus diferencias son más extremas),
-esto también sugiere más evidencia en contra de la hipótesis nula (esto tiene
-qué ver con el valor p que veremos más adelante.)
+niveles de significancia más bajos implican más evidencia en contra de la nula. 
 
 Esta prueba rara vez (o nunca) **nos da seguridad completa acerca de ninguna conclusión**, aún cuando
 hiciéramos muchos páneles.
@@ -206,11 +205,12 @@ de su nivel general.
 
 ```{r}
 sd_simple <- function(x){
+  # suavizamiento exponencial
   mod <- HoltWinters(x, beta=FALSE, gamma=FALSE)
   suavizamiento <- fitted(mod)[,1] |> as.numeric()
   sd(x[-1] - suavizamiento)
 }
-referencia_tbl <- muestrear_ventanas(historicos, n_ventana = 1000) |> 
+referencia_tbl <- muestrear_ventanas(historicos, n_ventana = 1500) |> 
   pluck("lineup") |> 
   group_by(rep) |> 
   summarise(est_prueba = sd_simple(obs))
@@ -228,120 +228,45 @@ ggplot(referencia_tbl, aes(x = est_prueba)) +
 Y confirmamos que en efecto el valor observado (línea roja) es uno
 muy extremo, y poco consistente con el comportamiento usual del sistema.
 
-## Aleatorización y permutaciones
-
-Muchas veces no tenemos datos históricos relevantes para construir una
-referencia (una distribución bajo la hipótesis nula) 
-que nos permita evaluar si los nuevos datos muestran comportamiento no usual.
-
-Sin embargo, si controlamos el proceso generador de datos introduciendo
-**aleatorización**, es posible construir una distribución de referencia con los datos observados.
-
-(@box78) Supongamos que jardinero amateur quiere decidir qué fertilizante usar: el usual $A$ o uno
-nuevo $B$. El resultado que le interesa es el rendimiento de cada planta (cuantos kilos
-de jitomates produjo cada planta). El jardinero tiene 11 plantas, que estan en una línea. Quiere decidir si debería cambiar al nuevo fertilizante $B$ o
-quedarse con el anterior.
-
-El jardinero intuye que quizá no es buena idea poner en las primeras 5 plantas $A$ y luego en las últimas 6 $B$. La razón es que posiciones a lo largo de su hilera pueden recibir cantidades distintas de sol, de humedad, de nutrientes,e tc. 
-
-Decide entonces distribuir al azar los tratamientos (5 de tipo A y 5 de tipo B). Obtiene los siguientes
-resultados:
+El *valor p* (de una cola) Se define como la probabilidad de observar
+este resultado, o uno más grande, suponiendo que el sistema está funcionando usualmente, y 
+en este caso lo calculamos como:
 
 ```{r}
-res_obs <- tibble(planta = 1:11,
-       T = c("a", "a", "b", "b", "a", "b", "b", "b", "a", "a", "b"),
-       y = c(29.9, 11.4, 26.6, 23.7, 25.3, 28.5, 14.2, 17.9, 16.5, 21.1, 24.3) / 2)
-res_obs |> arrange(T) |> kable() |> kable_paper()
+diferencia_obs <- sd_simple(observados$obs)
+referencia_2 <- bind_rows(referencia_tbl,
+  tibble(rep = 0, est_prueba = diferencia_obs))
+referencia_2 |> 
+  mutate(mayor_obs = est_prueba > diferencia_obs) |> 
+  summarise(valor_p = mean(mayor_obs)) |> 
+  kable() |> kable_paper(full_width = FALSE)
 ```
+Que cuantifica que es muy poco probable observar el sistema en el estado actual si fuera cierto que no ha sufrido cambios.
 
-Como resumen, puede utilizar la diferencia de medias entre los dos tratamientos:
 
-```{r}
-dif_obs <- res_obs |> group_by(T) |> 
-  summarise(media = mean(y)) |> 
-  pivot_wider(names_from = T, values_from = media) |> 
-  mutate(diferencia = round(b - a, 3))
-dif_obs
-```
+::: callout-tip
+# Estadísticas de prueba
+Una estadística de prueba es un resumen de datos, a partir del
+cual construimos una distribución de referencia. Distintas estadísticas
+miden distintos aspectos de las diferencias que puede haber entre
+los datos de prueba y los de referencia.
+:::
 
-Y vemos que $B$ tuvo mejores resultados con esta estadística de prueba. 
-Sin embargo, este 
-experimento tiene varias fuentes de variación, y  *no tenemos una distribución de referencia para comparar* que nos diga cuánta variación esperamos en este tipo de experimentos. 
-
-La idea original de Fisher fue la siguiente: 
-
-- Nuestra hipótesis nula es que los tratamientos a y b son iguales (es decir, si en los casos donde usamos b hubiéramos usado a hubiéramos obtenido los mismos resultados, y viceversa).
-- Esto implica que las etiquetas a y b no tienen significado, podríamos permutarlas y hubiéramos obtenido los mismos resultados.
-- Podemos ver entonces cuánta variación existe en la diferencia de promedios bajo el supuesto de la hipótesis nula, y el hecho de que distribuimos al azar el tratamiento: esto podemos hacerlo permutando las etiquetas del tratamiento en la tabla que obtuvimos y calculando los promedios correspondientes.
-
-```{r}
-calc_permutacion <- function(datos_tbl, tratamiento){
-  # permutar
-  datos_perm_tbl <- datos_tbl |> 
-    mutate({{ tratamiento }} := sample({{ tratamiento }}))
-  # calcular estadística
-  datos_perm_tbl |> group_by({{ tratamiento }}) |> 
-    summarise(media = mean(y)) |> 
-    pivot_wider(names_from = {{ tratamiento }}, values_from = media) |> 
-    mutate(diferencia = round(b - a, 3))
-}
-```
-
-Por ejemplo:
-
-```{r}
-calc_permutacion(res_obs, T)
-```
-Y ahora podemos repetir un número grande de veces:
-
-```{r}
-referencia_tbl <- map_df(1:2000, function(rep){
-  calc_permutacion(res_obs, T) |> mutate(rep = rep)
-})
-referencia_tbl |> head() |> kable() |> 
-  kable_paper(full_width = FALSE)
-```
-
-Y hacemos lo mismo que hicimos en el ejemplo anterior:
-
-```{r}
-ggplot(referencia_tbl, aes(x = diferencia)) +
-  geom_histogram() + 
-  geom_vline(data = dif_obs, aes(xintercept = diferencia),
-             colour = "red") +
-    annotate("text", x = 1, y = 30, 
-     label = "diferencia observada", colour = "red", angle = 90)
-```
-
-En este caso, vemos que nuestra observación es consistente como proveniente de la distribución de referencia (construida con permutaciones). 
-
-**La diferencia que observamos** es consistente con la variabilidad en
-nuestra estadística de prueba bajo distintas aleatorizaciones si los tratamientos a y b son equivalentes. Nuestra conclusión es que no tenemos
-evidencia para preferir b sobre a.
-
-```{r}
-diferencia_obs <- dif_obs$diferencia
-referencia_tbl |> 
-  mutate(mejor_que_observado = diferencia > diferencia_obs) |> 
-  summarise(valor_p = mean(mejor_que_observado))
-```
-Bajo el supuesto de equivalencia de tratamientos, la probabilidad de 
-observar un resultado mejor del que observamos es más de 1/3.
 
 ## Comparando distribuciones {-}
 
 Ahora intentamos un ejemplo más típico.  
 
-Supongamos tenemos *muestras* para tres grupos  a, b y c, que quiere decir
-que dentro de cada grupo, el proceso e selección de los elementos se hace
-de manera al azar y de manera simétrica (por ejemplo cada elemento tiene a misma probabiidad de ser seleccionado,
-y las extracciones se hacen de manera independiente.)
+Supongamos tenemos varias observaciones de tres poblaciones 
+a, b y c, donde
+cada grupo podría tener su proceso generador de datos particular.
 
-Queremos comparar las distribuciones de los datos obtenidos para cada grupo. 
-Quizá la pregunta detrás de esta 
-comparación es: el grupo de clientes b recibió una promoción especial. ¿Están gastando
-más? La medición que comparamos es el gasto de los clientes.
-
+Nuestra pregunta es: ¿los procesos generadores de datos de estos tres
+grupos son iguales o hay evidencia de que son diferentes? Quizá la 
+pregunta detrás de esta 
+comparación es: el grupo de capturistas b recibió un entrenamiento
+especial. ¿Tienen menos errores de captura? La medición que comparamos es la proporción de datos erróneos 
+que capturan en una tarea dada.
 
 
 ```{r, fig.width =5, fig.height = 3, echo = FALSE}
@@ -351,28 +276,26 @@ pob_tab <- tibble(id = 1:2000, x = rgamma(2000, 4, 1),
 muestra_tab <- pob_tab |> sample_n(125)
 g_1 <- ggplot(muestra_tab, aes(x = grupo, y = x)) + geom_boxplot(outlier.alpha = 0) +
     geom_jitter(alpha = 0.3) + 
-    coord_flip() +  labs(subtitle = "Muestra")
+    coord_flip() +  labs(subtitle = "Muestras observadas")
 g_1
 ```
 
 En la muestra observamos diferencias entre los grupos. Pero notamos adicionalmente que
 hay mucha variación dentro de cada grupo. **Nos podríamos preguntar entonces si las diferencias
-que observamos se deben variación muestral, por ejemplo.** 
+que observamos se deben variación muestral**, y no necesariamente a que 
+los procesos generadores de datos de cada muestra son diferentes.
 
 Podemos construir ahora una *hipótesis nula*, que establece que las observaciones
 provienen de una población similar:
 
-- Las tres poblaciones (a, b, c) 
+- Los procesos generadores de (a, b, c) 
 son prácticamente indistiguibles. En este
-caso, la variación que observamos se debería a que tenemos información incompleta.
+caso, la variación que observamos se debería a que tenemos información incompleta acerca de esas poblaciones.
 
 Como en el ejemplo anterior **necesitamos construir o obtener una distribución de referencia** para comparar
 qué tan extremos o diferentes son los datos que observamos. Esa distribución de referencia debería
-estar basada en el supuesto de que los grupos producen datos de distribuciones similares.
-
-Si tuvieramos mediciones similares históricas de estos tres grupos, quizá podríamos extraer
-datos de referencia y comparar, como hicimos en el ejempo anterior. Pero esto es menos común en
-este tipo de ejemplos.
+estar basada en el supuesto de que los grupos producen datos de distribuciones similares. En este caso, no tenemos datos de referencia
+históricos para comparar los grupos.
 
 
 ## Permutaciones y el lineup {-}
@@ -384,7 +307,7 @@ la siguiente forma (@box78, @timboot14):
 datos bajo procesos idénticos, entonces los grupos a, b, c solo son etiquetas que no contienen información.
 - Podríamos **permutar al azar** las etiquetas y observar nuevamente la gráfica
 de caja y brazos por grupos.
-- Si la hipótesis nula es cierta (grupos idénticos), esta es una muestra tan verosímil como la que obtuvimos.
+- Si la hipótesis nula es cierta (procesos generadores idénticos), esta es una muestra tan verosímil como la que obtuvimos.
 - Así que podemos construir datos de referencia permutando las etiquetas de los grupos al azar, y observando la variación que ocurre.
 - Si la hipótesis nula es cercana a ser cierta, no deberíamos de poder distinguir fácilmente los 
 datos observados de los producidos con las permutaciones al azar.
@@ -395,7 +318,7 @@ donde 19 de los acusados **son generados mediante permutaciones al azar** de la 
 y el culpable (los verdaderos datos) están en una posición escogida al azar. ¿Podemos identificar
 los datos verdaderos? Para evitar sesgarnos, también ocultamos la etiqueta verdadera
 
-Usamos una gráfica que muestra los cuantes 0.10, 0.50, 0.90:
+Usamos una gráfica que muestra los cuantiles 0.10, 0.50, 0.90:
 
 ```{r}
 set.seed(88)
@@ -427,18 +350,18 @@ no encontramos evidencia en contra de que los tres grupos producen datos con
 
 ## Comparaciones con lineup 2 {-}
 
-Repitimos el ejemplo para otra muestra (en este ejemplo el proceso generador
+Repetimos el ejemplo para otra muestra (en este ejemplo el proceso generador
 de datos es diferente para el grupo b):
 
 ```{r, echo = FALSE, fig.width =5, fig.height=3}
 set.seed(72)
 muestra_tab <- pob_tab |> sample_n(90) |> 
-    mutate(x = ifelse(grupo == "b", 1.8 * x + 1, x))
+    mutate(x = ifelse(grupo == "b", 2 * x + 1, x))
 g_1 <- ggplot(muestra_tab, aes(x = grupo, y = x)) + geom_boxplot(outlier.alpha = 0) +
     geom_jitter(alpha = 0.3) + 
-    coord_flip() + ylim(c(0, 20)) + labs(subtitle = "Muestra")
+    coord_flip() + ylim(c(0, 25)) + labs(subtitle = "Muestra")
 g_2 <- ggplot(pob_tab, aes(x= grupo, y = x)) + geom_boxplot(outlier.alpha = 0) +
-    coord_flip() + ylim(c(0, 20)) + labs(subtitle = "Población")
+    coord_flip() + ylim(c(0, 25)) + labs(subtitle = "Población")
 g_1
 ```
 
@@ -460,12 +383,53 @@ Podemos distinguir más o menos claramente que está localizada en valores
 más altos y tiene mayor dispersión. En este caso, como en general podemos identificar los
 datos, obtenemos evidencia en contra de que los tres grupos tienen distribuciones iguales.
 
+## Aleatorización e interpretación
+
+En los ejemplos anteriores, nuestras conclusiones se refieren a los procesos generadores
+de los datos, y no necesariamente a una relación del grupo con la variable respuesta
+en la población.
+
+Para entender esto, supongamos que a, b y c son distintos grupos de capturistas. 
+Pero decidimos escoger en el grupo b sólo aquellos capturistas que no asistieron a
+los entrenamientos. Nuestra conclusión entonces es difícil de interpretar: no sabemos
+si la evidencia que encontramos de que en el grupo b comenten más errores se debe 
+al hecho de pertenecer al grupo b o al hecho de que seleccionamos de una manera distinta
+a los capturistas del grupo b.
+
+Hay dos maneras de establecer la relación del grupo con la respuesta según nuestras
+pruebas:
+
+- Haciendo ciertos supuestos acerca de los procesos generadores de datos, con conocimiento
+de dominio.
+- Controlar el proceso generador de datos, escogiendo las muestras de cada grupo de manera **aleatoria**. 
+
+Si consideramos que el proceso generador incluye el proceso de selección de las unidades,
+y la relación que existe entre pertenencia a un grupo y otra respuesta, cuando aleatorizamos
+la selección de la muestra nuestra hipótesis nula cambia:
+
+- Sin aleatorización: los procesos generadores de los tres grupos son iguales: esto incluye el proceso
+de selección de las unidades y el "efecto" del grupo a,b,c sobre la respuesta.
+- Con aleatorización: las distribuciones de la variable respuesta dentro de cada grupo son iguales.
+
+Y la segunda hipótesis nula es que la que generalmente nos interesa probar
+
+
+::: callout-tip
+# Inferencia a poblaciones
+Cuando aleatorizamos la selección de la muestra, nuestras pruebas de hipótesis 
+son inferencias a la población de la que se extrajo la muestra.
+:::
+
+
+
+
+
 
 ## Prueba de permutaciones para proporciones {-}
 
 Veremos otro ejemplo donde podemos hacer más concreta la idea de **distribución nula o
 de referencia** usando pruebas de permutaciones. Supongamos que con nuestra muestra
-de tomadores de té, queremos probar la siguiente hipótesis nula:
+aleatoria de tomadores de té, queremos probar la siguiente hipótesis nula:
 
 - Los tomadores de té en bolsas exclusivamente usan azúcar más a tasas simillares que
 los tomadores de té suelto (que pueden o no también tomar té en bolsita).
@@ -482,7 +446,7 @@ te_azucar <- tea |> select(how, sugar) |>
   mutate(how = ifelse(how == "tea bag", "bolsa_exclusivo", "suelto o bolsa"))
 te_azucar |> group_by(how, sugar) |> tally() |> 
   spread(how, n) |> 
-  formatear_tabla()
+  kable() |> kable_paper(full_width = FALSE)
 ```
 
 Y en proporciones tenemos que:
@@ -492,7 +456,8 @@ prop_azucar <- te_azucar |> group_by(how, sugar) |> tally() |>
   group_by(how) |> mutate(prop = n / sum(n), n = sum(n)) |> 
   filter(sugar == "sugar") |> select(how, prop_azucar = prop, n) |> 
   mutate(prop_azucar = round(prop_azucar,2))
-prop_azucar |> formatear_tabla()
+prop_azucar |> 
+  kable() |> kable_paper(full_width = FALSE)
 ```
 
 Pero distintas muestras podrían haber dado distintos resultados. Nos preguntamos que tan fuerte es
@@ -564,7 +529,7 @@ gridExtra::grid.arrange(g_1, g_2, ncol = 2)
 
 
 Este es el rango de fluctuación usual para nuestra estadística *bajo la hipótesis de que
-los dos grupos de tomadores de té consumen té a la misma tasa.
+los dos grupos de tomadores de té tienen un mismo proceso generador de datos*.
 
 El valor que obtuvimos en nuestros datos es `r dif_obs`,
  que no es un valor extremo en la distribución de referencia que vimos arriba: esta
@@ -619,17 +584,14 @@ evidencia.
 
 ## Tomadores de té 2 {-}
 
-Ahora hacemos una prueba de permutaciones otro par de proporciones con el mismo método. La hipótesis
-nula ahora es: 
-
-- Los tomadores de té Earl Gray usan azúcar a una tasa similar a los tomadores de té negro
+Ahora hacemos una prueba de permutaciones otro par de proporciones con el mismo método. Ahora comparamos tomadores de té Earl Gray y de té negro según sus tasas de uso de azúcar.
 
 Los datos que obtuvimos en nuestra encuesta, en conteos, son:
 ```{r, echo = FALSE}
 set.seed(23)
 te_azucar <- tea |> select(Tea, sugar) |> filter(Tea != "green")
 te_azucar |> group_by(Tea, sugar) |> tally() |> 
-  spread(Tea, n) |> formatear_tabla()
+  spread(Tea, n) |> kable() |> kable_paper()
 ```
 
 Y en porcentajes tenemos que:
@@ -702,8 +664,8 @@ El valor p es cercano a 0.
 ## Ejemplo: tiempos de fusión {-}
 
 Consideremos el ejemplo de fusión de estereogramas que vimos anteriormente. Una pregunta 
-que podríamos hacer es: considerando que hay mucha variación en el tiempo de fusión dentro
-de cada tratamiento, necesitamos calificar la evidencia de nuestra conclusión 
+que podríamos hacer es: considerando que hay mucha variación en el tiempo de fusión 
+que depende de las personas, necesitamos calificar la evidencia de nuestra conclusión 
 (el tiempo de fusión se reduce con información verbal). 
 
 Podemos usar una prueba de permutaciones, esta vez justificándola por el hecho
@@ -729,6 +691,20 @@ identifican los datos correctamente,
 lo que muestra evidencia considerable de que la instrucción verbal 
 altera los tiempos de respuesta de los partipantes, y en este caso 
 ayuda a reducir el tiempo de fusión de los estereogramas. 
+
+::: callout-tip
+# Aleatoriación en experimentos
+En este caso, no usamos una muestra aleatoria de la población, de forma que
+nuestro resultado no aplica necesariamente para la población general. Sin embargo, es una 
+inferencia válida acerca del tratamiento, pues asignamos al azar el tratamiento
+:::
+
+En este caso, tenemos evidencia de que la diferencia se debe al tratamiento y no
+sólo variación muestral *dentro de esta muestra*. Si no aleatorizamos el tratamiento
+(por ejemplo, cada persona escoge si quiere ayuda verbal o no), no podríamos
+concluir para el efecto del tratamiento.
+
+
 
 ## Ejemplo: tiempos de fusión 2 {-}
 
@@ -791,6 +767,31 @@ dist_perm_nv <- ecdf(valores_ref$diferencia)
 Lo que muestra evidencia considerable, aunque no muy fuerte, de que la instrucción verbal ayuda a reducir el tiempo de fusión de los estereogramas: la *caja* del diagrama de caja y brazos
 para el grupo VV está *encogida* por un factor menor a 1.
 
+## Tipos de estudio
+
+El alcance de la inferencia en cada caso es diferente dependiendo del proceso
+generador de los datos y qué tanto lo controlamos o lo conocemos, como
+explica esta imagen de @sleuth
+
+![Tipos de estudio e inferencia](./imagenes/inferencia-estudio.png)
+
+ El cuadro en la esquina superior izquierda es donde el análisis es más simple y los
+resultados son más fáciles de interpretar. Es posible hacer análisis fuera de este 
+cuadro, pero el proceso es más
+complicado, requieren más supuestos, conocimiento del dominio y habilidades
+de análisis. En general resultan conclusiones menos sólidas. Muchas veces no
+nos queda otra opción más que trabajar fuera del cuadro ideal.
+
+Como ejercicio ubica en los cuadros los siguientes tipos de estudios:
+
+- Pruebas clínicas para vacuna para aplicar a la población general
+- Ver la relación entre ser fumador y resultados de hospitalización por COVID para
+dar recomendaciones a la población general.
+- Analizar cómo afecta tener seguro médico a los ingresos, usando datos del ENIGH,
+para entender cómo ayudaría tener seguro médico universal.
+- Seleccionar dos muestras al azar de capturistas, y asignarnos al azar a dos tipos
+de entrenamiento para medir su desempeño en una tarea específica.
+
 
 ## Ojo: otros tipos de hipótesis nulas {-}
 
@@ -811,10 +812,9 @@ adaptadas a este problema, pues prueban *todos* los aspectos de las distribucion
 estadística particular que pretende medir, por ejemplo, diferencia de medias. Eso quiere
 decir que podemos rechazar igualdad de medias, por ejemplo, cuando en realidad otra característica de las distribuciones es la que difiere mucho en las poblaciones
 
-En algunas referencias (ver @chitim, @bootefron) se argumenta que de todas formas
+En algunas referencias (ver @Chihara, @bootefron) se argumenta que de todas formas
 las pruebas de permutaciones son relativamente robustas a esta desadaptación. Un caso
-excepcional, por ejemplo, es cuando las poblaciones que comparamos resultan tener dispersión extremadamente distinta, y adicionalmente los tamaños de muestra de los grupos son muy desiguales (otra vez, ver ejemplos en @chitim).
-
+excepcional, por ejemplo, es cuando las poblaciones que comparamos resultan tener dispersión extremadamente distinta, y adicionalmente los tamaños de muestra de los grupos son muy desiguales (otra vez, ver ejemplos en @Chihara).
 
 ##  Separación de grupos {-}
 
