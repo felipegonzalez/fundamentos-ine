@@ -785,7 +785,8 @@ nos queda otra opción más que trabajar fuera del cuadro ideal.
 Como ejercicio ubica en los cuadros los siguientes tipos de estudios:
 
 - Pruebas clínicas para vacuna para aplicar a la población general
-- Ver la relación entre ser fumador y resultados de hospitalización por COVID para
+- Entre los que tienen prueba positiva, 
+ver la relación entre ser fumador y posibilidad de hospitalización por COVID para
 dar recomendaciones a la población general.
 - Analizar cómo afecta tener seguro médico a los ingresos, usando datos del ENIGH,
 para entender cómo ayudaría tener seguro médico universal.
@@ -793,7 +794,7 @@ para entender cómo ayudaría tener seguro médico universal.
 de entrenamiento para medir su desempeño en una tarea específica.
 
 
-## Ojo: otros tipos de hipótesis nulas {-}
+## Supuestos para pruebas de permutaciones {-}
 
 La pruebas de permutaciones son más útiles cuando nuestra hipótesis nula se refiere
 que la distribución de los grupos son muy similares, o la independencia entre
