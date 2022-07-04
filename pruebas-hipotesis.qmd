@@ -587,6 +587,7 @@ evidencia.
 Ahora hacemos una prueba de permutaciones otro par de proporciones con el mismo método. Ahora comparamos tomadores de té Earl Gray y de té negro según sus tasas de uso de azúcar.
 
 Los datos que obtuvimos en nuestra encuesta, en conteos, son:
+
 ```{r, echo = FALSE}
 set.seed(23)
 te_azucar <- tea |> select(Tea, sugar) |> filter(Tea != "green")

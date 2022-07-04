@@ -212,6 +212,10 @@ div.csl-indent {
   <li><a href="#ejemplo" id="toc-ejemplo" class="nav-link" data-scroll-target="#ejemplo">Ejemplo</a></li>
   </ul></li>
   <li><a href="#ejemplo-estereogramas" id="toc-ejemplo-estereogramas" class="nav-link" data-scroll-target="#ejemplo-estereogramas">Ejemplo: estereogramas</a></li>
+  <li><a href="#bootstrap-con-muestras-complejas" id="toc-bootstrap-con-muestras-complejas" class="nav-link" data-scroll-target="#bootstrap-con-muestras-complejas"> <span class="header-section-number">6.1</span> Bootstrap con muestras complejas</a>
+  <ul class="collapse">
+  <li><a href="#ejemplo-conteo-rápido-2018" id="toc-ejemplo-conteo-rápido-2018" class="nav-link" data-scroll-target="#ejemplo-conteo-rápido-2018">Ejemplo: conteo rápido 2018</a></li>
+  </ul></li>
   <li><a href="#ventajas-y-desventajas-del-bootstrap" id="toc-ventajas-y-desventajas-del-bootstrap" class="nav-link" data-scroll-target="#ventajas-y-desventajas-del-bootstrap">Ventajas y desventajas del bootstrap</a></li>
   <li><a href="#sesgo" id="toc-sesgo" class="nav-link" data-scroll-target="#sesgo">Sesgo</a></li>
   <li><a href="#bootstrap-y-estimadores-complejos-suavizadores" id="toc-bootstrap-y-estimadores-complejos-suavizadores" class="nav-link" data-scroll-target="#bootstrap-y-estimadores-complejos-suavizadores">Bootstrap y estimadores complejos: suavizadores</a></li>
@@ -675,6 +679,146 @@ argument.</code></pre>
 </div>
 <p>Y esta sería una forma de presentar nuestros resultados: hay probabilidad considerable de que el efecto de este tratamiento sea marginal (una reducción de 10%), aunque lo más probables es que tenga un efecto consdierable (reducción alrededor de 60% del tiempo de fusión).</p>
 </section>
+<section id="bootstrap-con-muestras-complejas" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="bootstrap-con-muestras-complejas"><span class="header-section-number">6.1</span> Bootstrap con muestras complejas</h2>
+<p>Cuando el esquema de muestreo es estratificado o complejo (polietápico), es posible adaptar el bootstrap para producir intervalos apropiados. La idea es:</p>
+<ul>
+<li><p>El esquema de remuestreo debe replicar el esquema con el que se seleccionó la muestra original.</p></li>
+<li><p><strong>Muestreo estratificado</strong>: hacemos muestras bootstrap de cada estrato por separado.</p></li>
+<li><p><strong>Muestreo complejo</strong>: dentro de estratos, seleccionamos muestras bootstrap de unidades primarias de muestreo. En este caso, a veces es necesario también reajustar los ponderadores para replicar su construcción original (ver bootstrap de Rao-Wu).</p></li>
+</ul>
+<section id="ejemplo-conteo-rápido-2018" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="ejemplo-conteo-rápido-2018">Ejemplo: conteo rápido 2018</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>estratificacion_tbl <span class="ot">&lt;-</span> <span class="fu">read_delim</span>(<span class="st">"datos/conteo_rapido/presidencia.csv"</span>, </span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">skip =</span> <span class="dv">5</span>, <span class="at">delim =</span> <span class="st">"|"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(CLAVE_CASILLA, ID_ESTADO, ID_DISTRITO) <span class="sc">|&gt;</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(ID_DISTRITO <span class="sc">!=</span> <span class="dv">0</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">estrato =</span> <span class="fu">interaction</span>(ID_ESTADO, ID_DISTRITO)) <span class="sc">|&gt;</span> </span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(estrato)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(estratificacion_tbl) <span class="sc">|&gt;</span> <span class="fu">kable</span>() <span class="sc">|&gt;</span> <span class="fu">kable_paper</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<table class=" lightable-paper" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;"> estrato </th>
+   <th style="text-align:right;"> n </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> 1.1 </td>
+   <td style="text-align:right;"> 488 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2.1 </td>
+   <td style="text-align:right;"> 563 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 3.1 </td>
+   <td style="text-align:right;"> 551 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 4.1 </td>
+   <td style="text-align:right;"> 591 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 5.1 </td>
+   <td style="text-align:right;"> 550 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 6.1 </td>
+   <td style="text-align:right;"> 504 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>remesa_tbl <span class="ot">&lt;-</span> <span class="fu">read_delim</span>(<span class="st">"datos/conteo_rapido/REMESAS0100020000.txt"</span>, </span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">skip =</span> <span class="dv">1</span>, <span class="at">delim =</span> <span class="st">"|"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">estrato =</span> <span class="fu">interaction</span>(iD_ESTADO, ID_DISTRITO_FEDERAL)) <span class="sc">|&gt;</span> </span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(estrato, TOTAL, JAMK, RAC, AMLO) <span class="sc">|&gt;</span> </span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(estratificacion_tbl)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Ignoraremos casillas faltantes: lo cual sabemos que <em>en general no es una buena idea</em>. Primero usamos una aproximación de Taylor para estimar error estándar y los intervalos:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survey)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>diseño_cr <span class="ot">&lt;-</span> <span class="fu">svydesign</span>(<span class="at">id =</span> <span class="sc">~</span><span class="dv">1</span>, <span class="at">strata =</span> <span class="sc">~</span>estrato, <span class="at">fpc =</span> <span class="sc">~</span> n, <span class="at">data =</span> remesa_tbl)</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="fu">svyratio</span>(<span class="sc">~</span> RAC <span class="sc">+</span> JAMK <span class="sc">+</span> AMLO, <span class="sc">~</span> TOTAL, diseño_cr) <span class="sc">|&gt;</span> </span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">confint</span>() <span class="sc">|&gt;</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">round</span>(<span class="dv">4</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>(<span class="at">rownames =</span> <span class="st">"candidato"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 3
+  candidato  `2.5 %` `97.5 %`
+  &lt;chr&gt;        &lt;dbl&gt;    &lt;dbl&gt;
+1 RAC/TOTAL    0.220    0.225
+2 JAMK/TOTAL   0.158    0.162
+3 AMLO/TOTAL   0.532    0.538</code></pre>
+</div>
+</div>
+<p>Ahora utilizaremos bootstrap. Se puede hacer directamente con el paquete <em>survey</em>, por ejemplo:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>diseño_cr_boot <span class="ot">&lt;-</span> <span class="fu">as.svrepdesign</span>(diseño_cr, <span class="at">type =</span> <span class="st">"subbootstrap"</span>, <span class="at">replicates =</span> <span class="dv">1000</span>)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">svyratio</span>(<span class="sc">~</span> RAC <span class="sc">+</span> JAMK <span class="sc">+</span> AMLO, <span class="sc">~</span> TOTAL, diseño_cr_boot) <span class="sc">|&gt;</span> </span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">confint</span>() <span class="sc">|&gt;</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">round</span>(<span class="dv">4</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>(<span class="at">rownames =</span> <span class="st">"candidato"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 3
+  candidato  `2.5 %` `97.5 %`
+  &lt;chr&gt;        &lt;dbl&gt;    &lt;dbl&gt;
+1 RAC/TOTAL    0.220    0.226
+2 JAMK/TOTAL   0.158    0.162
+3 AMLO/TOTAL   0.532    0.538</code></pre>
+</div>
+</div>
+<p>En este caso simple de muestreo estratificado, también podemos escribir nuestro propio código. Tenemos dos funciones:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># extrae muestra bootstrap estratificada</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>extraer_bootstrap <span class="ot">&lt;-</span> <span class="cf">function</span>(muestra, var_estrato){</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  remuestra <span class="ot">&lt;-</span> muestra <span class="sc">|&gt;</span> </span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>({{ var_estrato }}) <span class="sc">|&gt;</span> </span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">slice_sample</span>( <span class="at">prop =</span> <span class="dv">1</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ungroup</span>()</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>  remuestra</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a><span class="co"># cálculo del estimador de razón para una muestra</span></span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>estimar_razon <span class="ot">&lt;-</span> <span class="cf">function</span>(muestra, num, denom, var_estrato){</span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>  estimador <span class="ot">&lt;-</span> muestra <span class="sc">|&gt;</span> </span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>({{ var_estrato }}) <span class="sc">|&gt;</span> </span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">candidato =</span> <span class="fu">mean</span>({{ num }}), <span class="at">total =</span> <span class="fu">mean</span>({{ denom }}), <span class="at">n =</span> <span class="fu">first</span>(n)) <span class="sc">|&gt;</span> </span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">candidato =</span> n <span class="sc">*</span> candidato, <span class="at">total =</span> n <span class="sc">*</span> total) <span class="sc">|&gt;</span> </span>
+<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ungroup</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">prop =</span> <span class="fu">sum</span>(candidato) <span class="sc">/</span> <span class="fu">sum</span>(total))</span>
+<span id="cb38-17"><a href="#cb38-17" aria-hidden="true" tabindex="-1"></a>  estimador</span>
+<span id="cb38-18"><a href="#cb38-18" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Y ahora aplicamos repetidamente el estimador a las muestras bootstrap estratificadas:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>remuestreo_tbl <span class="ot">&lt;-</span> <span class="fu">map_df</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">500</span>, <span class="cf">function</span>(rep){</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  remuestra <span class="ot">&lt;-</span> <span class="fu">extraer_bootstrap</span>(remesa_tbl, estrato)</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  estimador <span class="ot">&lt;-</span> <span class="fu">estimar_razon</span>(remuestra, RAC, TOTAL, estrato)</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(<span class="at">rep =</span> rep, <span class="at">est_rep =</span> estimador<span class="sc">$</span>prop)</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(remuestreo_tbl, <span class="fu">aes</span>(<span class="at">sample =</span> est_rep)) <span class="sc">+</span> <span class="fu">geom_qq</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="remuestreo-bootstrap_files/figure-html/unnamed-chunk-33-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(remuestreo_tbl <span class="sc">|&gt;</span> <span class="fu">pull</span>(est_rep), <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">round</span>(<span class="dv">4</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  2.5%  97.5% 
+0.2204 0.2254 </code></pre>
+</div>
+</div>
+</section>
+</section>
 <section id="ventajas-y-desventajas-del-bootstrap" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="ventajas-y-desventajas-del-bootstrap">Ventajas y desventajas del bootstrap</h2>
 <ul>
@@ -698,52 +842,52 @@ argument.</code></pre>
 <h2 class="unnumbered anchored" data-anchor-id="bootstrap-y-estimadores-complejos-suavizadores">Bootstrap y estimadores complejos: suavizadores</h2>
 <p>El bootstrap es una técnica versátil. Por ejemplo, podemos usarlo para juzgar la variabilidad de un suavizador:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>graf_casas <span class="ot">&lt;-</span> <span class="cf">function</span>(data){</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(data <span class="sc">|&gt;</span> <span class="fu">filter</span>(calidad_gral <span class="sc">&lt;</span> <span class="dv">7</span>), </span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">aes</span>(<span class="at">x =</span> area_habitable_sup_m2)) <span class="sc">+</span> </span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">y =</span> precio_m2_miles), <span class="at">alpha =</span> <span class="fl">0.75</span>) <span class="sc">+</span></span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>        <span class="fu">geom_smooth</span>(<span class="fu">aes</span>(<span class="at">y =</span> precio_m2_miles), <span class="at">method =</span> <span class="st">"loess"</span>, <span class="at">span =</span> <span class="fl">0.7</span>, </span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">method.args =</span> <span class="fu">list</span>(<span class="at">degree =</span> <span class="dv">1</span>, <span class="at">family =</span> <span class="st">"symmetric"</span>))     </span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">250</span>)</span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>casas_muestra <span class="ot">&lt;-</span> <span class="fu">sample_frac</span>(casas, <span class="fl">0.2</span>)</span>
-<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a><span class="fu">graf_casas</span>(casas_muestra)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>graf_casas <span class="ot">&lt;-</span> <span class="cf">function</span>(data){</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(data <span class="sc">|&gt;</span> <span class="fu">filter</span>(calidad_gral <span class="sc">&lt;</span> <span class="dv">7</span>), </span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">aes</span>(<span class="at">x =</span> area_habitable_sup_m2)) <span class="sc">+</span> </span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">y =</span> precio_m2_miles), <span class="at">alpha =</span> <span class="fl">0.75</span>) <span class="sc">+</span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>        <span class="fu">geom_smooth</span>(<span class="fu">aes</span>(<span class="at">y =</span> precio_m2_miles), <span class="at">method =</span> <span class="st">"loess"</span>, <span class="at">span =</span> <span class="fl">0.7</span>, </span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">method.args =</span> <span class="fu">list</span>(<span class="at">degree =</span> <span class="dv">1</span>, <span class="at">family =</span> <span class="st">"symmetric"</span>))     </span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">250</span>)</span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>casas_muestra <span class="ot">&lt;-</span> <span class="fu">sample_frac</span>(casas, <span class="fl">0.2</span>)</span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a><span class="fu">graf_casas</span>(casas_muestra)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="remuestreo-bootstrap_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid" width="480"></p>
+<p><img src="remuestreo-bootstrap_files/figure-html/unnamed-chunk-34-1.png" class="img-fluid" width="480"></p>
 </div>
 </div>
 <p>Podemos hacer bootstrap para juzgar la estabilidad del suavizador:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>suaviza_boot <span class="ot">&lt;-</span> <span class="cf">function</span>(x, data){</span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># remuestreo</span></span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    muestra_boot <span class="ot">&lt;-</span> <span class="fu">sample_n</span>(data, <span class="fu">nrow</span>(data), <span class="at">replace =</span> T)</span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    ajuste <span class="ot">&lt;-</span> <span class="fu">loess</span>(precio_m2_miles <span class="sc">~</span> area_habitable_sup_m2, <span class="at">data =</span> muestra_boot, </span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">degree =</span> <span class="dv">1</span>, <span class="at">span =</span> <span class="fl">0.7</span>, <span class="at">family =</span> <span class="st">"symmetric"</span>)</span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>    datos_grafica <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">area_habitable_sup_m2 =</span> <span class="fu">seq</span>(<span class="dv">25</span>, <span class="dv">250</span>, <span class="dv">5</span>))</span>
-<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>    ajustados <span class="ot">&lt;-</span> <span class="fu">predict</span>(ajuste, <span class="at">newdata =</span> datos_grafica)</span>
-<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>    datos_grafica <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">ajustados =</span> ajustados) <span class="sc">|&gt;</span> </span>
-<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mutate</span>(<span class="at">rep =</span> x)</span>
-<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>reps <span class="ot">&lt;-</span> <span class="fu">map</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="sc">~</span> <span class="fu">suaviza_boot</span>(.x, casas_muestra <span class="sc">|&gt;</span> <span class="fu">filter</span>(calidad_gral <span class="sc">&lt;</span> <span class="dv">7</span>))) <span class="sc">|&gt;</span> </span>
-<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">bind_rows</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>suaviza_boot <span class="ot">&lt;-</span> <span class="cf">function</span>(x, data){</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># remuestreo</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>    muestra_boot <span class="ot">&lt;-</span> <span class="fu">sample_n</span>(data, <span class="fu">nrow</span>(data), <span class="at">replace =</span> T)</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>    ajuste <span class="ot">&lt;-</span> <span class="fu">loess</span>(precio_m2_miles <span class="sc">~</span> area_habitable_sup_m2, <span class="at">data =</span> muestra_boot, </span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">degree =</span> <span class="dv">1</span>, <span class="at">span =</span> <span class="fl">0.7</span>, <span class="at">family =</span> <span class="st">"symmetric"</span>)</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>    datos_grafica <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">area_habitable_sup_m2 =</span> <span class="fu">seq</span>(<span class="dv">25</span>, <span class="dv">250</span>, <span class="dv">5</span>))</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>    ajustados <span class="ot">&lt;-</span> <span class="fu">predict</span>(ajuste, <span class="at">newdata =</span> datos_grafica)</span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>    datos_grafica <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">ajustados =</span> ajustados) <span class="sc">|&gt;</span> </span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mutate</span>(<span class="at">rep =</span> x)</span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>reps <span class="ot">&lt;-</span> <span class="fu">map</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="sc">~</span> <span class="fu">suaviza_boot</span>(.x, casas_muestra <span class="sc">|&gt;</span> <span class="fu">filter</span>(calidad_gral <span class="sc">&lt;</span> <span class="dv">7</span>))) <span class="sc">|&gt;</span> </span>
+<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">bind_rows</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ojo: la rutina loess no tienen soporte para extrapolación</span></span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">graf_casas</span>(casas_muestra) <span class="sc">+</span> </span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">data =</span> reps, <span class="fu">aes</span>(<span class="at">y =</span> ajustados, <span class="at">group =</span> rep), <span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">colour =</span> <span class="st">"red"</span>) </span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ojo: la rutina loess no tienen soporte para extrapolación</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="fu">graf_casas</span>(casas_muestra) <span class="sc">+</span> </span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">data =</span> reps, <span class="fu">aes</span>(<span class="at">y =</span> ajustados, <span class="at">group =</span> rep), <span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">colour =</span> <span class="st">"red"</span>) </span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="remuestreo-bootstrap_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid" width="672"></p>
+<p><img src="remuestreo-bootstrap_files/figure-html/unnamed-chunk-36-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Donde vemos que algunas cambios de pendiente del suavizador original no son muy interpretables (por ejemplo, para áreas chicas) y alta variabilidad en general en los extremos. Podemos hacer más iteraciones para calcular bandas de confianza:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>reps <span class="ot">&lt;-</span> <span class="fu">map</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">200</span>, <span class="sc">~</span> <span class="fu">suaviza_boot</span>(.x, casas_muestra <span class="sc">|&gt;</span> <span class="fu">filter</span>(calidad_gral <span class="sc">&lt;</span> <span class="dv">7</span>))) <span class="sc">|&gt;</span> </span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">bind_rows</span>()</span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ojo: la rutina loess no tienen soporte para extrapolación</span></span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="fu">graf_casas</span>(casas_muestra) <span class="sc">+</span> </span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">data =</span> reps, <span class="fu">aes</span>(<span class="at">y =</span> ajustados, <span class="at">group =</span> rep), <span class="at">alpha =</span> <span class="fl">0.2</span>, <span class="at">colour =</span> <span class="st">"red"</span>) </span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>reps <span class="ot">&lt;-</span> <span class="fu">map</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">200</span>, <span class="sc">~</span> <span class="fu">suaviza_boot</span>(.x, casas_muestra <span class="sc">|&gt;</span> <span class="fu">filter</span>(calidad_gral <span class="sc">&lt;</span> <span class="dv">7</span>))) <span class="sc">|&gt;</span> </span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">bind_rows</span>()</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ojo: la rutina loess no tienen soporte para extrapolación</span></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a><span class="fu">graf_casas</span>(casas_muestra) <span class="sc">+</span> </span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">data =</span> reps, <span class="fu">aes</span>(<span class="at">y =</span> ajustados, <span class="at">group =</span> rep), <span class="at">alpha =</span> <span class="fl">0.2</span>, <span class="at">colour =</span> <span class="st">"red"</span>) </span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="remuestreo-bootstrap_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid" width="672"></p>
+<p><img src="remuestreo-bootstrap_files/figure-html/unnamed-chunk-37-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
@@ -819,38 +963,38 @@ argument.</code></pre>
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="remuestreo-bootstrap_files/figure-html/unnamed-chunk-34-1.png" class="img-fluid" width="576"></p>
+<p><img src="remuestreo-bootstrap_files/figure-html/unnamed-chunk-41-1.png" class="img-fluid" width="576"></p>
 </div>
 </div>
 <p>Hacemos bootstrap sobre toda la muestra, y repetimos exactamente el mismo proceso de construción de perfiles:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>boot_perfiles <span class="ot">&lt;-</span> <span class="fu">map</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>, <span class="cf">function</span>(x){</span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>    te_boot <span class="ot">&lt;-</span> te <span class="sc">|&gt;</span> <span class="fu">sample_n</span>(<span class="fu">nrow</span>(te), <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calcular_perfiles</span>(te_boot) <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">rep =</span> x)</span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>}) <span class="sc">|&gt;</span> <span class="fu">bind_rows</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>boot_perfiles <span class="ot">&lt;-</span> <span class="fu">map</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>, <span class="cf">function</span>(x){</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>    te_boot <span class="ot">&lt;-</span> te <span class="sc">|&gt;</span> <span class="fu">sample_n</span>(<span class="fu">nrow</span>(te), <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calcular_perfiles</span>(te_boot) <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">rep =</span> x)</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>}) <span class="sc">|&gt;</span> <span class="fu">bind_rows</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Ahora resumimos y graficamos, esta vez de manera distinta:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>resumen_perfiles <span class="ot">&lt;-</span> boot_perfiles <span class="sc">|&gt;</span> <span class="fu">group_by</span>(how, price) <span class="sc">|&gt;</span> </span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">perfil_media =</span> <span class="fu">mean</span>(perfil), <span class="at">ymax =</span> <span class="fu">quantile</span>(perfil, <span class="fl">0.9</span>), <span class="at">ymin =</span> <span class="fu">quantile</span>(perfil, <span class="fl">0.10</span>)) </span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>resumen_perfiles <span class="ot">&lt;-</span> boot_perfiles <span class="sc">|&gt;</span> <span class="fu">group_by</span>(how, price) <span class="sc">|&gt;</span> </span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">perfil_media =</span> <span class="fu">mean</span>(perfil), <span class="at">ymax =</span> <span class="fu">quantile</span>(perfil, <span class="fl">0.9</span>), <span class="at">ymin =</span> <span class="fu">quantile</span>(perfil, <span class="fl">0.10</span>)) </span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>`summarise()` has grouped output by 'how'. You can override using the `.groups`
 argument.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>resumen_bolsa <span class="ot">&lt;-</span> resumen_perfiles <span class="sc">|&gt;</span> <span class="fu">ungroup</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(how <span class="sc">==</span> <span class="st">"tea bag"</span>) <span class="sc">|&gt;</span> <span class="fu">select</span>(price, <span class="at">perfil_bolsa =</span> perfil_media)</span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>resumen_perfiles <span class="ot">&lt;-</span> resumen_perfiles <span class="sc">|&gt;</span> <span class="fu">left_join</span>(resumen_bolsa) <span class="sc">|&gt;</span> </span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ungroup</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">price =</span> <span class="fu">fct_reorder</span>(price, perfil_bolsa))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>resumen_bolsa <span class="ot">&lt;-</span> resumen_perfiles <span class="sc">|&gt;</span> <span class="fu">ungroup</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(how <span class="sc">==</span> <span class="st">"tea bag"</span>) <span class="sc">|&gt;</span> <span class="fu">select</span>(price, <span class="at">perfil_bolsa =</span> perfil_media)</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>resumen_perfiles <span class="ot">&lt;-</span> resumen_perfiles <span class="sc">|&gt;</span> <span class="fu">left_join</span>(resumen_bolsa) <span class="sc">|&gt;</span> </span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ungroup</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">price =</span> <span class="fu">fct_reorder</span>(price, perfil_bolsa))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Joining, by = "price"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(resumen_perfiles, <span class="fu">aes</span>(<span class="at">x =</span> price, <span class="at">y =</span> perfil_media, <span class="at">ymax =</span> ymax, <span class="at">ymin =</span> ymin)) <span class="sc">+</span> </span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">colour =</span> <span class="st">"red"</span>) <span class="sc">+</span> <span class="fu">geom_linerange</span>() <span class="sc">+</span></span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span>how) <span class="sc">+</span> <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">colour =</span> <span class="st">"gray"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"Perfil"</span>) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"Precio"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(resumen_perfiles, <span class="fu">aes</span>(<span class="at">x =</span> price, <span class="at">y =</span> perfil_media, <span class="at">ymax =</span> ymax, <span class="at">ymin =</span> ymin)) <span class="sc">+</span> </span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">colour =</span> <span class="st">"red"</span>) <span class="sc">+</span> <span class="fu">geom_linerange</span>() <span class="sc">+</span></span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span>how) <span class="sc">+</span> <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">colour =</span> <span class="st">"gray"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"Perfil"</span>) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"Precio"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="remuestreo-bootstrap_files/figure-html/unnamed-chunk-36-1.png" class="img-fluid" width="576"></p>
+<p><img src="remuestreo-bootstrap_files/figure-html/unnamed-chunk-43-1.png" class="img-fluid" width="576"></p>
 </div>
 </div>
 <p>Nótese una deficiencia clara del bootstrap: para los que compran té suelto, en la muestra no existen personas que desconocen de dónde provienen su té (No sabe/No contestó). Esto produce un intervalo colapsado en 0 que no es razonable.</p>

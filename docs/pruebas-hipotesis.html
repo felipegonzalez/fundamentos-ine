@@ -698,7 +698,9 @@ Inferencia a poblaciones
 <section id="tomadores-de-té-2" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="tomadores-de-té-2">Tomadores de té 2</h2>
 <p>Ahora hacemos una prueba de permutaciones otro par de proporciones con el mismo método. Ahora comparamos tomadores de té Earl Gray y de té negro según sus tasas de uso de azúcar.</p>
-<p>Los datos que obtuvimos en nuestra encuesta, en conteos, son: ::: {.cell} ::: {.cell-output-display}</p>
+<p>Los datos que obtuvimos en nuestra encuesta, en conteos, son:</p>
+<div class="cell">
+<div class="cell-output-display">
 
 <table class=" lightable-paper" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;">
  <thead>
@@ -722,7 +724,8 @@ Inferencia a poblaciones
 </tbody>
 </table>
 
-<p>::: :::</p>
+</div>
+</div>
 <p>Y en porcentajes tenemos que:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>prop_azucar <span class="ot">&lt;-</span> te_azucar <span class="sc">|&gt;</span> <span class="fu">group_by</span>(Tea, sugar) <span class="sc">|&gt;</span> <span class="fu">tally</span>() <span class="sc">|&gt;</span> </span>

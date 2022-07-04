@@ -5,8 +5,8 @@ library(tidyverse)
 library(lubridate)
 library(ggthemes)
 library(knitr)
-theme_set(theme_minimal(base_size = 14))
-library(knitr)
+ggplot2::theme_set(ggplot2::theme_minimal())
+library(kableExtra)
 source("./R/funciones_auxiliares_notas.R")
 source("R/casas_preprocesamiento.R")
 set.seed(21)
@@ -472,6 +472,112 @@ quantile(reps_boot, c(0.05, 0.95)) |> round(2)
 Y esta sería una forma de presentar nuestros resultados: hay probabilidad considerable de que el efecto
 de este tratamiento sea marginal (una reducción de 10\%), aunque lo más probables es que tenga un efecto
 consdierable (reducción alrededor de 60\% del tiempo de fusión).
+
+## Bootstrap con muestras complejas
+
+Cuando el esquema de muestreo es estratificado o complejo (polietápico), es posible
+adaptar el bootstrap para producir intervalos apropiados. La idea es:
+
+- El esquema de remuestreo debe replicar el esquema con el que se seleccionó la
+muestra original.
+
+- **Muestreo estratificado**: hacemos muestras bootstrap de cada estrato por separado.
+- **Muestreo complejo**: dentro de estratos, seleccionamos muestras bootstrap de
+unidades primarias de muestreo. En este caso, a veces es necesario también reajustar los ponderadores para replicar su construcción original (ver bootstrap de Rao-Wu).
+
+
+### Ejemplo: conteo rápido 2018 {-}
+
+```{r}
+#| warning: false
+#| message: false
+estratificacion_tbl <- read_delim("datos/conteo_rapido/presidencia.csv", 
+    skip = 5, delim = "|") |> 
+  select(CLAVE_CASILLA, ID_ESTADO, ID_DISTRITO) |>
+  filter(ID_DISTRITO != 0) |> 
+  mutate(estrato = interaction(ID_ESTADO, ID_DISTRITO)) |> 
+  count(estrato)
+```
+
+
+```{r}
+head(estratificacion_tbl) |> kable() |> kable_paper()
+```
+
+
+```{r}
+#| warning: false
+#| message: false
+remesa_tbl <- read_delim("datos/conteo_rapido/REMESAS0100020000.txt", 
+  skip = 1, delim = "|") |> 
+  mutate(estrato = interaction(iD_ESTADO, ID_DISTRITO_FEDERAL)) |> 
+  select(estrato, TOTAL, JAMK, RAC, AMLO) |> 
+  left_join(estratificacion_tbl)
+```
+
+Ignoraremos casillas faltantes: lo cual sabemos que *en general no es una buena idea*.
+Primero usamos una aproximación de Taylor para estimar error estándar y los intervalos:
+
+```{r}
+#| message: false
+#| warning: false
+library(survey)
+diseño_cr <- svydesign(id = ~1, strata = ~estrato, fpc = ~ n, data = remesa_tbl)
+svyratio(~ RAC + JAMK + AMLO, ~ TOTAL, diseño_cr) |> 
+  confint() |>
+  round(4) |> 
+  as_tibble(rownames = "candidato")
+```
+
+Ahora utilizaremos bootstrap. Se puede hacer directamente con el paquete *survey*,
+por ejemplo:
+
+```{r}
+diseño_cr_boot <- as.svrepdesign(diseño_cr, type = "subbootstrap", replicates = 1000)
+svyratio(~ RAC + JAMK + AMLO, ~ TOTAL, diseño_cr_boot) |> 
+  confint() |>
+  round(4) |> 
+  as_tibble(rownames = "candidato")
+```
+
+En este caso simple de muestreo estratificado, también podemos escribir nuestro propio código. Tenemos dos funciones:
+
+```{r}
+# extrae muestra bootstrap estratificada
+extraer_bootstrap <- function(muestra, var_estrato){
+  remuestra <- muestra |> 
+    group_by({{ var_estrato }}) |> 
+    slice_sample( prop = 1, replace = TRUE) |> 
+    ungroup()
+  remuestra
+}
+# cálculo del estimador de razón para una muestra
+estimar_razon <- function(muestra, num, denom, var_estrato){
+  estimador <- muestra |> 
+    group_by({{ var_estrato }}) |> 
+    summarise(candidato = mean({{ num }}), total = mean({{ denom }}), n = first(n)) |> 
+    mutate(candidato = n * candidato, total = n * total) |> 
+    ungroup() |> 
+    summarise(prop = sum(candidato) / sum(total))
+  estimador
+}
+```
+
+Y ahora aplicamos repetidamente el estimador a las muestras bootstrap
+estratificadas:
+
+```{r}
+remuestreo_tbl <- map_df(1:500, function(rep){
+  remuestra <- extraer_bootstrap(remesa_tbl, estrato)
+  estimador <- estimar_razon(remuestra, RAC, TOTAL, estrato)
+  tibble(rep = rep, est_rep = estimador$prop)
+})
+ggplot(remuestreo_tbl, aes(sample = est_rep)) + geom_qq()
+quantile(remuestreo_tbl |> pull(est_rep), c(0.025, 0.975)) |> 
+  round(4)
+```
+
+
 
 
 ## Ventajas y desventajas del bootstrap {-}
