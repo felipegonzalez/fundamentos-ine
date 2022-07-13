@@ -195,6 +195,11 @@ div.csl-indent {
   <a href="./intro-bayesiana-1.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Introducción a inferencia bayesiana</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro-bayesiana-2.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Calibración bayesiana y Regularización</span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -254,16 +259,16 @@ div.csl-indent {
 <pre><code># A tibble: 10 × 6
    cuenta_total propina fumador dia   momento num_personas
           &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;          &lt;dbl&gt;
- 1         25      3.75 No      Dom   Cena               4
- 2         24.3    2.03 Si      Sab   Cena               2
- 3         12.4    1.8  No      Jue   Comida             2
- 4         16.0    2.24 No      Sab   Cena               3
- 5         10.1    2    Si      Vie   Comida             2
- 6         19.8    4.19 Si      Jue   Comida             2
- 7         22.8    2.18 No      Jue   Comida             3
- 8         16.3    4.3  Si      Vie   Cena               2
- 9         48.2    5    No      Dom   Cena               6
-10         18.3    3.25 No      Jue   Comida             2</code></pre>
+ 1         16.4    2.3  No      Jue   Comida             2
+ 2         13.0    2    No      Jue   Comida             2
+ 3         19.4    3    Si      Jue   Comida             2
+ 4         13      2    Si      Jue   Comida             2
+ 5         32.8    1.17 Si      Sab   Cena               2
+ 6         14.5    2    No      Jue   Comida             2
+ 7         13.4    1.68 No      Jue   Comida             2
+ 8         17.0    1.01 No      Dom   Cena               2
+ 9         38.0    3    Si      Sab   Cena               4
+10         12.9    1.1  Si      Sab   Cena               2</code></pre>
 </div>
 </div>
 <p>Aquí la unidad de observación es una cuenta particular. Tenemos tres mediciones numéricas de cada cuenta: cúanto fue la cuenta total, la propina, y el número de personas asociadas a la cuenta. Los datos están separados según se fumó o no en la mesa, y temporalmente en dos partes: el día (Jueves, Viernes, Sábado o Domingo), cada uno separado por Cena y Comida.</p>

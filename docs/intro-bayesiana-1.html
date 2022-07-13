@@ -102,7 +102,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script><script src="site_libs/quarto-nav/headroom.min.js"></script><script src="site_libs/clipboard/clipboard.min.js"></script><script src="site_libs/quarto-search/autocomplete.umd.js"></script><script src="site_libs/quarto-search/fuse.min.js"></script><script src="site_libs/quarto-search/quarto-search.js"></script><meta name="quarto:offset" content="./"><link href="/remuestreo-bootstrap.html" rel="prev"><script src="site_libs/quarto-html/quarto.js"></script><script src="site_libs/quarto-html/popper.min.js"></script><script src="site_libs/quarto-html/tippy.umd.min.js"></script><script src="site_libs/quarto-html/anchor.min.js"></script><link href="site_libs/quarto-html/tippy.css" rel="stylesheet"><link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><script src="site_libs/bootstrap/bootstrap.min.js"></script><link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet"><link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet"></head>
+<script src="site_libs/quarto-nav/quarto-nav.js"></script><script src="site_libs/quarto-nav/headroom.min.js"></script><script src="site_libs/clipboard/clipboard.min.js"></script><script src="site_libs/quarto-search/autocomplete.umd.js"></script><script src="site_libs/quarto-search/fuse.min.js"></script><script src="site_libs/quarto-search/quarto-search.js"></script><meta name="quarto:offset" content="./"><link href="/intro-bayesiana-2.html" rel="next"><link href="/remuestreo-bootstrap.html" rel="prev"><script src="site_libs/quarto-html/quarto.js"></script><script src="site_libs/quarto-html/popper.min.js"></script><script src="site_libs/quarto-html/tippy.umd.min.js"></script><script src="site_libs/quarto-html/anchor.min.js"></script><link href="site_libs/quarto-html/tippy.css" rel="stylesheet"><link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><script src="site_libs/bootstrap/bootstrap.min.js"></script><link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet"><link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet"></head>
 
 <body class="nav-sidebar floating">
 
@@ -171,6 +171,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./intro-bayesiana-1.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Introducción a inferencia bayesiana</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro-bayesiana-2.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Calibración bayesiana y Regularización</span></a>
   </div>
 </li>
     </ul>
@@ -471,8 +476,8 @@ donde <span class="math inline">()</span> significa “proporcional a”. No pon
 <pre><code># A tibble: 2 × 2
   dist      theta_hat
   &lt;chr&gt;         &lt;dbl&gt;
-1 inicial       0.5  
-2 posterior     0.612</code></pre>
+1 inicial       0.504
+2 posterior     0.611</code></pre>
 </div>
 </div>
 <p>Nota que el estimador de máxima verosimilitud es <span class="math inline">\(\hat{p} = 19/30 = 0.63\)</span>, que es ligeramente diferente de la media posterior. ¿Por qué?</p>
@@ -488,7 +493,7 @@ donde <span class="math inline">()</span> significa “proporcional a”. No pon
   dist      `0.025` `0.975`
   &lt;chr&gt;       &lt;dbl&gt;   &lt;dbl&gt;
 1 inicial      0.15    0.86
-2 posterior    0.45    0.76</code></pre>
+2 posterior    0.44    0.76</code></pre>
 </div>
 </div>
 <p>El segundo renglón nos da un intervalo posterior para <span class="math inline">\(\theta\)</span> de <em>credibilidad</em> 95%. En inferencia bayesiana esto sustituye a los intervalos de confianza.</p>
@@ -849,7 +854,7 @@ Chain 4 finished in 0.0 seconds.
 
 All 4 chains finished successfully.
 Mean chain execution time: 0.0 seconds.
-Total execution time: 0.6 seconds.</code></pre>
+Total execution time: 0.5 seconds.</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>ajuste<span class="sc">$</span><span class="fu">summary</span>(<span class="fu">c</span>(<span class="st">"mu"</span>, <span class="st">"sigma"</span>))   </span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1185,6 +1190,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="./intro-bayesiana-2.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Calibración bayesiana y Regularización</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->
