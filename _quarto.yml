@@ -13,6 +13,7 @@ book:
     - inferencia.qmd
     - pruebas-hipotesis.qmd
     - remuestreo-bootstrap.qmd
+    - intro-bayesiana-1.qmd
 
 bibliography: referencias.bib
 
